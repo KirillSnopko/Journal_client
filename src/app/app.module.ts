@@ -1,16 +1,31 @@
 import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
+import { RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
+import { ComponentsModule } from './components/components.module';
+import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
+import { StudentComponent } from './tab/student/student.component';
+import { StudentViewComponent } from './tab/student/student-view/student-view.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    AdminLayoutComponent,
+    StudentComponent,
+    StudentViewComponent,
   ],
   imports: [
-    BrowserModule,
-    AppRoutingModule
+    BrowserAnimationsModule,
+    AppRoutingModule,
+    ComponentsModule,
+    RouterModule,
+    HttpClientModule,
+    ReactiveFormsModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
