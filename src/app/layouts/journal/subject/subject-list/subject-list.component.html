@@ -2,11 +2,11 @@
     <div class="container-fluid">
         <div class="col-sm-6">
             <button class="btn btn-success" (click)="AddSubject()">
-              <i class='fas fa-plus-circle'></i><span> Предмет</span>
+                <i class='fas fa-plus-circle'></i><span> Предмет</span>
             </button>
-          </div>
+        </div>
         <div class="row">
-        
+
             <div class="col-lg-6 col-md-12">
                 <div class="card">
                     <div class="card-header card-header-warning">
@@ -18,34 +18,24 @@
                             <thead class="text-warning">
                                 <th>ID</th>
                                 <th>Name</th>
-                                <th>Salary</th>
-                                <th>Country</th>
+                                <th>Опции</th>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>Dakota Rice</td>
-                                    <td>$36,738</td>
-                                    <td>Niger</td>
+                                <tr *ngFor="let subject of subjects" class="center-align">
+                                    <td>{{ subject.id }}</td>
+                                    <td>{{ subject.name }}</td>
+                                    <td>
+                                        <a href="#" [routerLink]="['/ViewCar/', subject.id]" class="btn"><i
+                                                class='fas fa-eye view'></i></a>
+                                        <a href="#" [routerLink]="['/EditCar/', subject.id]" class="btn"><i
+                                                class="fas fa-edit edit"></i></a>
+                                        <button type="button" (click)="deleteCarConfirmation(subject)" class="btn"><i
+                                                class='fas fa-trash-alt delete'></i></button>
+                                    </td>
                                 </tr>
                                 <tr>
-                                    <td>2</td>
-                                    <td>Minerva Hooper</td>
-                                    <td>$23,789</td>
-                                    <td>Curaçao</td>
-                                </tr>
-                                <tr>
-                                    <td>3</td>
-                                    <td>Sage Rodriguez</td>
-                                    <td>$56,142</td>
-                                    <td>Netherlands</td>
-                                </tr>
-                                <tr>
-                                    <td>4</td>
-                                    <td>Philip Chaney</td>
-                                    <td>$38,735</td>
-                                    <td>Korea, South</td>
-                                </tr>
+                                    <td *ngIf="subjects.length == 0" colspan="6">Предметы не найдены</td>
+                                  </tr>
                             </tbody>
                         </table>
                     </div>

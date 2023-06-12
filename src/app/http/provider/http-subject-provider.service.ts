@@ -14,4 +14,8 @@ export class HttpSubjectProviderService {
   public getList():Observable<any>{
     return this.journalApi.get(sub_url);
   }
+
+  public delete(id:number):Observable<any>{
+    return this.journalApi.delete(sub_url + id);
+  }
 }
