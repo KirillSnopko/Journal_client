@@ -4,7 +4,7 @@ import { map } from 'rxjs/operators';
 import { catchError } from 'rxjs/internal/operators/catchError';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 
-var apiUrl = "https://localhost:7193/";
+var apiUrl = "https://localhost:7193/api/";
 
 @Injectable({
   providedIn: 'root'
