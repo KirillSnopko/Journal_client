@@ -2,24 +2,25 @@
     <div class="container-fluid">
         <div class="col-sm-6">
             <button class="btn btn-success" (click)="AddStudent()">
-              <i class='fas fa-plus-circle'></i><span> Ученик</span>
+                <i class='fas fa-plus-circle'></i><span> Ученик</span>
             </button>
-          </div>
+        </div>
         <div class="row">
-        
+
             <div class="col-lg-6 col-md-12">
                 <div class="card">
-                    <div class="card-header card-header-warning">
+                    <div class="card-header card-header-info">
                         <h4 class="card-title">Employees Stats</h4>
                         <p class="card-category">New employees on 15th September, 2016</p>
                     </div>
                     <div class="card-body table-responsive">
                         <table class="table table-hover">
-                            <thead class="text-warning">
+                            <thead class="text-info">
                                 <th>ID</th>
-                                <th>Name</th>
-                                <th>Salary</th>
-                                <th>Country</th>
+                                <th>Имя</th>
+                                <th>Фамилия</th>
+                                <th>Уровень</th>
+                                <th>Опции</th>
                             </thead>
                             <tbody>
                                 <tr>
@@ -27,6 +28,12 @@
                                     <td>Dakota Rice</td>
                                     <td>$36,738</td>
                                     <td>Niger</td>
+                                    <td>
+                                        <a href="#" class="btn btn-info"><i class='fas fa-eye view'></i></a>
+                                        <a href="#" class="btn btn-warning"><i class="fas fa-edit edit"></i></a>
+                                        <button type="button" class="btn btn-danger"><i
+                                                class='fas fa-trash-alt delete'></i></button>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>2</td>

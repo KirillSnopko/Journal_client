@@ -2,20 +2,19 @@ import { Component, OnInit } from '@angular/core';
 
 declare const $: any;
 declare interface RouteInfo {
-    path: string;
-    title: string;
-    icon: string;
-    class: string;
+  path: string;
+  title: string;
+  icon: string;
+  class: string;
 }
 export const ROUTES: RouteInfo[] = [
-    { path: '/dashboard', title: 'Dashboard',  icon: 'dashboard', class: '' },
-    { path: '/students', title: 'Ученики',  icon:'person', class: '' },
-    { path: '/table-list', title: 'Table List',  icon:'content_paste', class: '' },
-    { path: '/typography', title: 'Typography',  icon:'library_books', class: '' },
-    { path: '/icons', title: 'Icons',  icon:'bubble_chart', class: '' },
-    { path: '/maps', title: 'Maps',  icon:'location_on', class: '' },
-    { path: '/notifications', title: 'Notifications',  icon:'notifications', class: '' },
-    { path: '/upgrade', title: 'Upgrade to PRO',  icon:'unarchive', class: 'active-pro' },
+  { path: '/dashboard', title: 'Главная', icon: 'dashboard', class: '' },
+  { path: '/students', title: 'Ученики', icon: 'people', class: '' },
+  { path: '/subjects', title: 'Предметы', icon: 'local_library', class: '' },
+  { path: '/courses', title: 'Курсы', icon: 'library_books', class: '' },
+  { path: '/lessons', title: 'Занятия', icon: 'bubble_chart', class: '' },
+  { path: '/group_lessons', title: 'Групповые занятия', icon: 'location_on', class: '' },
+  { path: '/upgrade', title: 'Upgrade to PRO', icon: 'unarchive', class: 'active-pro' },
 ];
 
 @Component({
@@ -23,7 +22,7 @@ export const ROUTES: RouteInfo[] = [
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.css']
 })
-export class SidebarComponent implements OnInit{
+export class SidebarComponent implements OnInit {
   menuItems: any[] = [];
 
   constructor() { }
@@ -32,9 +31,9 @@ export class SidebarComponent implements OnInit{
     this.menuItems = ROUTES.filter(menuItem => menuItem);
   }
   isMobileMenu() {
-      if ($(window).width() > 991) {
-          return false;
-      }
-      return true;
+    if ($(window).width() > 991) {
+      return false;
+    }
+    return true;
   };
 }

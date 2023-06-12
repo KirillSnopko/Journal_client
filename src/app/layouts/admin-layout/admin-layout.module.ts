@@ -4,17 +4,15 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AdminLayoutRoutes } from './admin-layout.routing';
 
-import { DashboardComponent } from 'src/app/tab/dashboard/dashboard.component';
-import { StudentViewComponent } from 'src/app/tab/student/student-view/student-view.component';
-import { StudentAddComponent } from 'src/app/tab/student/student-add/student-add.component';
-/*import { UserProfileComponent } from '../../user-profile/user-profile.component';
-import { TableListComponent } from '../../table-list/table-list.component';
-import { TypographyComponent } from '../../typography/typography.component';
-import { IconsComponent } from '../../icons/icons.component';
-import { MapsComponent } from '../../maps/maps.component';
-import { NotificationsComponent } from '../../notifications/notifications.component';
-import { UpgradeComponent } from '../../upgrade/upgrade.component';
-*/
+import { DashboardComponent } from 'src/app/layouts/journal/dashboard/dashboard.component';
+import { StudentListComponent } from '../journal/student/student-list/student-list.component';
+import { StudentViewComponent } from '../journal/student/student-view/student-view.component';
+import { StudentAddComponent } from '../journal/student/student-add/student-add.component';
+
+import { SubjectListComponent } from '../journal/subject/subject-list/subject-list.component';
+import { SubjectAddComponent } from '../journal/subject/subject-add/subject-add.component';
+
+
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatRippleModule } from '@angular/material/core';
@@ -37,16 +35,12 @@ import { MatSelectModule } from '@angular/material/select';
   ],
   declarations: [
     DashboardComponent,
+    StudentListComponent,
     StudentViewComponent,
     StudentAddComponent,
-    /* UserProfileComponent,
-     TableListComponent,
-     TypographyComponent,
-     IconsComponent,
-     MapsComponent,
-     NotificationsComponent,
-     UpgradeComponent,
-     */
+
+    SubjectListComponent,
+    SubjectAddComponent,
   ]
 })
 
