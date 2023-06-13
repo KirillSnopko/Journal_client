@@ -26,6 +26,7 @@
     "@fortawesome/free-regular-svg-icons": "^5.15.4",
     "@fortawesome/free-solid-svg-icons": "^5.15.4",
     "@ng-bootstrap/ng-bootstrap": "^15.0.1",
+    "@types/bootstrap": "^4.5.0",
     "arrive": "^2.4.1",
     "bootstrap": "^4.6.1",
     "bootstrap-material-design": "^4.1.3",
