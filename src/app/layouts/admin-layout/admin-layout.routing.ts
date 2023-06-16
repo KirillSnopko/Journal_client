@@ -6,7 +6,6 @@ import { StudentViewComponent } from '../journal/student/student-view/student-vi
 import { StudentAddComponent } from '../journal/student/student-add/student-add.component';
 
 import { SubjectListComponent } from '../journal/subject/subject-list/subject-list.component';
-import { SubjectAddComponent } from '../journal/subject/subject-add/subject-add.component';
 
 
 export const AdminLayoutRoutes: Routes = [
@@ -17,7 +16,6 @@ export const AdminLayoutRoutes: Routes = [
   { path: 'students/view/:studentid', component: StudentViewComponent },
 
   { path: 'subjects', component: SubjectListComponent },
-  { path: 'subjects/add', component: SubjectAddComponent },
-
+  
 ];
 
