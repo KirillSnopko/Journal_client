@@ -5,7 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 
 import { HttpSubjectProviderService } from 'src/app/http/provider/http-subject-provider.service';
 import { SubjectDeleteComponent } from '../subject-delete/subject-delete.component';
-import { SubjectAdd } from 'src/app/models/subject/subject-add';
+import { SubjectPreview } from 'src/app/models/subject/subject-preview';
 
 
 @Component({
@@ -19,7 +19,7 @@ import { SubjectAdd } from 'src/app/models/subject/subject-add';
 export class SubjectListComponent implements OnInit {
   subjects: any = [];
   name: string = "";
-  subjectAdd: SubjectAdd = new SubjectAdd();
+  subjectAdd: SubjectPreview = new SubjectPreview();
   isSubmitted: boolean = false;
   @ViewChild("add")
   SubjectAdd!: NgForm;
@@ -37,10 +37,10 @@ export class SubjectListComponent implements OnInit {
       if (data.status == 201) {
         this.toastr.success(data.body.name + " добавлен!");
         setTimeout(() => {
+
           this.getSubjects();
-         form.
           form.reset(this.isSubmitted);
-        
+
         }, 500);
       }
     },

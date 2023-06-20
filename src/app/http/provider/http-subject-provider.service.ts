@@ -22,4 +22,8 @@ export class HttpSubjectProviderService {
   public add(subject: any): Observable<any> {
     return this.journalApi.post(sub_url, subject);
   }
+
+  public update(subject:any, id:number):Observable<any>{
+    return this.journalApi.put(sub_url + id, subject);
+  }
 }

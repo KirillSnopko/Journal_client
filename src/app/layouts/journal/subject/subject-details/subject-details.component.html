@@ -1,0 +1,235 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+
+            <div class="col-lg-3 col-md-6 col-sm-6">
+                <div class="card card-stats">
+                    <div class="card-header card-header-warning card-header-icon">
+                        <div class="card-icon">
+                            <i class="material-icons">edit</i>
+                        </div>
+
+                    </div>
+
+                    <div class="card-body">
+                        <form #edit="ngForm" class="ng-pristine ng-untouched ng-valid" novalidate="">
+                            <div class="table-content">
+                                <table class="table">
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <div class="form-outline">
+                                                    <label class="form-label" for="Name">Новое название</label>
+                                                    <input type="text" class="form-control" id="Name" required
+                                                        maxlength="255" [(ngModel)]="subjectEdit.Name" name="Name"
+                                                        #Name="ngModel">
+
+
+                                                </div>
+                                            </td>
+                                            <td class="td-actions text-right">
+                                                <button mat-raised-button type="button" matTooltip="Переименовать"
+                                                    [disabled]="Name.invalid" (click)="EditSubject(edit)"
+                                                    [matTooltipPosition]="'above'"
+                                                    class="btn btn-primary btn-link btn-sm btn-just-icon">
+                                                    <i class="material-icons">edit</i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-md-6 col-sm-6">
+                <div class="card card-stats">
+                    <div class="card-header card-header-primary card-header-icon">
+                        <div class="card-icon">
+                            <i class="material-icons">book</i>
+                        </div>
+                        <p class="card-category">Программы (классы)</p>
+                        <h3 class="card-title">2
+                            <small></small>
+                        </h3>
+                    </div>
+                    <div class="card-footer">
+                        <div class="stats">
+                            <i class="material-icons text-info">info</i>
+                            <a href="javascript:void(0)">Школьные программы и продвинутые курсы</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-md-6 col-sm-6">
+                <div class="card card-stats">
+                    <div class="card-header card-header-info card-header-icon">
+                        <div class="card-icon">
+                            <i class="material-icons">bookmark</i>
+                        </div>
+                        <p class="card-category">Темы</p>
+                        <h3 class="card-title">$34,245</h3>
+                    </div>
+                    <div class="card-footer">
+                        <div class="stats">
+                            <i class="material-icons">date_range</i> Last 24 Hours
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="row">
+            <div class="col-lg-6 col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-tabs card-header-primary">
+                        <h4 class="card-title">Программы</h4>
+                        <p class="card-category">
+                            Названия сгруппированных тем
+                        </p>
+                    </div>
+                    <div class="card-body">
+                        <div class="tab-content">
+
+                            <table class="table">
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <div class="form-outline">
+                                                <label class="form-label" for="Name">Новое название</label>
+                                                <input type="text" class="form-control" id="Name" required
+                                                    maxlength="255" [(ngModel)]="subjectEdit.Name" name="Name"
+                                                    #Name="ngModel">
+
+
+                                            </div>
+                                        </td>
+                                        <td class="td-actions text-right">
+                                            <button mat-raised-button type="button" matTooltip="Переименовать"
+                                                [disabled]="Name.invalid" (click)="EditSubject(edit)"
+                                                [matTooltipPosition]="'above'"
+                                                class="btn btn-primary btn-link btn-sm btn-just-icon">
+                                                <i class="material-icons">playlist_add_check</i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <form #edit="ngForm" class="ng-pristine ng-untouched ng-valid" novalidate="">
+                                <div class="input-group mb-3 form-group">
+                                   
+                                        <label class="form-label" for="Name">Новая программа</label>
+                                        <input type="text" class="form-control" id="Name" required maxlength="255"
+                                            [(ngModel)]="subjectEdit.Name" name="Name" #Name="ngModel">
+                                
+                                    <div class="input-group-append">
+                                        <button style="display: flex;" type="button"
+                                            class="btn btn-outline-success waves-effect" [disabled]="Name.invalid"
+                                            (click)="EditSubject(edit)">
+                                            Добавить
+                                        </button>
+                                    </div>
+                                </div>
+
+
+                                <div class="table-content">
+                                    <div class="form-group p-10 row">
+                                        <div class="col-sm-3">
+                                            <label class="p-t-b-10">
+                                                Название<span class="requiredStar">*</span>
+                                            </label>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <input type="text" class="form-control" id="Name" required maxlength="255"
+                                                [(ngModel)]="subjectEdit.Name" name="Name" #Name="ngModel">
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </form>
+
+                            <table class="table">
+                                <thead class="text-default">
+                                    <th>ID</th>
+                                    <th>Название</th>
+                                    <th>Кол-во</th>
+                                    <th></th>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            Id
+                                        </td>
+                                        <td>7 класс</td>
+                                        <td>25</td>
+                                        <td class="td-actions text-right">
+                                            <button mat-raised-button type="button" matTooltip="Edit Task"
+                                                [matTooltipPosition]="'above'"
+                                                class="btn btn-primary btn-link btn-sm btn-just-icon">
+                                                <i class="material-icons">edit</i>
+                                            </button>
+                                            <button mat-raised-button type="button" matTooltip="Remove"
+                                                [matTooltipPosition]="'above'"
+                                                class="btn btn-danger btn-link btn-sm btn-just-icon">
+                                                <i class="material-icons">close</i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-6 col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-tabs card-header-info">
+                        <h4 class="card-title">Темы</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="profile">
+                                <table class="table">
+                                    <thead class="text-default">
+                                        <th>ID</th>
+                                        <th>Название</th>
+                                        <th>Описание</th>
+                                        <th></th>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                Id
+                                            </td>
+                                            <td>Название темы</td>
+                                            <td>Описание</td>
+                                            <td class="td-actions text-right">
+                                                <button mat-raised-button type="button" matTooltip="Edit Task"
+                                                    [matTooltipPosition]="'above'"
+                                                    class="btn btn-primary btn-link btn-sm btn-just-icon">
+                                                    <i class="material-icons">edit</i>
+                                                </button>
+                                                <button mat-raised-button type="button" matTooltip="Remove"
+                                                    [matTooltipPosition]="'above'"
+                                                    class="btn btn-danger btn-link btn-sm btn-just-icon">
+                                                    <i class="material-icons">close</i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
