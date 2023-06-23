@@ -45,8 +45,10 @@ export class SubjectDeleteComponent {
           if (data.status == 204) {
             listComponent.getSubjects();
             this.toastr.success("Успешно");
+          } else {
+            this.toastr.error(data.message);
           }
-          this.toastr.error(data.message);
+
         },
           (error: any) => { console.log(error) });
       },
