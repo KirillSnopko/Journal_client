@@ -4,48 +4,6 @@
 
             <div class="col-lg-3 col-md-6 col-sm-6">
                 <div class="card card-stats">
-                    <div class="card-header card-header-warning card-header-icon">
-                        <div class="card-icon">
-                            <i class="material-icons">edit</i>
-                        </div>
-
-                    </div>
-
-                    <div class="card-body">
-                        <form #edit="ngForm" class="ng-pristine ng-untouched ng-valid" novalidate="">
-                            <div class="table-content">
-                                <table class="table">
-                                    <tbody>
-                                        <tr>
-                                            <td>
-                                                <div class="form-outline">
-                                                    <label class="form-label" for="Name">Новое название</label>
-                                                    <input type="text" class="form-control" id="Name" required
-                                                        maxlength="255" [(ngModel)]="subjectEdit.Name" name="Name"
-                                                        #Name="ngModel">
-
-
-                                                </div>
-                                            </td>
-                                            <td class="td-actions text-right">
-                                                <button mat-raised-button type="button" matTooltip="Переименовать"
-                                                    [disabled]="Name.invalid" (click)="EditSubject(edit)"
-                                                    [matTooltipPosition]="'above'"
-                                                    class="btn btn-primary btn-link btn-sm btn-just-icon">
-                                                    <i class="material-icons">edit</i>
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-lg-3 col-md-6 col-sm-6">
-                <div class="card card-stats">
                     <div class="card-header card-header-primary card-header-icon">
                         <div class="card-icon">
                             <i class="material-icons">book</i>
@@ -94,39 +52,6 @@
                     </div>
                     <div class="card-body">
                         <div class="tab-content">
-
-                            <table class="table">
-                                <tbody>
-                                    <tr>
-                                        <td>
-                                            <div class="form-outline">
-                                                <label class="form-label" for="Name">Новая программа </label>
-                                                <input type="text" class="form-control" id="Name" required
-                                                    maxlength="255" [(ngModel)]="subjectEdit.Name" name="Name"
-                                                    #Name="ngModel">
-
-
-                                            </div>
-                                        </td>
-                                        <td class="td-actions text-right">
-                                            <button style="display: flex;" type="button"
-                                            class="btn btn-outline-success waves-effect" [disabled]="Name.invalid"
-                                            (click)="EditSubject(edit)">
-                                           Добавить   
-                                        </button>
-                                            <button mat-raised-button type="button" matTooltip="Переименовать"
-                                                [disabled]="Name.invalid" (click)="EditSubject(edit)"
-                                                [matTooltipPosition]="'above'"
-                                                class="btn btn-primary btn-link btn-sm btn-just-icon">
-                                                <i class="material-icons">playlist_add_check</i>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-
-                        
-
                             <table class="table">
                                 <thead class="text-default">
                                     <th>ID</th>
