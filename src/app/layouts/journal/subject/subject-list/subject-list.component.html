@@ -1,81 +1,66 @@
 <div class="main-content">
     <div class="container-fluid">
-
         <div class="row">
 
-            <div class="col-lg-4 col-md-12">
-                <div class="card">
-                    <div class="card-header card-header-info">
-                        <h4 class="card-title">Список предметов</h4>
-                        <p class="card-category">
-
-                        </p>
+            <div class="col-lg-3 col-md-6 col-sm-6">
+                <div class="card card-stats">
+                    <div class="card-header card-header-success card-header-icon">
+                        <div class="card-icon">
+                            <i class="material-icons">create_new_folder</i>
+                        </div>
+                        <p class="card-category">Добавить предмет</p>
                     </div>
-                    <div class="card-body table-responsive">
-                        <table class="table table-hover">
-                            <thead class="text-warning">
-                                <th>ID</th>
-                                <th>Название</th>
-                                <th>Опции</th>
-                            </thead>
-                            <tbody>
-                                <tr *ngFor="let subject of subjects" class="center-align">
-                                    <td>{{ subject.id }}</td>
-                                    <td>{{ subject.name }}</td>
-                                    <td>
-                                        <a href="#" [routerLink]="['/subjects/details/', subject.id]"
-                                            class="btn px-3 btn-info"><i class='fas fa-eye view'></i></a>
-                                        <button type="button" [routerLink]="['/subjects/edit/', subject.id]"
-                                            class="btn px-3 btn-warning"><i class='fas fa-edit edit'></i></button>
-                                        <button type="button" (click)="deleteSubjectConfirmation(subject)"
-                                            class="btn px-3 btn-danger"><i class='fas fa-trash-alt delete'></i></button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td *ngIf="subjects.length == 0" colspan="6">Предметы не найдены</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-12">
-                <div class="card">
-                    <div class="card-header card-header-success">
-                        <h4 class="card-title">Добавить предмет</h4>
-                        <p class="card-category">
+                    <div class="card-footer">
+                        <form #add="ngForm" class="ng-pristine ng-untouched ng-valid form-inline" novalidate="">
 
-                        </p>
-                    </div>
-                    <div class="card-body">
-
-                        <form #add="ngForm" class="ng-pristine ng-untouched ng-valid" novalidate="">
-                            <div class="table-content">
-                                <div class="form-group p-10 row">
-                                    <div class="col-sm-3">
-                                        <label class="p-t-b-10">
-                                            Название<span class="requiredStar">*</span>
-                                        </label>
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <input type="text" class="form-control" id="Name" required maxlength="255"
-                                            [(ngModel)]="subjectAdd.Name" name="Name" #Name="ngModel">
-                                    </div>
+                            <div class="input-group mb-4">
+                                <input type="text" class="form-control" id="Name" required maxlength="255"
+                                    placeholder="Название" [(ngModel)]="subjectAdd.Name" name="Name" #Name="ngModel">
+                                <div class="input-group-append">
+                                    <button mat-raised-button type="button" matTooltip="Добавить"
+                                        [disabled]="Name.invalid" (click)="AddSubject(add)"
+                                        [matTooltipPosition]="'above'" class="btn btn-success btn-link btn-just-icon">
+                                        <i class="material-icons">add</i>
+                                    </button>
                                 </div>
-                            </div>
-                            <div class="table-footer">
-                                <button style="display: flex;" type="button"
-                                    class="btn btn-outline-success waves-effect" [disabled]="Name.invalid"
-                                    (click)="AddSubject(add)">
-                                    Добавить
-                                </button>
                             </div>
                         </form>
                     </div>
-                    <div class="card-footer text-muted"> <span class="badge badge-warning">* - обязательное поле.</span>
+                </div>
+            </div>
+
+
+            <div class="col-lg-3 col-md-6 col-sm-6" *ngFor="let subject of subjects">
+                <div class="card card-stats">
+                    <div class="card-header card-header card-header-icon">
+                        <div class="card-icon">
+                            <i class="material-icons">folder_special</i>
+                        </div>
+                        <p class="card-category">10 Программ</p>
+                        <h3 class="card-title">
+                            {{ subject.name }}
+                        </h3>
+                    </div>
+                    <div class="card-footer">
+                        <div class="btn-group" role="group" aria-label="Basic example">
+                            <button mat-raised-button type="button" matTooltip="Просмотр"
+                                [routerLink]="['/subjects/details/', subject.id]" [matTooltipPosition]="'above'"
+                                class="btn btn-info btn-link btn-just-icon">
+                                <i class="material-icons">visibility</i>
+                            </button>
+                            <button mat-raised-button type="button" matTooltip="Переименовать"
+                                [routerLink]="['/subjects/edit/', subject.id]" [matTooltipPosition]="'above'"
+                                class="btn btn-warning btn-link btn-just-icon">
+                                <i class="material-icons">edit</i>
+                            </button>
+                            <button mat-raised-button type="button" matTooltip="Удалить"
+                                (click)="deleteSubjectConfirmation(subject)" [matTooltipPosition]="'above'"
+                                class="btn btn-danger btn-link btn-just-icon">
+                                <i class="material-icons">delete</i>
+                            </button>
+                        </div>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
