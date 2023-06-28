@@ -3,7 +3,8 @@ import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 
-import { HttpSubjectProviderService } from 'src/app/http/provider/http-subject-provider.service';
+import { ApiRoutes } from 'src/app/http/api-routes';
+import { HttpProviderService } from 'src/app/http/provider/http-provider.service';
 import { SubjectPreview } from 'src/app/models/subject/subject-preview';
 
 @Component({
@@ -19,9 +20,10 @@ export class SubjectEditComponent implements OnInit {
   @ViewChild("editSubject")
   editSubject!: NgForm;
 
-  constructor(private toastr: ToastrService, private route: ActivatedRoute, private router: Router, private subjectProvider: HttpSubjectProviderService) { }
+  constructor(private toastr: ToastrService, private route: ActivatedRoute, private router: Router, private subjectProvider: HttpProviderService) { }
 
   ngOnInit(): void {
+    this.subjectProvider.setUrl(ApiRoutes.subject.toString());
     this.subjectId = this.route.snapshot.params['subjectid'];
     this.getSubjectById();
   };

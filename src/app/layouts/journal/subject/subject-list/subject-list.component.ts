@@ -1,11 +1,12 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { FormGroup, NgForm } from '@angular/forms';
+import { NgForm } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 
-import { HttpSubjectProviderService } from 'src/app/http/provider/http-subject-provider.service';
+import { HttpProviderService } from 'src/app/http/provider/http-provider.service';
 import { SubjectDeleteComponent } from '../subject-delete/subject-delete.component';
 import { SubjectPreview } from 'src/app/models/subject/subject-preview';
+import { ApiRoutes } from 'src/app/http/api-routes';
 
 
 @Component({
@@ -24,9 +25,10 @@ export class SubjectListComponent implements OnInit {
   @ViewChild("add")
   SubjectAdd!: NgForm;
 
-  constructor(private router: Router, private subjectProvider: HttpSubjectProviderService, private delComp: SubjectDeleteComponent, private toastr: ToastrService) { }
+  constructor(private router: Router, private subjectProvider: HttpProviderService, private delComp: SubjectDeleteComponent, private toastr: ToastrService) { }
 
   ngOnInit(): void {
+    this.subjectProvider.setUrl(ApiRoutes.subject.toString());
     this.getSubjects();
   }
 

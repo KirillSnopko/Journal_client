@@ -1,82 +1,66 @@
 <div class="main-content">
     <div class="container-fluid">
-        <button mat-raised-button type="button" routerLink="/subjects/" class="btn btn-default back">
+        <button mat-raised-button type="button" [routerLink]="['/subjects/details/', subjectId]"
+            class="btn btn-default back">
             <i class='fas fa-arrow-circle-left'></i>
             Назад
         </button>
         <div class="row">
-            <div class="col-lg-6">
+            <div class="col-lg-8">
                 <div class="card">
-                    <div class="card-header card-header-tabs card-header-primary">
-                        <h4 class="card-title">Программы</h4>
+                    <div class="card-header card-header-tabs card-header-info">
+                        <h4 class="card-title">Темы</h4>
                         <p class="card-category">
                             Названия сгруппированных тем
                         </p>
                     </div>
                     <div class="card-body">
-                        <form [formGroup]="formGrade" (ngSubmit)="updateGrade()">
+                        <form [formGroup]="formTopic" (ngSubmit)="updateTopic()">
                             <table class="table">
                                 <thead>
                                     <tr>
-                                        <th scope="col">#</th>
-                                        <th scope="col">Уровень</th>
+                                        <th scope="col">Id</th>
+                                        <th scope="col">Название</th>
                                         <th scope="col">Описание</th>
-                                        <th scope="col">Темы</th>
                                         <th>
                                             <button mat-raised-button type="button" matTooltip="Добавить"
                                                 [matTooltipPosition]="'above'"
-                                                class="btn btn-success btn-link btn-just-icon" (click)="addGrade()">
+                                                class="btn btn-success btn-link btn-just-icon" (click)="addTopic()">
                                                 <i class="material-icons">library_add</i>
                                             </button>
                                         </th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <!--List is empty-->
-                                    <div *ngIf="gradeList.length==0">
-                                        <span class="badge badge-warning">Список программ пока пуст!</span>
-                                    </div>
 
-                                    <ng-container *ngFor="let grade of gradeList; let i = index">
-                                        <!--List of gradelevel-->
-                                        <tr *ngIf="gradeSelected != grade" (click)="selectGrade(grade)">
-                                            <td>{{ grade.id }}</td>
-                                            <td>{{ grade.level }}</td>
-                                            <td>{{ grade.description }}</td>
-                                            <td>
-                                                <button mat-mini-fab extended type="button" matTooltip="Темы"
-                                                    [matTooltipPosition]="'above'"
-                                                    [routerLink]="['/subjects/gradelevel/', grade.id]"
-                                                    [queryParams]="{'subjectid': subjectId}" class="btn btn-info ">
-                                                    {{ grade.count }}
-                                                </button>
-                                            </td>
+                                    <ng-container *ngFor="let topic of topics; let i = index">
+                                        <tr *ngIf="topicSelected != topic" (click)="selectTopic(topic)">
+                                            <td>{{ topic.id }}</td>
+                                            <td>{{ topic.title }}</td>
+                                            <td>{{ topic.description }}</td>
                                             <td>
                                                 <button mat-raised-button type="button" matTooltip="Удалить"
                                                     [matTooltipPosition]="'above'"
-                                                    class="btn btn-danger btn-link btn-just-icon"
-                                                    (click)="deleteGrade(grade.id)">
+                                                    class="btn btn-danger btn-link btn-sm btn-just-icon"
+                                                    (click)="deleteTopic(i)">
                                                     <i class="material-icons">delete</i>
                                                 </button>
                                             </td>
                                         </tr>
 
-
-                                        <tr *ngIf="gradeSelected == grade" class="table-primary">
-                                            <td>{{ grade.id }}</td>
-
+                                        <tr *ngIf="topicSelected == topic" class="table-primary">
+                                            <td>{{ topic.id }}</td>
                                             <td>
-                                                <input type="number" class="form-control" formControlName="level"
-                                                    [value]="grade.level" title="level" />
+                                                <input type="text" class="form-control" formControlName="title"
+                                                    [value]="topic.title" title="Title" />
                                             </td>
                                             <td>
                                                 <input type="text" class="form-control" formControlName="description"
-                                                    [value]="grade.description" title="description" />
+                                                    [value]="topic.description" title="Description" />
                                             </td>
                                             <td>
                                                 <button mat-raised-button type="submit" matTooltip="Применить"
-                                                    [disabled]="formGrade.controls['level'].invalid||formGrade.controls['description'].invalid"
-                                                    [matTooltipPosition]="'above'"
+                                                    [disabled]="formTopic.invalid" [matTooltipPosition]="'above'"
                                                     class="btn btn-success btn-link btn-sm btn-just-icon">
                                                     <i class="material-icons">done</i>
                                                 </button>
@@ -84,13 +68,11 @@
                                                 <button mat-raised-button type="button" matTooltip="Отмена"
                                                     [matTooltipPosition]="'above'"
                                                     class="btn btn-default btn-link btn-sm btn-just-icon"
-                                                    (click)="cancelGrade()">
+                                                    (click)="cancelTopic()">
                                                     <i class="material-icons">block</i>
                                                 </button>
                                             </td>
                                         </tr>
-
-
                                     </ng-container>
                                 </tbody>
                             </table>
