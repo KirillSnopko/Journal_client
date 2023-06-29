@@ -10,6 +10,9 @@ import { StudentViewComponent } from '../journal/student/student-view/student-vi
 import { StudentAddComponent } from '../journal/student/student-add/student-add.component';
 
 import { SubjectListComponent } from '../journal/subject/subject-list/subject-list.component';
+import { SubjectDetailsComponent } from '../journal/subject/subject-details/subject-details.component';
+import { SubjectEditComponent } from '../journal/subject/subject-edit/subject-edit.component';
+import { TopicsComponent } from '../journal/subject/topics/topics.component';
 
 
 import { MatButtonModule } from '@angular/material/button';
@@ -39,6 +42,9 @@ import { MatSelectModule } from '@angular/material/select';
     StudentAddComponent,
 
     SubjectListComponent,
+    SubjectDetailsComponent,
+    SubjectEditComponent,
+    TopicsComponent,
   ]
 })
 

@@ -1,3 +1,3 @@
-export class SubjectAdd {
+export class SubjectPreview {
     public Name: string = "";
 }

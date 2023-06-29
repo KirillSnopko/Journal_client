@@ -8,17 +8,17 @@ import { SubjectListComponent } from '../subject-list/subject-list.component';
   standalone: true,
   template: `
   <div class="modal-header">
-    <h5 class="modal-title" id="modal-basic-title">Delete Confirmation</h5>
+    <h5 class="modal-title" id="modal-basic-title">Удаление предмета</h5>
     <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cancel')">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
   <div class="modal-body">
-    <p>Are you sure you want to delete?</p>
+    <p>Вы точно хотите удалить предмет?</p>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-outline-secondary" (click)="modal.dismiss('Cancel')">CANCEL</button>
-    <button type="button" ngbAutofocus class="btn btn-success" (click)="modal.close('Ok')">OK</button>
+    <button type="button" class="btn btn-outline-secondary" (click)="modal.dismiss('Cancel')">Отмена</button>
+    <button type="button" ngbAutofocus class="btn btn-warning" (click)="modal.close('Ok')">OK</button>
   </div>
   `,
 })
@@ -31,10 +31,7 @@ const MODALS: { [name: string]: Type<any> } = {
   deleteModal: NgModalConfirm,
 };
 
-@Injectable({
-  providedIn: 'root'
-})
-
+@Injectable({ providedIn: 'root' })
 export class SubjectDeleteComponent {
   constructor(private modalService: NgbModal, private toastr: ToastrService) { }
 
@@ -45,15 +42,13 @@ export class SubjectDeleteComponent {
       }).result.then((result) => {
 
         listComponent.getProvider().delete(entity.id).subscribe((data: any) => {
-          /* if (data != null && data.body != null) {
-             var resultData = data.body;
-             //if (resultData != null && resultData.isSuccess) {
-               this.toastr.success(resultData.message);
-               this.getSubjects();
-             //}
-           }*/
-          listComponent.getSubjects();
-          this.toastr.success("Успешно");
+          if (data.status == 204) {
+            listComponent.getSubjects();
+            this.toastr.success("Успешно");
+          } else {
+            this.toastr.error(data.message);
+          }
+
         },
           (error: any) => { console.log(error) });
       },

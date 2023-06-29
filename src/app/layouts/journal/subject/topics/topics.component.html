@@ -1,0 +1,96 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <button mat-raised-button type="button" [routerLink]="['/subjects/details/', subjectId]"
+            class="btn btn-default back">
+            <i class='fas fa-arrow-circle-left'></i>
+            Назад
+        </button>
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="card">
+                    <div class="card-header card-header-tabs card-header-info">
+                        <h4 class="card-title">Темы</h4>
+                        <p class="card-category">
+                            Названия сгруппированных тем
+                        </p>
+                    </div>
+                    <div class="card-body">
+                        <form [formGroup]="formTopic" (ngSubmit)="updateTopic()">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Название</th>
+                                        <th scope="col">Описание</th>
+                                        <th>
+                                            <button mat-raised-button type="button" matTooltip="Добавить"
+                                                [matTooltipPosition]="'above'"
+                                                class="btn btn-success btn-link btn-just-icon" (click)="addTopic()">
+                                                <i class="material-icons">library_add</i>
+                                            </button>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!--List is empty-->
+                                    <div *ngIf="topics.length==0">
+                                        <span class="badge badge-warning">Список тем пока пуст!</span>
+                                    </div>
+                                    <ng-container *ngFor="let topic of topics; let i = index">
+                                        <tr *ngIf="topicSelected != topic" (click)="selectTopic(topic)">
+                                            <td>{{ i }}</td>
+                                            <td>{{ topic.title }}</td>
+                                            <td>{{ topic.description }}</td>
+                                            <td>
+                                                <button mat-raised-button type="button" matTooltip="Удалить"
+                                                    [matTooltipPosition]="'above'"
+                                                    class="btn btn-danger btn-link btn-sm btn-just-icon"
+                                                    (click)="deleteTopic(topic.id)">
+                                                    <i class="material-icons">delete</i>
+                                                </button>
+                                            </td>
+                                        </tr>
+
+                                        <tr *ngIf="topicSelected == topic" class="table-primary">
+                                            <td>{{ topic.id }}</td>
+                                            <td>
+                                                <input type="text" class="form-control" formControlName="title"
+                                                    [value]="topic.title" title="Title" />
+                                            </td>
+                                            <td>
+                                                <input type="text" class="form-control" formControlName="description"
+                                                    [value]="topic.description" title="Description" />
+                                            </td>
+                                            <td>
+                                                <button mat-raised-button type="submit" matTooltip="Применить"
+                                                    [disabled]="formTopic.invalid" [matTooltipPosition]="'above'"
+                                                    class="btn btn-success btn-link  btn-just-icon">
+                                                    <i class="material-icons"
+                                                        *ngIf="formTopic.controls['title'].valid">verified</i>
+
+                                                    <i class="material-icons"
+                                                        *ngIf="formTopic.controls['title'].invalid">done</i>
+                                                </button>
+
+                                                <button mat-raised-button type="button" matTooltip="Отмена"
+                                                    [matTooltipPosition]="'above'"
+                                                    class="btn btn-default btn-link  btn-just-icon"
+                                                    (click)="cancelTopic()">
+                                                    <i class="material-icons">block</i>
+                                                </button>
+                                            </td>
+
+                                            <div *ngIf="formTopic.controls['title'].invalid ">
+                                                <span class="badge badge-danger">Не указано название</span>
+                                            </div>
+                                        </tr>
+                                    </ng-container>
+                                </tbody>
+                            </table>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
