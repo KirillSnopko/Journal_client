@@ -19,7 +19,7 @@
                             <table class="table">
                                 <thead>
                                     <tr>
-                                        <th scope="col">Id</th>
+                                        <th scope="col">#</th>
                                         <th scope="col">Название</th>
                                         <th scope="col">Описание</th>
                                         <th>
@@ -32,17 +32,20 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-
+                                    <!--List is empty-->
+                                    <div *ngIf="topics.length==0">
+                                        <span class="badge badge-warning">Список тем пока пуст!</span>
+                                    </div>
                                     <ng-container *ngFor="let topic of topics; let i = index">
                                         <tr *ngIf="topicSelected != topic" (click)="selectTopic(topic)">
-                                            <td>{{ topic.id }}</td>
+                                            <td>{{ i }}</td>
                                             <td>{{ topic.title }}</td>
                                             <td>{{ topic.description }}</td>
                                             <td>
                                                 <button mat-raised-button type="button" matTooltip="Удалить"
                                                     [matTooltipPosition]="'above'"
                                                     class="btn btn-danger btn-link btn-sm btn-just-icon"
-                                                    (click)="deleteTopic(i)">
+                                                    (click)="deleteTopic(topic.id)">
                                                     <i class="material-icons">delete</i>
                                                 </button>
                                             </td>
@@ -61,17 +64,25 @@
                                             <td>
                                                 <button mat-raised-button type="submit" matTooltip="Применить"
                                                     [disabled]="formTopic.invalid" [matTooltipPosition]="'above'"
-                                                    class="btn btn-success btn-link btn-sm btn-just-icon">
-                                                    <i class="material-icons">done</i>
+                                                    class="btn btn-success btn-link  btn-just-icon">
+                                                    <i class="material-icons"
+                                                        *ngIf="formTopic.controls['title'].valid">verified</i>
+
+                                                    <i class="material-icons"
+                                                        *ngIf="formTopic.controls['title'].invalid">done</i>
                                                 </button>
 
                                                 <button mat-raised-button type="button" matTooltip="Отмена"
                                                     [matTooltipPosition]="'above'"
-                                                    class="btn btn-default btn-link btn-sm btn-just-icon"
+                                                    class="btn btn-default btn-link  btn-just-icon"
                                                     (click)="cancelTopic()">
                                                     <i class="material-icons">block</i>
                                                 </button>
                                             </td>
+
+                                            <div *ngIf="formTopic.controls['title'].invalid ">
+                                                <span class="badge badge-danger">Не указано название</span>
+                                            </div>
                                         </tr>
                                     </ng-container>
                                 </tbody>

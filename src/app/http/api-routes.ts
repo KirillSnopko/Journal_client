@@ -1,5 +1,7 @@
 export enum ApiRoutes {
     subject ="Subject/",
     gradelevel ="GradeLevel/",
-    topic="Topic/"
+    topic="Topic/",
+    grades ="/grades",
+    topics="/topics"
 }

@@ -40,7 +40,7 @@
                                     <ng-container *ngFor="let grade of gradeList; let i = index">
                                         <!--List of gradelevel-->
                                         <tr *ngIf="gradeSelected != grade" (click)="selectGrade(grade)">
-                                            <td>{{ grade.id }}</td>
+                                            <td>{{ i }}</td>
                                             <td>{{ grade.level }}</td>
                                             <td>{{ grade.description }}</td>
                                             <td>
@@ -69,25 +69,40 @@
                                                 <input type="number" class="form-control" formControlName="level"
                                                     [value]="grade.level" title="level" />
                                             </td>
+
                                             <td>
                                                 <input type="text" class="form-control" formControlName="description"
                                                     [value]="grade.description" title="description" />
                                             </td>
                                             <td>
+
                                                 <button mat-raised-button type="submit" matTooltip="Применить"
                                                     [disabled]="formGrade.controls['level'].invalid||formGrade.controls['description'].invalid"
                                                     [matTooltipPosition]="'above'"
-                                                    class="btn btn-success btn-link btn-sm btn-just-icon">
-                                                    <i class="material-icons">done</i>
+                                                    class="btn btn-success btn-link  btn-just-icon">
+
+                                                    <i class="material-icons"
+                                                        *ngIf="formGrade.controls['level'].valid&&formGrade.controls['description'].valid">verified</i>
+
+                                                    <i class="material-icons"
+                                                        *ngIf="formGrade.controls['level'].invalid||formGrade.controls['description'].invalid">done</i>
                                                 </button>
 
                                                 <button mat-raised-button type="button" matTooltip="Отмена"
                                                     [matTooltipPosition]="'above'"
-                                                    class="btn btn-default btn-link btn-sm btn-just-icon"
+                                                    class="btn btn-danger btn-link btn-just-icon"
                                                     (click)="cancelGrade()">
                                                     <i class="material-icons">block</i>
                                                 </button>
                                             </td>
+
+                                            <div *ngIf="formGrade.controls['level'].invalid ">
+                                                <span class="badge badge-danger">Не указан уровень</span>
+                                            </div>
+                                            <div
+                                                *ngIf="formGrade.controls['description'].invalid && formGrade.controls['description'].touched">
+                                                <span class="badge badge-danger">Добавьте описание</span>
+                                            </div>
                                         </tr>
 
 
