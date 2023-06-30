@@ -7,7 +7,7 @@ import { ApiRoutes } from 'src/app/http/api-routes';
 import { Gradelevel } from 'src/app/models/gradelevel/gradelevel';
 import { GradelevelCreate } from 'src/app/models/gradelevel/gradelevel-create';
 import { HttpProviderService } from 'src/app/http/provider/http-provider.service';
-import { data } from 'jquery';
+
 
 @Component({
   selector: 'app-subject-details',
@@ -92,7 +92,8 @@ export class SubjectDetailsComponent implements OnInit {
           console.log(data);
         },
           async error => {
-            console.log(error);
+            
+            console.log(error.error.errors);
             this.toastr.error(error.error.errors.toString());
           });
 
