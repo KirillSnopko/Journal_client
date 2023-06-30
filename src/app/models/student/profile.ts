@@ -1,7 +1,5 @@
 export class Profile {
-    public id: number = 0;
-    public name: string = "";
-    public age: number = 0;
+    public student: any;
     public level: number = 0;
     public description: string = "";
     public studentMobile: string = "";
@@ -13,5 +11,5 @@ export class Profile {
 export interface InnerCourse {
     id: number;
     title: string;
-    existUnPaid: boolean;
+    existUnpaid: boolean;
 }
