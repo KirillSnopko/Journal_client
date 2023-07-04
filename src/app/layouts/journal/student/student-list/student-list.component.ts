@@ -97,6 +97,7 @@ export class StudentListComponent implements OnInit {
   add() {
     this.students.unshift({
       id: 0,
+      profileId:0,
       name: "",
       age: 0
     });

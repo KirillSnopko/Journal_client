@@ -9,6 +9,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSelectModule } from '@angular/material/select';
 import { Routes } from '@angular/router';
+import { MatTabsModule } from '@angular/material/tabs';
+import {MatIconModule} from '@angular/material/icon';
 
 import { StudentListComponent } from './student-list/student-list.component';
 import { StudentViewComponent } from './student-view/student-view.component';
@@ -16,7 +18,7 @@ import { StudentViewComponent } from './student-view/student-view.component';
 
 export const StudentLayoutRoutes: Routes = [
   { path: 'students', component: StudentListComponent },
-  { path: 'student/profile/:studentid', component: StudentViewComponent },
+  { path: 'students/profile/:studentid', component: StudentViewComponent },
 ];
 
 @NgModule({
@@ -36,6 +38,8 @@ export const StudentLayoutRoutes: Routes = [
     MatInputModule,
     MatSelectModule,
     MatTooltipModule,
+    MatTabsModule,
+    MatIconModule
   ]
 })
 export class StudentLayoutModule { }
