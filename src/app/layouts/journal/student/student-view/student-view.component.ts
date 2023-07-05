@@ -6,6 +6,7 @@ import { ToastrService } from 'ngx-toastr';
 import { ApiRoutes } from 'src/app/http/api-routes';
 import { HttpProviderService } from 'src/app/http/provider/http-provider.service';
 import { Profile } from 'src/app/models/student/profile';
+import { ProfileUpdate } from 'src/app/models/student/profile-update';
 
 @Component({
   selector: 'app-student-view',
@@ -23,15 +24,13 @@ export class StudentViewComponent {
     this.studentId = this.route.snapshot.params['studentid'];
     this.getProfile();
     this.upForm = this.fb.group({
-      level: [1, [Validators.required]],
-      description: [''],
-      studentMobile: [''],
-      parentName: [''],
-      parentMobile: ['']
+      level: [this.profile.level, [Validators.required]],
+      description: [this.profile.description],
+      studentMobile: [this.profile.studentMobile],
+      parentName: [this.profile.parentName],
+      parentMobile: [this.profile.parentMobile]
     })
   }
-
-
 
   getProfile() {
     this.provider.setUrl(ApiRoutes.profile.toString())
@@ -49,7 +48,26 @@ export class StudentViewComponent {
         });
   }
 
-  updateProfile() {
+  updateProfile(form: any) {
+    var dto: ProfileUpdate = new ProfileUpdate();
+    dto.level = this.upForm.value.level!;
+    dto.studentMobile = this.upForm.value.studentMobile!;
+    dto.description = this.upForm.value.description!;
+    dto.parentName = this.upForm.value.parentName!;
+    dto.parentMobile = this.upForm.value.parentMobile!;
 
+    this.provider.setUrl(ApiRoutes.profile.toString())
+      .update(dto, this.profile.id)
+      .subscribe(async data => {
+        if (data.status == 200) {
+          setTimeout(() => {
+            this.getProfile();
+          }, 500);
+          this.toastr.success("Обновлено!");
+        }
+      },
+        async error => {
+          this.toastr.error(error.error.message);
+        });
   }
 }

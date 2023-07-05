@@ -1,30 +1,42 @@
 <div class="main-content">
+
     <div class="container-fluid">
-        <mat-tab-group>
-            <mat-tab label="Профиль">
+
+
+        <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start">
+
+            <mat-tab>
+
+                <ng-template mat-tab-label>
+                    <mat-icon class="example-tab-icon">account_circle</mat-icon>
+                    Профиль
+                </ng-template>
+
                 <div class="row">
                     <div class="col-md-6">
                         <div class="card">
                             <div class="card-header card-header-info">
-                                <h4 class="card-title">Профиль</h4>
-                                <p class="card-category">{{profile.student.name|titlecase}}, {{profile.student.age}}</p>
+                                <h4 class="card-title">
+                                    {{profile.student.name|titlecase}}, {{profile.student.age}}лет
+                                </h4>
                             </div>
                             <div class="card-body">
-                                <form [formGroup]="upForm" (ngSubmit)="updateProfile()">
+                                <form [formGroup]="upForm" (ngSubmit)="updateProfile(upForm)">
                                     <div class="row">
-
-                                        <div class="col-md-3">
+                                        <div class="col-md-4">
                                             <mat-form-field appearance="outline">
                                                 <mat-label>Класс</mat-label>
-                                                <input matInput [value]="profile.level" type="number" title="level">
-                                                <mat-hint>Обязательно</mat-hint>
+                                                <input matInput [value]="profile.level" type="number" title="level"
+                                                    #level formControlName="level" id="level">
+                                                <mat-hint
+                                                    *ngIf="upForm.controls['level'].invalid"><strong>Обязательно</strong>
+                                                </mat-hint>
                                             </mat-form-field>
                                         </div>
-
                                         <div class="col-md-4 offset-2">
                                             <mat-form-field appearance="outline">
                                                 <mat-label>Мобильный ученика</mat-label>
-                                                <input matInput type="tel" class="form-control"
+                                                <input matInput type="text" class="form-control"
                                                     formControlName="studentMobile" [value]="profile.studentMobile"
                                                     title="studentMobile">
                                             </mat-form-field>
@@ -36,15 +48,14 @@
                                             <mat-form-field appearance="outline" fxFlex="40" [style.width.%]="100">
                                                 <mat-label>Дополнительно</mat-label>
                                                 <textarea matInput [value]="profile.description" title="description"
-                                                    class="form-control" cdkTextareaAutosize
-                                                    #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="4"
-                                                    cdkAutosizeMaxRows="8"></textarea>
+                                                    formControlName="description" class="form-control"
+                                                    cdkTextareaAutosize #autosize="cdkTextareaAutosize"
+                                                    cdkAutosizeMinRows="4" cdkAutosizeMaxRows="8"></textarea>
                                             </mat-form-field>
                                         </div>
                                     </div>
 
                                     <div class="row">
-
                                         <div class="col-md-4">
                                             <mat-form-field appearance="outline">
                                                 <mat-label>Имя родителя</mat-label>
@@ -53,20 +64,27 @@
                                                     title="parentName">
                                             </mat-form-field>
                                         </div>
-
                                         <div class="col-md-4 offset-2">
                                             <mat-form-field appearance="outline">
                                                 <mat-label>Мобильный родителя</mat-label>
-                                                <input matInput type="tel" class="form-control"
+                                                <input matInput type="text" class="form-control"
                                                     formControlName="parentMobile" [value]="profile.parentMobile"
                                                     title="parentMobile">
                                             </mat-form-field>
                                         </div>
                                     </div>
 
-                                    <button mat-raised-button type="submit" class="btn btn-danger pull-right">Update
-                                        Profile</button>
-                                    <div class="clearfix"></div>
+                                    <button mat-raised-button type="submit"
+                                        [disabled]="upForm.controls['level'].invalid"
+                                        class="btn btn-success pull-right">Обновить
+                                    </button>
+
+                                    <div class="clearfix">
+                                        <span class="badge badge-pill badge-warning">
+                                            При длительном простое страницы после нажатия "Обновить" поля
+                                            обнуляются.
+                                        </span>
+                                    </div>
                                 </form>
 
                             </div>
@@ -74,7 +92,12 @@
                     </div>
                 </div>
             </mat-tab>
-            <mat-tab label="Статистика&Курсы">
+
+            <mat-tab>
+                <ng-template mat-tab-label>
+                    <mat-icon class="example-tab-icon">query_stats</mat-icon>
+                    Статистика <i *ngIf="profile.countUnpaid >0" style="color: #ff0000" class="material-icons">error</i>
+                </ng-template>
                 <div class="row">
                     <div class="col-lg-3 col-md-6 col-sm-6">
                         <div class="card card-stats">
@@ -90,11 +113,11 @@
                         </div>
                     </div>
 
-                    <div class="col-lg-3 col-md-6 col-sm-6" *ngIf="profile.countUnpaid >0">
+                    <div class="col-lg-3 col-md-6 col-sm-6">
                         <div class="card card-stats">
                             <div class="card-header card-header-danger card-header-icon">
                                 <div class="card-icon">
-                                    <i class="material-icons">info_outline</i>
+                                    <i class="material-icons">paid</i>
                                 </div>
                                 <p class="card-category">Неоплаченные занятия</p>
                                 <h3 class="card-title">{{profile.countUnpaid}}</h3>
@@ -104,10 +127,18 @@
                         </div>
                     </div>
                 </div>
+
+            </mat-tab>
+
+            <mat-tab>
+                <ng-template mat-tab-label>
+                    <mat-icon class="example-tab-icon">collections_bookmark</mat-icon>
+                   <div [matBadge]="profile.courses.length" matBadgeOverlap="false" class="demo-section">Курсы</div>
+                </ng-template>
                 <div class="row">
                     <div class="col-lg-6">
                         <div class="card">
-                            <div class="card-header card-header-tabs card-header-primary">
+                            <div class="card-header card-header-tabs card-header-info">
                                 <h4 class="card-title">Курсы</h4>
                                 <p class="card-category">
                                     {{profile.courses.length}} ед
@@ -155,7 +186,16 @@
                         </div>
                     </div>
                 </div>
+                <ul class="list-group">
+                    <li class="list-group-item">
+                        <span class="badge badge-pill badge-warning">Добавиление курса</span>
+                    </li>
+                    <li class="list-group-item">
+                        <span class="badge badge-pill badge-warning">Перейти к курсу</span>
+                    </li>
+                </ul>
             </mat-tab>
+
         </mat-tab-group>
     </div>
 </div>
