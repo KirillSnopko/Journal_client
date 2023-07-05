@@ -11,6 +11,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { Routes } from '@angular/router';
 import { MatTabsModule } from '@angular/material/tabs';
 import {MatIconModule} from '@angular/material/icon';
+import {MatBadgeModule} from '@angular/material/badge';
 
 import { StudentListComponent } from './student-list/student-list.component';
 import { StudentViewComponent } from './student-view/student-view.component';
@@ -39,7 +40,8 @@ export const StudentLayoutRoutes: Routes = [
     MatSelectModule,
     MatTooltipModule,
     MatTabsModule,
-    MatIconModule
+    MatIconModule,
+    MatBadgeModule
   ]
 })
 export class StudentLayoutModule { }
