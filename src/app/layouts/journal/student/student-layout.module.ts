@@ -9,20 +9,28 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSelectModule } from '@angular/material/select';
 import { Routes } from '@angular/router';
+import { MatTabsModule } from '@angular/material/tabs';
+import {MatIconModule} from '@angular/material/icon';
+import {MatBadgeModule} from '@angular/material/badge';
 
-import { DashboardComponent } from 'src/app/layouts/journal/dashboard/dashboard.component';
-import { StudentLayoutModule } from '../journal/student/student-layout.module';
-import { SubjectLayoutModule } from '../journal/subject/subject-layout.module';
+import { StudentListComponent } from './student-list/student-list.component';
+import { StudentViewComponent } from './student-view/student-view.component';
 
 
-export const AdminLayoutRoutes: Routes = [
-  { path: 'dashboard', component: DashboardComponent },
+export const StudentLayoutRoutes: Routes = [
+  { path: 'students', component: StudentListComponent },
+  { path: 'students/profile/:studentid', component: StudentViewComponent },
 ];
 
 @NgModule({
+  declarations: [
+    StudentListComponent,
+    StudentViewComponent,
+ 
+  ],
   imports: [
     CommonModule,
-    RouterModule.forChild(AdminLayoutRoutes),
+    RouterModule.forChild(StudentLayoutRoutes),
     FormsModule,
     ReactiveFormsModule,
     MatButtonModule,
@@ -31,13 +39,9 @@ export const AdminLayoutRoutes: Routes = [
     MatInputModule,
     MatSelectModule,
     MatTooltipModule,
-
-    StudentLayoutModule,
-    SubjectLayoutModule
-  ],
-  declarations: [
-    DashboardComponent,
-     ]
+    MatTabsModule,
+    MatIconModule,
+    MatBadgeModule
+  ]
 })
-
-export class AdminLayoutModule { }
+export class StudentLayoutModule { }

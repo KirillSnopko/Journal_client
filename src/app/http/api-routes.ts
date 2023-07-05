@@ -3,5 +3,8 @@ export enum ApiRoutes {
     gradelevel ="GradeLevel/",
     topic="Topic/",
     grades ="/grades",
-    topics="/topics"
+    topics="/topics",
+
+    student="Student/",
+    profile="StudentProfile/"
 }

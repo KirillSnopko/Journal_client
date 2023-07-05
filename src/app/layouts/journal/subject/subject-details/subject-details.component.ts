@@ -7,7 +7,7 @@ import { ApiRoutes } from 'src/app/http/api-routes';
 import { Gradelevel } from 'src/app/models/gradelevel/gradelevel';
 import { GradelevelCreate } from 'src/app/models/gradelevel/gradelevel-create';
 import { HttpProviderService } from 'src/app/http/provider/http-provider.service';
-import { data } from 'jquery';
+
 
 @Component({
   selector: 'app-subject-details',
@@ -76,7 +76,7 @@ export class SubjectDetailsComponent implements OnInit {
     dto.Description = this.formGrade.value.description!;
     dto.Level = this.formGrade.value.level!;
     dto.SubjectId = this.subjectId;
-  
+
     if (!this.gradeIsEditing) {
       this.provider.setUrl(ApiRoutes.gradelevel.toString())
         .add(dto)
@@ -89,10 +89,8 @@ export class SubjectDetailsComponent implements OnInit {
 
             }, 500);
           }
-          console.log(data);
         },
           async error => {
-            console.log(error);
             this.toastr.error(error.error.errors.toString());
           });
 
@@ -107,16 +105,14 @@ export class SubjectDetailsComponent implements OnInit {
             }, 500);
             this.toastr.success("обновлено!");
           }
-          console.log(data);
         },
           async error => {
-            console.log(error);
             this.toastr.error(error.error.emessage);
           });
     }
 
     this.gradeSelected = {} as Gradelevel;
-    this.gradeIsEditing = false
+    this.gradeIsEditing = false;
     this.formGrade.reset();
   }
 
