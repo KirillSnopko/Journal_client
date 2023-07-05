@@ -1,6 +1,7 @@
 import { Student } from "./student";
 
 export class Profile {
+    public id: number = 0;
     public student: Student = new Student();
     public level: number = 0;
     public description: string = "";
