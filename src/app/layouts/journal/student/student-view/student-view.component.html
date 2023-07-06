@@ -133,8 +133,90 @@
             <mat-tab>
                 <ng-template mat-tab-label>
                     <mat-icon class="example-tab-icon">collections_bookmark</mat-icon>
-                   <div [matBadge]="profile.courses.length" matBadgeOverlap="false" class="demo-section">Курсы</div>
+                    <div [matBadge]="profile.courses.length" matBadgeOverlap="false" class="demo-section">Курсы</div>
                 </ng-template>
+
+                <div class="">
+                    <mat-accordion>
+                        <mat-expansion-panel hideToggle>
+                            <mat-expansion-panel-header>
+                                <mat-panel-title> Форма создания курса </mat-panel-title>
+                                <mat-panel-description> </mat-panel-description>
+                            </mat-expansion-panel-header>
+
+                            <mat-stepper linear #stepper>
+
+                                <mat-step [stepControl]="firstFormGroup" [editable]="false" [stepControl]="firstFormGroup"
+                                    errorMessage="Name is required.">
+                                    <form [formGroup]="firstFormGroup">
+                                        <ng-template matStepLabel>Форамат</ng-template>
+                                        <mat-form-field>
+                                            <mat-label>Формат занятия</mat-label>
+                                            <mat-select matInput formControlName="format" name="format">
+                                                <mat-option *ngFor="let format of formats" [value]="format">
+                                                    {{format}}
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                        <div>
+                                            <button mat-button (click)="getSubjects(stepper)">Дальше</button>
+                                        </div>
+                                    </form>
+                                </mat-step>
+
+                                <mat-step [stepControl]="secondFormGroup" [editable]="false">
+                                    <form [formGroup]="secondFormGroup">
+                                        <ng-template matStepLabel>Выбор предмета</ng-template>
+                                        <mat-form-field>
+                                            <mat-label>Предмет</mat-label>
+                                            <mat-select matInput formControlName="subject" name="subject">
+                                                <mat-option *ngFor="let subject of subjects" [value]="subject.id">
+                                                    {{subject.name}}
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                        <div>
+                                            <button mat-button (click)="getGradeLevel(stepper)">Дальше</button>
+                                        </div>
+                                    </form>
+                                </mat-step>
+
+                                <mat-step [stepControl]="thirdFormGroup" [editable]="false">
+                                    <form [formGroup]="thirdFormGroup">
+                                        <ng-template matStepLabel>Выбор программы</ng-template>
+                                        <mat-form-field>
+                                            <mat-label>Address</mat-label>
+                                            <mat-select matInput formControlName="gradelevel" name="gradelevel">
+                                                <mat-option *ngFor="let gv of gradelevels" [value]="gv.id">
+                                                    {{gv.level + "класс," + gv.description}}
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                        <div>
+                                            <button mat-button matStepperNext>Next</button>
+                                        </div>
+                                    </form>
+                                </mat-step>
+
+                                <mat-step>
+                                    <ng-template matStepLabel>Добавить</ng-template>
+                                    <p>You are now done.</p>
+                                    <div>
+                                        <button mat-raised-button type="button" class="btn btn-success btn-link"
+                                            (click)="createCourse()">
+                                            Добавить
+                                        </button>
+                                        <button mat-button (click)="stepper.reset()"
+                                            class="btn btn-warning btn-link">Сбросить</button>
+                                    </div>
+                                </mat-step>
+
+                            </mat-stepper>
+
+                        </mat-expansion-panel>
+                    </mat-accordion>
+                </div>
+
                 <div class="row">
                     <div class="col-lg-6">
                         <div class="card">
@@ -151,6 +233,14 @@
                                         <tr>
                                             <th scope="col">#</th>
                                             <th scope="col">Название</th>
+                                            <th>
+                                                <button mat-raised-button type="button" matTooltip="Добавить"
+                                                    [matTooltipPosition]="'above'"
+                                                    class="btn btn-success btn-link btn-just-icon"
+                                                    (click)="createCourse()">
+                                                    <i class="material-icons">library_add</i>
+                                                </button>
+                                            </th>
                                         </tr>
                                     </thead>
                                     <tbody>

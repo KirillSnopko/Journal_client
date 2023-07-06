@@ -10,11 +10,16 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSelectModule } from '@angular/material/select';
 import { Routes } from '@angular/router';
 import { MatTabsModule } from '@angular/material/tabs';
-import {MatIconModule} from '@angular/material/icon';
-import {MatBadgeModule} from '@angular/material/badge';
+import { MatIconModule } from '@angular/material/icon';
+import { MatBadgeModule } from '@angular/material/badge';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatStepperModule } from '@angular/material/stepper';
 
 import { StudentListComponent } from './student-list/student-list.component';
 import { StudentViewComponent } from './student-view/student-view.component';
+
+
 
 
 export const StudentLayoutRoutes: Routes = [
@@ -26,7 +31,7 @@ export const StudentLayoutRoutes: Routes = [
   declarations: [
     StudentListComponent,
     StudentViewComponent,
- 
+
   ],
   imports: [
     CommonModule,
@@ -41,7 +46,10 @@ export const StudentLayoutRoutes: Routes = [
     MatTooltipModule,
     MatTabsModule,
     MatIconModule,
-    MatBadgeModule
+    MatBadgeModule,
+    MatExpansionModule,
+    MatDatepickerModule,
+    MatStepperModule
   ]
 })
 export class StudentLayoutModule { }

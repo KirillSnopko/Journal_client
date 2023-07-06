@@ -13,6 +13,7 @@ import { Routes } from '@angular/router';
 import { DashboardComponent } from 'src/app/layouts/journal/dashboard/dashboard.component';
 import { StudentLayoutModule } from '../journal/student/student-layout.module';
 import { SubjectLayoutModule } from '../journal/subject/subject-layout.module';
+import { CourseLayoutModule } from '../journal/course/course-layout.module';
 
 
 export const AdminLayoutRoutes: Routes = [
@@ -33,7 +34,8 @@ export const AdminLayoutRoutes: Routes = [
     MatTooltipModule,
 
     StudentLayoutModule,
-    SubjectLayoutModule
+    SubjectLayoutModule,
+    CourseLayoutModule
   ],
   declarations: [
     DashboardComponent,
