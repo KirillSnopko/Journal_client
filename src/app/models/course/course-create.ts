@@ -1,6 +1,5 @@
 export class CourseCreate {
-    public profileId:any;
-    public subjectId:any;
-    public gradelevelid:any;
+    public studentProfileId:any;
+    public gradelevelId:any;
     public type:any;
 }
