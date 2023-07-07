@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
+import { MatDialog } from '@angular/material/dialog';
 
 
 import { ApiRoutes } from 'src/app/http/api-routes';
@@ -9,6 +10,7 @@ import { HttpProviderService } from 'src/app/http/provider/http-provider.service
 import { Profile } from 'src/app/models/student/profile';
 import { ProfileUpdate } from 'src/app/models/student/profile-update';
 import { CourseCreate } from 'src/app/models/course/course-create';
+import { CourseCreateDialogComponent } from '../../course/course-create-dialog/course-create-dialog.component';
 
 
 @Component({
@@ -17,7 +19,7 @@ import { CourseCreate } from 'src/app/models/course/course-create';
   styleUrls: ['./student-view.component.css'],
 })
 
-export class StudentViewComponent {
+export class StudentViewComponent implements OnInit {
   studentId: any;
   profile: Profile = new Profile();
   upForm: any;
@@ -38,7 +40,13 @@ export class StudentViewComponent {
 
 
 
-  constructor(private route: ActivatedRoute, private provider: HttpProviderService, private toastr: ToastrService, private router: Router, private fb: FormBuilder) { }
+  constructor(private route: ActivatedRoute,
+    private provider: HttpProviderService,
+    private toastr: ToastrService,
+    private router: Router,
+    private fb: FormBuilder,
+    public dialog: MatDialog,
+  ) { }
 
   ngOnInit(): void {
     this.studentId = this.route.snapshot.params['studentid'];
@@ -50,6 +58,8 @@ export class StudentViewComponent {
       parentName: [this.profile.parentName],
       parentMobile: [this.profile.parentMobile]
     })
+
+    
   }
 
   getProfile() {
@@ -132,27 +142,34 @@ export class StudentViewComponent {
       });
   }
 
-  createCourse() {
-    var dto:CourseCreate = new CourseCreate();
-    dto.profileId = this.profile.id;
-    dto.subjectId = this.secondFormGroup.value.subject!;
-    dto.gradelevelid = this.thirdFormGroup.value.gradelevel!;
+  createCourse(stepper: any) {
+    var dto: CourseCreate = new CourseCreate();
+    dto.studentProfileId = this.profile.id;
+    dto.gradelevelId = this.thirdFormGroup.value.gradelevel!;
     dto.type = this.firstFormGroup.value.format!;
 
-    this.provider.setUrl(ApiRoutes.student.toString())
-    .add(dto)
-    .subscribe(async data => {
-      if (data.status == 201) {
-        this.toastr.success("Добавлено!");
-        setTimeout(() => {
+    this.provider.setUrl(ApiRoutes.course.toString())
+      .add(dto)
+      .subscribe(async data => {
+        if (data.status == 201) {
+          this.toastr.success("Добавлено!");
+          setTimeout(() => {
 
-          this.getProfile();
+            stepper.reset();
+            this.getProfile();
 
-        }, 500);
-      }
-    },
-      async error => {
-        this.toastr.error(error.error.errors.toString());
-      });
-   }
+          }, 500);
+        }
+      },
+        async error => {
+          this.toastr.error(error.error.errors.toString());
+        });
+  }
+
+  openDialog() {
+    const dialogRef = this.dialog.open(CourseCreateDialogComponent, { data: { id: this.profile.id }, });
+    dialogRef.afterClosed().subscribe(result => {
+      this.getProfile();
+    });
+  }
 }
