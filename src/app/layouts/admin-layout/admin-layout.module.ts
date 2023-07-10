@@ -8,6 +8,8 @@ import { MatRippleModule } from '@angular/material/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSelectModule } from '@angular/material/select';
+import { MatIconModule } from '@angular/material/icon';
+import { MatMenuModule } from '@angular/material/menu';
 import { Routes } from '@angular/router';
 
 import { DashboardComponent } from 'src/app/layouts/journal/dashboard/dashboard.component';
@@ -32,6 +34,7 @@ export const AdminLayoutRoutes: Routes = [
     MatInputModule,
     MatSelectModule,
     MatTooltipModule,
+    MatIconModule, MatMenuModule,
 
     StudentLayoutModule,
     SubjectLayoutModule,
@@ -39,7 +42,7 @@ export const AdminLayoutRoutes: Routes = [
   ],
   declarations: [
     DashboardComponent,
-     ]
+  ]
 })
 
 export class AdminLayoutModule { }
