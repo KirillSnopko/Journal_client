@@ -20,7 +20,6 @@ export class SubjectDetailsComponent implements OnInit {
   gradeSelected: Gradelevel = {} as Gradelevel;
   gradeIsEditing: boolean = false;
   formGrade = this.fb.group({
-    level: [1, [Validators.required]],
     description: ['', [Validators.required]],
   });
 
@@ -41,7 +40,6 @@ export class SubjectDetailsComponent implements OnInit {
       this.gradeIsEditing = true
 
       this.formGrade.patchValue({
-        level: gradelevel.level,
         description: gradelevel.description,
       })
     }
@@ -74,7 +72,6 @@ export class SubjectDetailsComponent implements OnInit {
   updateGrade() {
     var dto: GradelevelCreate = new GradelevelCreate();
     dto.Description = this.formGrade.value.description!;
-    dto.Level = this.formGrade.value.level!;
     dto.SubjectId = this.subjectId;
 
     if (!this.gradeIsEditing) {
@@ -130,16 +127,11 @@ export class SubjectDetailsComponent implements OnInit {
     this.gradeList.unshift({
       id: 0,
       subjectid: this.subjectId,
-      level: 0,
       description: '',
       count: 0
     });
 
     this.gradeSelected = this.gradeList[0];
-  }
-
-  isEmpty(obj: any) {
-    return Object.keys(obj).length === 0;
   }
 
   async getGrade() {
