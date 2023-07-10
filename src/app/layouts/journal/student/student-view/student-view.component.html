@@ -133,8 +133,9 @@
             <mat-tab>
                 <ng-template mat-tab-label>
                     <mat-icon class="example-tab-icon">collections_bookmark</mat-icon>
-                   <div [matBadge]="profile.courses.length" matBadgeOverlap="false" class="demo-section">Курсы</div>
+                    <div [matBadge]="profile.courses.length" matBadgeOverlap="false" class="demo-section">Курсы</div>
                 </ng-template>
+
                 <div class="row">
                     <div class="col-lg-6">
                         <div class="card">
@@ -151,6 +152,14 @@
                                         <tr>
                                             <th scope="col">#</th>
                                             <th scope="col">Название</th>
+                                            <th>
+                                                <button mat-raised-button type="button" matTooltip="Добавить"
+                                                    [matTooltipPosition]="'above'"
+                                                    class="btn btn-success btn-link btn-just-icon"
+                                                    (click)="openDialog()">
+                                                    <i class="material-icons">library_add</i>
+                                                </button>
+                                            </th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -169,7 +178,7 @@
                                                         matTooltip="Перейти к курсу" [matTooltipPosition]="'above'"
                                                         [routerLink]="['/courses/details/', course.id]"
                                                         class="btn btn-info btn-link btn-just-icon">
-                                                        <i class="material-icons">manage_accounts</i>
+                                                        <i class="material-icons">settings</i>
                                                     </button>
 
                                                     <button *ngIf="course.existUnpaid" mat-mini-fab extended
