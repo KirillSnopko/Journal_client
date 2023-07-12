@@ -10,7 +10,7 @@ import { filter, Subscription } from 'rxjs';
   templateUrl: './admin-layout.component.html',
   styleUrls: ['./admin-layout.component.css']
 })
-export class AdminLayoutComponent /*implements OnInit*/ {
+export class AdminLayoutComponent implements OnInit {
   private _router: Subscription = new Subscription;
   private lastPoppedUrl: string = '';
   private yScrollStack: number[] = [];
