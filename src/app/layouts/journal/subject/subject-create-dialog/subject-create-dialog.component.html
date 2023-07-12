@@ -1,0 +1,20 @@
+<h1 mat-dialog-title>Добавить предмет</h1>
+
+<div mat-dialog-content>
+
+    <form [formGroup]="createSubject" class="ng-pristine ng-untouched ng-valid form-inline">
+
+        <div class="input-group mb-4">
+            <mat-form-field>
+                <mat-label>Название предмета</mat-label>
+                <input matInput formControlName="name" name="name" id="name">
+            </mat-form-field>
+            <div class="input-group-append">
+                <button mat-raised-button type="button" matTooltip="Добавить" [disabled]="createSubject.invalid"
+                    (click)="create()" [matTooltipPosition]="'above'" class="btn btn-success btn-link btn-just-icon">
+                    <i class="material-icons">add</i>
+                </button>
+            </div>
+        </div>
+    </form>
+</div>

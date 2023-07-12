@@ -1,12 +1,12 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
-import { NgForm } from '@angular/forms';
-import { ToastrService } from 'ngx-toastr';
+import { MatDialog } from '@angular/material/dialog';
 
 import { HttpProviderService } from 'src/app/http/provider/http-provider.service';
-import { SubjectDeleteComponent } from '../subject-delete/subject-delete.component';
-import { SubjectPreview } from 'src/app/models/subject/subject-preview';
 import { ApiRoutes } from 'src/app/http/api-routes';
+import { SubjectCreateDialogComponent } from '../subject-create-dialog/subject-create-dialog.component';
+import { SubjectUpdateDialogComponent } from '../subject-update-dialog/subject-update-dialog.component';
+import { UpdateSubject } from 'src/app/models/subject/update-subject';
+import { SubjectDeleteDialogComponent } from '../subject-delete-dialog/subject-delete-dialog.component';
 
 
 @Component({
@@ -19,43 +19,19 @@ import { ApiRoutes } from 'src/app/http/api-routes';
 })
 export class SubjectListComponent implements OnInit {
   subjects: any = [];
-  name: string = "";
-  subjectAdd: SubjectPreview = new SubjectPreview();
-  isSubmitted: boolean = false;
-  @ViewChild("add")
-  SubjectAdd!: NgForm;
 
-  constructor(private router: Router, private subjectProvider: HttpProviderService, private delComp: SubjectDeleteComponent, private toastr: ToastrService) { }
+  constructor(
+    private provider: HttpProviderService,
+    public dialog: MatDialog,
+  ) { }
 
   ngOnInit(): void {
-    this.subjectProvider.setUrl(ApiRoutes.subject.toString());
     this.getSubjects();
   }
 
-  AddSubject(form: NgForm) {
-    this.isSubmitted = true;
-
-    this.subjectProvider.add(this.subjectAdd).subscribe(async data => {
-      if (data.status == 201) {
-        this.toastr.success(data.body.name + " добавлен!");
-        setTimeout(() => {
-
-          this.getSubjects();
-          form.reset(this.isSubmitted);
-
-        }, 500);
-      }
-    },
-      async error => {
-        this.toastr.error(error.message);
-        setTimeout(() => {
-          this.router.navigate(['/subjects']);
-        }, 500);
-      });
-  }
-
   async getSubjects() {
-    this.subjectProvider.getList().subscribe((data: any) => {
+    this.provider.setUrl(ApiRoutes.subject.toString())
+    .getList().subscribe((data: any) => {
       if (data != null && data.body != null) {
         var resultData = data.body;
         if (resultData) {
@@ -74,11 +50,24 @@ export class SubjectListComponent implements OnInit {
       });
   }
 
-  deleteSubjectConfirmation(subject: any) {
-    this.delComp.deleteConfirmation(subject, this);
+  createDialog() {
+    const dialogRef = this.dialog.open(SubjectCreateDialogComponent);
+    dialogRef.afterClosed().subscribe(result => {
+      this.getSubjects();
+    });
   }
 
-  getProvider() {
-    return this.subjectProvider;
+  updateDialog(subject: UpdateSubject) {
+    const dialogRef = this.dialog.open(SubjectUpdateDialogComponent, { data: subject });
+    dialogRef.afterClosed().subscribe(result => {
+      this.getSubjects();
+    });
+  }
+
+  deleteDialog(subject: UpdateSubject) {
+    const dialogRef = this.dialog.open(SubjectDeleteDialogComponent, { data: subject });
+    dialogRef.afterClosed().subscribe(result => {
+      this.getSubjects();
+    });
   }
 }
