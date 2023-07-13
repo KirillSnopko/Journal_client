@@ -21,7 +21,7 @@
                                     <tr>
                                         <th scope="col">#</th>
                                         <th scope="col">Название</th>
-                                        <th scope="col">Описание</th>
+                                        <th scope="col">Пометки</th>
                                         <th>
                                             <button mat-raised-button type="button" matTooltip="Добавить"
                                                 [matTooltipPosition]="'above'"
@@ -37,21 +37,27 @@
                                         <span class="badge badge-warning">Список тем пока пуст!</span>
                                     </div>
                                     <ng-container *ngFor="let topic of topics; let i = index">
-                                        <tr *ngIf="topicSelected != topic" (click)="selectTopic(topic)">
+                                        <tr *ngIf="topicSelected != topic">
                                             <td>{{ i }}</td>
                                             <td>{{ topic.title }}</td>
                                             <td>{{ topic.description }}</td>
                                             <td>
+                                                <button mat-raised-button type="button" matTooltip="Редактировать"
+                                                    [matTooltipPosition]="'above'"
+                                                    class="btn btn-warning btn-link btn-just-icon"
+                                                    (click)="selectTopic(topic)">
+                                                    <i class="material-icons">edit</i>
+                                                </button>
                                                 <button mat-raised-button type="button" matTooltip="Удалить"
                                                     [matTooltipPosition]="'above'"
                                                     class="btn btn-danger btn-link btn-sm btn-just-icon"
-                                                    (click)="deleteTopic(topic.id)">
+                                                    (click)="deleteDialog(topic)">
                                                     <i class="material-icons">delete</i>
                                                 </button>
                                             </td>
                                         </tr>
 
-                                        <tr *ngIf="topicSelected == topic" class="table-primary">
+                                        <tr *ngIf="topicSelected == topic" class="table-warning">
                                             <td>{{ topic.id }}</td>
                                             <td>
                                                 <input type="text" class="form-control" formControlName="title"
