@@ -10,6 +10,7 @@ import { HttpProviderService } from 'src/app/http/provider/http-provider.service
 import { Profile } from 'src/app/models/student/profile';
 import { ProfileUpdate } from 'src/app/models/student/profile-update';
 import { CourseCreateDialogComponent } from '../../course/course-create-dialog/course-create-dialog.component';
+import { DeleteDialogComponent } from 'src/app/layouts/common/delete-dialog/delete-dialog.component';
 
 
 @Component({
@@ -84,6 +85,13 @@ export class StudentViewComponent implements OnInit {
 
   openDialog() {
     const dialogRef = this.dialog.open(CourseCreateDialogComponent, { data: { id: this.profile.id }, });
+    dialogRef.afterClosed().subscribe(result => {
+      this.getProfile();
+    });
+  }
+
+  deleteDialog(course: any) {
+    const dialogRef = this.dialog.open(DeleteDialogComponent, { data: { id: course.id, name: course.title + " (c занятиями)", route: ApiRoutes.course.toString() } });
     dialogRef.afterClosed().subscribe(result => {
       this.getProfile();
     });
