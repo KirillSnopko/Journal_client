@@ -1,12 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
+import { MatDialog } from '@angular/material/dialog';
 
 import { ApiRoutes } from 'src/app/http/api-routes';
 import { Gradelevel } from 'src/app/models/gradelevel/gradelevel';
 import { GradelevelCreate } from 'src/app/models/gradelevel/gradelevel-create';
 import { HttpProviderService } from 'src/app/http/provider/http-provider.service';
+import { DeleteDialogComponent } from 'src/app/layouts/common/delete-dialog/delete-dialog.component';
 
 
 @Component({
@@ -25,7 +27,13 @@ export class SubjectDetailsComponent implements OnInit {
 
   subjectId: any;
 
-  constructor(private route: ActivatedRoute, private provider: HttpProviderService, private toastr: ToastrService, private router: Router, private fb: FormBuilder) { }
+  constructor(
+    private route: ActivatedRoute,
+    private provider: HttpProviderService,
+    private toastr: ToastrService,
+    private fb: FormBuilder,
+    public dialog: MatDialog
+  ) { }
 
   ngOnInit(): void {
     this.provider.setUrl(ApiRoutes.subject.toString());
@@ -33,6 +41,21 @@ export class SubjectDetailsComponent implements OnInit {
     this.getGrade();
   }
 
+  async getGrade() {
+    this.provider.setUrl(ApiRoutes.subject.toString() + this.subjectId + ApiRoutes.grades.toString())
+      .getList().subscribe((data: any) => {
+        this.gradeList = data.body;
+      },
+        (error: any) => {
+          if (error) {
+            if (error.status == 404) {
+              if (error.error && error.error.message) {
+                this.gradeList = [];
+              }
+            }
+          }
+        });
+  }
 
   selectGrade(gradelevel: Gradelevel) {
     if (Object.keys(this.gradeSelected).length === 0) {
@@ -45,28 +68,15 @@ export class SubjectDetailsComponent implements OnInit {
     }
   }
 
-  deleteGrade(index: number) {
-    if (confirm('Вы уверены, что хотети удалить программу с темами?')) {
+  addGrade() {
+    this.gradeList.unshift({
+      id: 0,
+      subjectid: this.subjectId,
+      description: '',
+      count: 0
+    });
 
-      this.provider.setUrl(ApiRoutes.gradelevel.toString())
-        .delete(index).subscribe(async data => {
-          if (data.status == 204) {
-            this.toastr.success("Удалено!");
-            setTimeout(() => {
-              this.getGrade();
-            }, 500);
-          }
-          console.log(data);
-        },
-          async error => {
-            console.log(error);
-            this.toastr.error(error.error.message);
-          });
-    }
-
-    this.gradeSelected = {} as Gradelevel;
-    this.gradeIsEditing = false
-    this.formGrade.reset();
+    this.gradeSelected = this.gradeList[0];
   }
 
   updateGrade() {
@@ -108,9 +118,7 @@ export class SubjectDetailsComponent implements OnInit {
           });
     }
 
-    this.gradeSelected = {} as Gradelevel;
-    this.gradeIsEditing = false;
-    this.formGrade.reset();
+    this.resetForm();
   }
 
   cancelGrade() {
@@ -118,35 +126,20 @@ export class SubjectDetailsComponent implements OnInit {
       this.gradeList.splice(0, 1);
     }
 
+    this.resetForm();
+  }
+
+  deleteDialog(grade: Gradelevel) {
+    const dialogRef = this.dialog.open(DeleteDialogComponent, { data: { id: grade.id, name: grade.description, route: ApiRoutes.gradelevel.toString() } });
+    dialogRef.afterClosed().subscribe(result => {
+      this.getGrade();
+      this.resetForm();
+    });
+  }
+
+  private resetForm() {
     this.gradeSelected = {} as Gradelevel;
     this.gradeIsEditing = false
     this.formGrade.reset();
-  }
-
-  addGrade() {
-    this.gradeList.unshift({
-      id: 0,
-      subjectid: this.subjectId,
-      description: '',
-      count: 0
-    });
-
-    this.gradeSelected = this.gradeList[0];
-  }
-
-  async getGrade() {
-    this.provider.setUrl(ApiRoutes.subject.toString() + this.subjectId + ApiRoutes.grades.toString())
-      .getList().subscribe((data: any) => {
-        this.gradeList = data.body;
-      },
-        (error: any) => {
-          if (error) {
-            if (error.status == 404) {
-              if (error.error && error.error.message) {
-                this.gradeList = [];
-              }
-            }
-          }
-        });
   }
 }
