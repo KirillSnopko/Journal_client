@@ -34,7 +34,7 @@
 
                                     <ng-container *ngFor="let student of students; let i = index">
                                         <!--List of gradelevel-->
-                                        <tr *ngIf="selected != student" (click)="select(student)">
+                                        <tr *ngIf="selected != student">
                                             <td>{{ i }}</td>
                                             <td>{{ student.name }}</td>
                                             <td>{{ student.age }}</td>
@@ -45,17 +45,23 @@
                                                     class="btn btn-info btn-link btn-just-icon">
                                                     <i class="material-icons">manage_accounts</i>
                                                 </button>
+                                                <button mat-raised-button type="button" matTooltip="Редактировать"
+                                                    [matTooltipPosition]="'above'"
+                                                    class="btn btn-warning btn-link btn-just-icon"
+                                                    (click)="select(student)">
+                                                    <i class="material-icons">edit</i>
+                                                </button>
                                                 <button mat-raised-button type="button" matTooltip="Удалить"
                                                     [matTooltipPosition]="'above'"
                                                     class="btn btn-danger btn-link btn-just-icon"
-                                                    (click)="delete(student.id)">
+                                                    (click)="deleteDialog(student)">
                                                     <i class="material-icons">delete</i>
                                                 </button>
                                             </td>
                                         </tr>
 
 
-                                        <tr *ngIf="selected == student" class="table-primary">
+                                        <tr *ngIf="selected == student" class="table-warning">
                                             <td>{{ student.id }}</td>
                                             <td>
                                                 <input type="text" class="form-control" formControlName="name"
