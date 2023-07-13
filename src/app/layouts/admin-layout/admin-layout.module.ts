@@ -16,6 +16,7 @@ import { DashboardComponent } from 'src/app/layouts/journal/dashboard/dashboard.
 import { StudentLayoutModule } from '../journal/student/student-layout.module';
 import { SubjectLayoutModule } from '../journal/subject/subject-layout.module';
 import { CourseLayoutModule } from '../journal/course/course-layout.module';
+import { DeleteDialogComponent } from '../common/delete-dialog/delete-dialog.component';
 
 
 export const AdminLayoutRoutes: Routes = [
@@ -38,7 +39,8 @@ export const AdminLayoutRoutes: Routes = [
 
     StudentLayoutModule,
     SubjectLayoutModule,
-    CourseLayoutModule
+    CourseLayoutModule,
+    DeleteDialogComponent
   ],
   declarations: [
     DashboardComponent,

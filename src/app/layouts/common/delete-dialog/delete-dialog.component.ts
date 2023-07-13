@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { MatDialog, MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
@@ -9,32 +9,28 @@ import { ToastrService } from 'ngx-toastr';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatIconModule } from '@angular/material/icon';
 
-import { ApiRoutes } from 'src/app/http/api-routes';
 import { HttpProviderService } from 'src/app/http/provider/http-provider.service';
-import { UpdateSubject } from 'src/app/models/subject/update-subject';
-
+import { ModelDelete } from 'src/app/models/common/model-delete';
 
 @Component({
-  selector: 'app-subject-delete-dialog',
-  templateUrl: './subject-delete-dialog.component.html',
-  styleUrls: ['./subject-delete-dialog.component.css'],
+  selector: 'app-delete-dialog',
+  templateUrl: './delete-dialog.component.html',
+  styleUrls: ['./delete-dialog.component.css'],
   standalone: true,
   imports: [MatButtonModule, MatDialogModule, MatFormFieldModule, FormsModule, ReactiveFormsModule, CommonModule, MatTooltipModule, MatInputModule, MatIconModule],
 })
-
-export class SubjectDeleteDialogComponent {
-
+export class DeleteDialogComponent {
   constructor(
     public dialog: MatDialog,
     private provider: HttpProviderService,
-    public dialogRef: MatDialogRef<SubjectDeleteDialogComponent>,
+    public dialogRef: MatDialogRef<DeleteDialogComponent>,
     private toastr: ToastrService,
-    @Inject(MAT_DIALOG_DATA) public subject: UpdateSubject,
+    @Inject(MAT_DIALOG_DATA) public model: ModelDelete,
   ) { }
 
   delete() {
-    this.provider.setUrl(ApiRoutes.subject.toString())
-      .delete(this.subject.id).subscribe((data: any) => {
+    this.provider.setUrl(this.model.route)
+      .delete(this.model.id).subscribe((data: any) => {
         if (data.status == 204) {
           this.toastr.success("Удалено");
           setTimeout(() => {
