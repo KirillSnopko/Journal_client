@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 
 import { HttpProviderService } from 'src/app/http/provider/http-provider.service';
@@ -6,7 +6,7 @@ import { ApiRoutes } from 'src/app/http/api-routes';
 import { SubjectCreateDialogComponent } from '../subject-create-dialog/subject-create-dialog.component';
 import { SubjectUpdateDialogComponent } from '../subject-update-dialog/subject-update-dialog.component';
 import { UpdateSubject } from 'src/app/models/subject/update-subject';
-import { SubjectDeleteDialogComponent } from '../subject-delete-dialog/subject-delete-dialog.component';
+import { DeleteDialogComponent } from 'src/app/layouts/common/delete-dialog/delete-dialog.component';
 
 
 @Component({
@@ -31,23 +31,23 @@ export class SubjectListComponent implements OnInit {
 
   async getSubjects() {
     this.provider.setUrl(ApiRoutes.subject.toString())
-    .getList().subscribe((data: any) => {
-      if (data != null && data.body != null) {
-        var resultData = data.body;
-        if (resultData) {
-          this.subjects = resultData;
-        }
-      }
-    },
-      (error: any) => {
-        if (error) {
-          if (error.status == 404) {
-            if (error.error && error.error.message) {
-              this.subjects = [];
-            }
+      .getList().subscribe((data: any) => {
+        if (data != null && data.body != null) {
+          var resultData = data.body;
+          if (resultData) {
+            this.subjects = resultData;
           }
         }
-      });
+      },
+        (error: any) => {
+          if (error) {
+            if (error.status == 404) {
+              if (error.error && error.error.message) {
+                this.subjects = [];
+              }
+            }
+          }
+        });
   }
 
   createDialog() {
@@ -65,7 +65,7 @@ export class SubjectListComponent implements OnInit {
   }
 
   deleteDialog(subject: UpdateSubject) {
-    const dialogRef = this.dialog.open(SubjectDeleteDialogComponent, { data: subject });
+    const dialogRef = this.dialog.open(DeleteDialogComponent, { data: { id: subject.id, name: subject.name, route: ApiRoutes.subject.toString() } });
     dialogRef.afterClosed().subscribe(result => {
       this.getSubjects();
     });
