@@ -1,0 +1,211 @@
+<div class="main-content">
+
+    <div class="container-fluid">
+
+
+        <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start">
+
+            <mat-tab>
+
+                <ng-template mat-tab-label>
+                    <mat-icon class="example-tab-icon">account_circle</mat-icon>
+                    Профиль
+                </ng-template>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header card-header-info">
+                                <h4 class="card-title">
+                                    {{course.title|titlecase}}, {{course.studentName}}
+                                </h4>
+                            </div>
+                            <div class="card-body">
+                                <form [formGroup]="upForm" (ngSubmit)="update()">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <mat-form-field>
+                                                <mat-label>Формат занятия</mat-label>
+                                                <mat-select matInput formControlName="type" name="type" [(value)]="course.type">
+                                                    <mat-option *ngFor="let format of formats" [value]="format">
+                                                        {{format}}
+                                                    </mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-md-4 offset-2">
+                                            <mat-form-field class="example-form-field">
+                                                <mat-label>First campaign</mat-label>
+                                                <mat-date-range-input
+                                                  
+                                                  [rangePicker]="campaignOnePicker"
+                                                  [comparisonStart]="course.dateOfStart"
+                                                  [comparisonEnd]="course.dateOfFinish">
+                                                  <input matStartDate placeholder="Start date" formControlName="dateOfStart">
+                                                  <input matEndDate placeholder="End date" formControlName="dateOfFinish">
+                                                </mat-date-range-input>
+                                                <mat-hint>DD/MM/YYYY – DD/MM/YYYY</mat-hint>
+                                                <mat-datepicker-toggle matIconSuffix [for]="campaignOnePicker"></mat-datepicker-toggle>
+                                                <mat-date-range-picker #campaignOnePicker></mat-date-range-picker>
+                                              </mat-form-field>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-10">
+                                            <mat-form-field appearance="outline" fxFlex="40" [style.width.%]="100">
+                                                <mat-label>Дополнительно</mat-label>
+                                                <textarea matInput [value]="course.description" title="description"
+                                                    formControlName="description" class="form-control"
+                                                    cdkTextareaAutosize #autosize="cdkTextareaAutosize"
+                                                    cdkAutosizeMinRows="4" cdkAutosizeMaxRows="8"></textarea>
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <mat-form-field appearance="outline">
+                                                <mat-label>Стоимость</mat-label>
+                                                <input matInput type="number" class="form-control"
+                                                    formControlName="price" [value]="course.price"
+                                                    title="price">
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-md-4 offset-2">
+                                            <mat-form-field appearance="outline">
+                                                <mat-label>Продолжительность занятия</mat-label>
+                                                <input matInput type="number" class="form-control"
+                                                    formControlName="lessonDuration" [value]="course.lessonDuration"
+                                                    title="lessonDuration">
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+
+                                    <button mat-raised-button type="submit"
+                                        [disabled]="upForm.invalid"
+                                        class="btn btn-success pull-right">Обновить
+                                    </button>
+
+                                    <div class="clearfix">
+                                        <span class="badge badge-pill badge-warning">
+                                            При длительном простое страницы после нажатия "Обновить" поля
+                                            обнуляются.
+                                        </span>
+                                    </div>
+                                </form>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </mat-tab>
+
+            <mat-tab>
+                <ng-template mat-tab-label>
+                    <mat-icon class="example-tab-icon">query_stats</mat-icon>
+                </ng-template>
+                <!--   <div class="row">
+                    <div class="col-lg-3 col-md-6 col-sm-6">
+                        <div class="card card-stats">
+                            <div class="card-header card-header-success card-header-icon">
+                                <div class="card-icon">
+                                    <i class="material-icons">task_alt</i>
+                                </div>
+                                <p class="card-category">Проведенные занятия</p>
+                                <h3 class="card-title">{{profile.countLesson}}</h3>
+                            </div>
+                            <div class="card-footer">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-3 col-md-6 col-sm-6">
+                        <div class="card card-stats">
+                            <div class="card-header card-header-danger card-header-icon">
+                                <div class="card-icon">
+                                    <i class="material-icons">paid</i>
+                                </div>
+                                <p class="card-category">Неоплаченные занятия</p>
+                                <h3 class="card-title">{{profile.countUnpaid}}</h3>
+                            </div>
+                            <div class="card-footer">
+                            </div>
+                        </div>
+                    </div>
+                </div>-->
+
+            </mat-tab>
+
+            <mat-tab>
+                <ng-template mat-tab-label>
+                    <mat-icon class="example-tab-icon">collections_bookmark</mat-icon>
+                 <!--   <div [matBadge]="course.lessons.length" matBadgeOverlap="false" class="demo-section">Занятия</div> -->
+                </ng-template>
+
+                <!--       <div class="row">
+                    <div class="col-lg-6">
+                        <div class="card">
+                            <div class="card-header card-header-tabs card-header-info">
+                                <h4 class="card-title">Курсы</h4>
+                                <p class="card-category">
+                                    {{profile.courses.length}} ед
+                                </p>
+                            </div>
+                            <div class="card-body">
+
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">#</th>
+                                            <th scope="col">Название</th>
+                                            <th>
+                                                <button mat-raised-button type="button" matTooltip="Добавить"
+                                                    [matTooltipPosition]="'above'"
+                                                    class="btn btn-success btn-link btn-just-icon"
+                                                    (click)="openDialog()">
+                                                    <i class="material-icons">library_add</i>
+                                                </button>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        
+                <div *ngIf="profile.courses.length==0">
+                    <span class="badge badge-warning">Список курсов пока пуст!</span>
+                </div>
+
+                <ng-container *ngFor="let course of profile.courses; let i = index">
+                    <tr>
+                        <td>{{ i }}</td>
+                        <td>{{ course.title }}</td>
+                        <td>
+                            <button *ngIf="course.existUnpaid" mat-mini-fab extended matTooltip="Неоплаченные занятия"
+                                [matTooltipPosition]="'above'" class="btn btn-danger btn-just-icon">
+                                <i class="material-icons">paid</i>
+                            </button>
+                            <button mat-mini-fab extended type="button" matTooltip="Перейти к курсу"
+                                [matTooltipPosition]="'above'" [routerLink]="['/courses/details/', course.id]"
+                                class="btn btn-info btn-link btn-just-icon">
+                                <i class="material-icons">settings</i>
+                            </button>
+
+                            <button mat-raised-button type="button" matTooltip="Удалить" [matTooltipPosition]="'above'"
+                                class="btn btn-danger btn-link btn-just-icon" (click)="deleteDialog(course)">
+                                <i class="material-icons">delete</i>
+                            </button>
+                        </td>
+                    </tr>
+                </ng-container>
+                </tbody>
+                </table>
+    </div>
+</div>
+</div>
+</div>-->
+
+            </mat-tab>
+
+        </mat-tab-group>
+    </div>
+</div>
