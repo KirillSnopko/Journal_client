@@ -38,7 +38,7 @@
 
                                     <ng-container *ngFor="let grade of gradeList; let i = index">
                                         <!--List of gradelevel-->
-                                        <tr *ngIf="gradeSelected != grade" (click)="selectGrade(grade)">
+                                        <tr *ngIf="gradeSelected != grade">
                                             <td>{{ i }}</td>
                                             <td>{{ grade.description }}</td>
                                             <td>
@@ -50,6 +50,12 @@
                                                 </button>
                                             </td>
                                             <td>
+                                                <button mat-raised-button type="button" matTooltip="Редактировать"
+                                                    [matTooltipPosition]="'above'"
+                                                    class="btn btn-warning btn-link btn-just-icon"
+                                                    (click)="selectGrade(grade)">
+                                                    <i class="material-icons">edit</i>
+                                                </button>
                                                 <button mat-raised-button type="button" matTooltip="Удалить"
                                                     [matTooltipPosition]="'above'"
                                                     class="btn btn-danger btn-link btn-just-icon"
@@ -60,7 +66,7 @@
                                         </tr>
 
 
-                                        <tr *ngIf="gradeSelected == grade" class="table-primary">
+                                        <tr *ngIf="gradeSelected == grade" class="table-warning">
                                             <td>{{ grade.id }}</td>
 
                                             <td>
@@ -104,13 +110,5 @@
                 </div>
             </div>
         </div>
-
-        <ul class="list-group">
-            <li class="list-group-item bg-success">1 удаление - snackbar/dialog </li>
-            <li class="list-group-item bg-warning">2 отмена - snackbar/dialog</li>
-            <li class="list-group-item bg-warning">3 select через кнопку</li>
-            <li class="list-group-item bg-warning">4 фон select</li>
-        </ul>
-
     </div>
 </div>

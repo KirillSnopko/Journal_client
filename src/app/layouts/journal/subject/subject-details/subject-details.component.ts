@@ -65,18 +65,23 @@ export class SubjectDetailsComponent implements OnInit {
       this.formGrade.patchValue({
         description: gradelevel.description,
       })
+    } else {
+      this.toastr.warning("Незавершенное действие");
     }
   }
 
   addGrade() {
-    this.gradeList.unshift({
-      id: 0,
-      subjectid: this.subjectId,
-      description: '',
-      count: 0
-    });
-
-    this.gradeSelected = this.gradeList[0];
+    if (Object.keys(this.gradeSelected).length === 0) {
+      this.gradeList.unshift({
+        id: 0,
+        subjectid: this.subjectId,
+        description: '',
+        count: 0
+      });
+      this.gradeSelected = this.gradeList[0];
+    } else {
+      this.toastr.warning("Незавершенное действие");
+    }
   }
 
   updateGrade() {
@@ -122,10 +127,7 @@ export class SubjectDetailsComponent implements OnInit {
   }
 
   cancelGrade() {
-    if (!this.gradeIsEditing && confirm('All unsaved changes will be removed. Are you sure you want to cancel?')) {
-      this.gradeList.splice(0, 1);
-    }
-
+    this.gradeList.splice(0, 1);
     this.resetForm();
   }
 
