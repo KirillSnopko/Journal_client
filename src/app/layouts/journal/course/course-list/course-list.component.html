@@ -1,0 +1,69 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-10">
+                <div class="card">
+                    <div class="card-header card-header-tabs card-header-info">
+                        <h4 class="card-title">Курсы</h4>
+                        <p class="card-category">
+                            {{courses.length}} ед
+                        </p>
+                    </div>
+                    <div class="card-body">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Назавние</th>
+                                    <th scope="col">Ученик</th>
+                                    <th scope="col">Тип</th>
+                                    <th scope="col">Дата начала</th>
+                                    <th scope="col">Дата окончания</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!--List is empty-->
+                                <div *ngIf="courses.length==0">
+                                    <span class="badge badge-warning">Список курсов пока пуст!</span>
+                                </div>
+
+                                <ng-container *ngFor="let course of courses; let i = index">
+                                    <!--List of courses-->
+                                    <tr>
+                                        <td>{{ i }}</td>
+                                        <td>{{ course.title }}</td>
+                                        <td>{{ course.studentName }}</td>
+                                        <td><span class="badge badge-primary">{{ course.type}}</span></td>
+                                        <td>{{ course.dateOfStart}}</td>
+                                        <td>{{ course.dateOfFinish}}</td>
+                                        <td>
+                                            <button mat-mini-fab extended type="button" matTooltip="Студент"
+                                                [matTooltipPosition]="'above'"
+                                                [routerLink]="['/students/profile/', course.studentProfileId]"
+                                                class="btn btn-info btn-link btn-just-icon">
+                                                <i class="material-icons">manage_accounts</i>
+                                            </button>
+                                            <button mat-raised-button type="button" matTooltip="Подробнее"
+                                                [matTooltipPosition]="'above'"
+                                                class="btn btn-warning btn-link btn-just-icon"
+                                                [routerLink]="['/courses/', course.id]">
+                                                <i class="material-icons">settings</i>
+                                            </button>
+                                            <button mat-raised-button type="button" matTooltip="Удалить"
+                                                [matTooltipPosition]="'above'"
+                                                class="btn btn-danger btn-link btn-just-icon"
+                                                (click)="deleteDialog(course)">
+                                                <i class="material-icons">delete</i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </ng-container>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
