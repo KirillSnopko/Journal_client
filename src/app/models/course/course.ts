@@ -8,8 +8,8 @@ export interface Course {
     title: string;
     studentName: string;
     type: string;
-    dateOfStart: Date;
-    dateOfFinish: Date;
+    dateOfStart: any;
+    dateOfFinish: any;
     price: number;
     lessonDuration: number;
     description: string;

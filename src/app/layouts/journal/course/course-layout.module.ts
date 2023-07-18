@@ -22,7 +22,7 @@ import { CourseViewComponent } from './course-view/course-view.component';
 
 export const CourseLayoutRoutes: Routes = [
   { path: 'courses', component: CourseListComponent },
-  { path: 'courses/:courseid', component: CourseViewComponent },
+  { path: 'courses/details/:courseid', component: CourseViewComponent },
 ];
 
 @NgModule({
