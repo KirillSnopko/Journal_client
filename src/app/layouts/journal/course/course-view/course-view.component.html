@@ -1,5 +1,8 @@
 <div class="main-content">
-
+    <button mat-raised-button type="button" routerLink="/courses/" class="btn btn-default back">
+        <i class='fas fa-arrow-circle-left'></i>
+        К списку курсов
+    </button>
     <div class="container-fluid">
 
 
@@ -26,31 +29,39 @@
                                         <div class="col-md-4">
                                             <mat-form-field>
                                                 <mat-label>Формат занятия</mat-label>
-                                                <mat-select matInput formControlName="type" name="type" [(value)]="course.type">
+                                                <mat-select matInput formControlName="type" name="type"
+                                                    [(value)]="course.type">
                                                     <mat-option *ngFor="let format of formats" [value]="format">
                                                         {{format}}
                                                     </mat-option>
                                                 </mat-select>
                                             </mat-form-field>
                                         </div>
-                                        <div class="col-md-4 offset-2">
-                                            <mat-form-field class="example-form-field">
-                                                <mat-label>First campaign</mat-label>
-                                                <mat-date-range-input
-                                                  
-                                                  [rangePicker]="campaignOnePicker"
-                                                  [comparisonStart]="course.dateOfStart"
-                                                  [comparisonEnd]="course.dateOfFinish">
-                                                  <input matStartDate placeholder="Start date" formControlName="dateOfStart">
-                                                  <input matEndDate placeholder="End date" formControlName="dateOfFinish">
-                                                </mat-date-range-input>
-                                                <mat-hint>DD/MM/YYYY – DD/MM/YYYY</mat-hint>
-                                                <mat-datepicker-toggle matIconSuffix [for]="campaignOnePicker"></mat-datepicker-toggle>
-                                                <mat-date-range-picker #campaignOnePicker></mat-date-range-picker>
-                                              </mat-form-field>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <mat-form-field>
+                                                <mat-label>C</mat-label>
+                                                <input matInput [matDatepicker]="picker1" name="dateOfStart"
+                                                    [(ngModel)]="course.dateOfStart"
+                                                    [ngModelOptions]="{standalone: true}">
+                                                <mat-datepicker-toggle matIconSuffix
+                                                    [for]="picker1"></mat-datepicker-toggle>
+                                                <mat-datepicker #picker1></mat-datepicker>
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <mat-form-field>
+                                                <mat-label>По</mat-label>
+                                                <input matInput [matDatepicker]="picker2"
+                                                    [(ngModel)]="course.dateOfFinish"
+                                                    [ngModelOptions]="{standalone: true}" name="dateOfFinish">
+                                                <mat-datepicker-toggle matIconSuffix
+                                                    [for]="picker2"></mat-datepicker-toggle>
+                                                <mat-datepicker #picker2></mat-datepicker>
+                                            </mat-form-field>
                                         </div>
                                     </div>
-
                                     <div class="row">
                                         <div class="col-md-10">
                                             <mat-form-field appearance="outline" fxFlex="40" [style.width.%]="100">
@@ -68,8 +79,7 @@
                                             <mat-form-field appearance="outline">
                                                 <mat-label>Стоимость</mat-label>
                                                 <input matInput type="number" class="form-control"
-                                                    formControlName="price" [value]="course.price"
-                                                    title="price">
+                                                    formControlName="price" [value]="course.price" title="price">
                                             </mat-form-field>
                                         </div>
                                         <div class="col-md-4 offset-2">
@@ -82,8 +92,7 @@
                                         </div>
                                     </div>
 
-                                    <button mat-raised-button type="submit"
-                                        [disabled]="upForm.invalid"
+                                    <button mat-raised-button type="submit" [disabled]="upForm.invalid"
                                         class="btn btn-success pull-right">Обновить
                                     </button>
 
@@ -140,7 +149,7 @@
             <mat-tab>
                 <ng-template mat-tab-label>
                     <mat-icon class="example-tab-icon">collections_bookmark</mat-icon>
-                 <!--   <div [matBadge]="course.lessons.length" matBadgeOverlap="false" class="demo-section">Занятия</div> -->
+                    <!--   <div [matBadge]="course.lessons.length" matBadgeOverlap="false" class="demo-section">Занятия</div> -->
                 </ng-template>
 
                 <!--       <div class="row">
