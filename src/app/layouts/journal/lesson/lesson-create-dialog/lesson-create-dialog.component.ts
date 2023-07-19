@@ -22,6 +22,8 @@ import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/materia
 import { DatePipe } from '@angular/common';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
+import { LessonCreate } from 'src/app/models/lesson/lesson-create';
+import * as moment from 'moment';
 
 //формат даты, локаль
 export const MY_FORMATS = {
@@ -54,18 +56,16 @@ export const MY_FORMATS = {
 })
 
 export class LessonCreateDialogComponent implements OnInit {
-  picker: any;
   course: Course = {} as Course;
   topics: Topic[] = [];
   createLesson = this.fb.group({
-    topics: [Validators.required],
+    topicList: [[], Validators.required],
     task: [""],
     description: [""],
     date: [Validators.required],
-    price: [],
-    lessonDuration: [],
-    isPrepared: [false],
-    isTaskGiven: [false]
+    time: ["17:00", Validators.required],
+    price: [0],
+    lessonDuration: [0],
   });
 
   constructor(public dialog: MatDialog,
@@ -80,13 +80,31 @@ export class LessonCreateDialogComponent implements OnInit {
 
   ngOnInit(): void {
     this.getCourse();
+    this._adapter.setLocale("ru");
   }
 
-  create() {
-    /*   var dto: SubjectPreview = new SubjectPreview();
-       dto.Name = this.createSubject.value.name!;
+  create(form: any) {
+    if (form.invalid) {
+      console.log('check');
+    }
+    var dto: LessonCreate = {} as LessonCreate;
+    dto.description = this.createLesson.value.description!;
+    dto.task = this.createLesson.value.task!;
+    dto.price = this.createLesson.value.price!;
+    dto.lessonDuration = this.createLesson.value.lessonDuration!;
+    dto.topics = this.createLesson.value.topicList!;
+
+    var timeAndDate = moment(this.createLesson.value.date!).add(moment.duration(this.createLesson.value.time!)).toString();
+    dto.date = new DatePipe('en-US').transform(timeAndDate, 'YYYY-MM-ddThh:mm:ss');
+
+
+
+    console.log(dto);
+    console.log(form.controls['topicList'].value);
+
+ 
    
-       this.provider.setUrl(ApiRoutes.subject.toString())
+       this.provider.setUrl(ApiRoutes.lesson.toString())
          .add(dto)
          .subscribe(async data => {
            if (data.status == 201) {
@@ -98,7 +116,7 @@ export class LessonCreateDialogComponent implements OnInit {
          },
            async error => {
              this.toastr.error(error.error.errors.toString());
-           });*/
+           });
   }
 
   close() {

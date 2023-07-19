@@ -115,13 +115,13 @@ export class CourseViewComponent implements OnInit {
   }
 
   addDialog() {
-    const dialogRef = this.dialog.open(LessonCreateDialogComponent, { data: { id: this.course.id }, });
+    const dialogRef = this.dialog.open(LessonCreateDialogComponent, { height: '80%', width: '40%', data: { id: this.course.id }, });
     dialogRef.afterClosed().subscribe(result => {
       this.getCourse();
     });
   }
 
-  deleteDialog(lesson:Lesson) {
+  deleteDialog(lesson: Lesson) {
     const dialogRef = this.dialog.open(DeleteDialogComponent, { data: { id: lesson.id, name: "занятие", route: ApiRoutes.lesson.toString() } });
     dialogRef.afterClosed().subscribe(result => {
       this.getCourse();

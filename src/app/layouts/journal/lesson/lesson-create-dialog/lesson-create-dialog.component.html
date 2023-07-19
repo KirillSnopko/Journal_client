@@ -2,44 +2,52 @@
 
 <div mat-dialog-content>
 
-    <form [formGroup]="createLesson" class="ng-pristine ng-untouched ng-valid">
-
+    <form [formGroup]="createLesson" name="form" class="ng-pristine ng-touched">
         <div class="row">
             <div class="col-md-4">
+                <mat-form-field ppearance="outline">
+                    <mat-label>Дата</mat-label>
+                    <input matInput [matDatepicker]="picker1" name="date" formControlName="date">
+                    <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
+                    <mat-datepicker #picker1></mat-datepicker>
+                </mat-form-field>
+            </div>
+            <div class="col-md-4 offset-2">
+                <mat-form-field>
+                    <mat-label>Время</mat-label>
+                    <input matInput type="time" formControlName="time" name="time" class="form-control">
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <mat-form-field appearance="outline">
+                    <mat-label>Стоимость</mat-label>
+                    <input matInput type="number" class="form-control" formControlName="price" [value]="course.price"
+                        title="price">
+                </mat-form-field>
+            </div>
+            <div class="col-md-4 offset-2">
+                <mat-form-field appearance="outline">
+                    <mat-label>Продолжительность занятия</mat-label>
+                    <input matInput type="number" class="form-control" formControlName="lessonDuration"
+                        [value]="course.lessonDuration" title="lessonDuration">
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-8">
                 <mat-form-field>
                     <mat-label>Темы</mat-label>
-                    <mat-select matInput formControlName="topics" name="topics" multiple>
+                    <mat-select matInput formControlName="topicList" name="topicList" multiple>
                         <mat-option *ngFor="let topic of topics" [value]="topic">
                             {{topic.title}}
                         </mat-option>
                     </mat-select>
                 </mat-form-field>
+
             </div>
-            <!--     <div class="col-md-4">
-                <mat-form-field>
-                    <mat-label>C</mat-label>
-                    <input matInput [matDatepicker]="picker1" name="dateOfStart"
-                        [(ngModel)]="course.dateOfStart"
-                        [ngModelOptions]="{standalone: true}">
-                    <mat-datepicker-toggle matIconSuffix
-                        [for]="picker1"></mat-datepicker-toggle>
-                    <mat-datepicker #picker1></mat-datepicker>
-                </mat-form-field>
-            </div>-->
-
-            <mat-form-field appearance="outline">
-                <mat-label>Продолжительность занятия</mat-label>
-                <input matInput type="datetime-local" class="form-control" formControlName="lessonDuration"
-                    [value]="course.lessonDuration" title="lessonDuration">
-            </mat-form-field>
-
         </div>
-        <!--   <mat-form-field>
-            <input matInput [ngxMatDatetimePicker]="picker">
-            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-            <ngx-mat-datetime-picker #picker [showSpinners]="true" [stepHour]="1" [stepMinute]="1">
-            </ngx-mat-datetime-picker>
-        </mat-form-field>-->
 
         <div class="row">
             <div class="col-md-10">
@@ -59,34 +67,13 @@
                 </mat-form-field>
             </div>
         </div>
-
-        <div class="row">
-            <div class="col-md-4">
-                <mat-form-field appearance="outline">
-                    <mat-label>Стоимость</mat-label>
-                    <input matInput type="number" class="form-control" formControlName="price" [value]="course.price"
-                        title="price">
-                </mat-form-field>
-            </div>
-            <div class="col-md-4 offset-2">
-                <mat-form-field appearance="outline">
-                    <mat-label>Продолжительность занятия</mat-label>
-                    <input matInput type="number" class="form-control" formControlName="lessonDuration"
-                        [value]="course.lessonDuration" title="lessonDuration">
-                </mat-form-field>
-            </div>
-        </div>
-
-
-
-
-        <div class="input-group mb-4">
-            <div class="input-group-append">
-                <button mat-raised-button type="button" matTooltip="Добавить" [disabled]="createLesson.invalid"
-                    (click)="create()" [matTooltipPosition]="'above'" class="btn btn-success btn-link btn-just-icon">
-                    <i class="material-icons">add</i>
-                </button>
-            </div>
-        </div>
     </form>
 </div>
+
+<mat-dialog-actions align="end">
+    <button mat-fab extended type="button" [disabled]="createLesson.invalid" (click)="create(createLesson)"
+        class="btn btn-success">
+        Добавить
+    </button>
+    <button mat-fab extended mat-dialog-close>Отмена</button>
+</mat-dialog-actions>
