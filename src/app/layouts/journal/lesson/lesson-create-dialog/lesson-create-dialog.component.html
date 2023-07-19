@@ -1,0 +1,92 @@
+<h1 mat-dialog-title>Добавить занятия</h1>
+
+<div mat-dialog-content>
+
+    <form [formGroup]="createLesson" class="ng-pristine ng-untouched ng-valid">
+
+        <div class="row">
+            <div class="col-md-4">
+                <mat-form-field>
+                    <mat-label>Темы</mat-label>
+                    <mat-select matInput formControlName="topics" name="topics" multiple>
+                        <mat-option *ngFor="let topic of topics" [value]="topic">
+                            {{topic.title}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <!--     <div class="col-md-4">
+                <mat-form-field>
+                    <mat-label>C</mat-label>
+                    <input matInput [matDatepicker]="picker1" name="dateOfStart"
+                        [(ngModel)]="course.dateOfStart"
+                        [ngModelOptions]="{standalone: true}">
+                    <mat-datepicker-toggle matIconSuffix
+                        [for]="picker1"></mat-datepicker-toggle>
+                    <mat-datepicker #picker1></mat-datepicker>
+                </mat-form-field>
+            </div>-->
+
+            <mat-form-field appearance="outline">
+                <mat-label>Продолжительность занятия</mat-label>
+                <input matInput type="datetime-local" class="form-control" formControlName="lessonDuration"
+                    [value]="course.lessonDuration" title="lessonDuration">
+            </mat-form-field>
+
+        </div>
+        <!--   <mat-form-field>
+            <input matInput [ngxMatDatetimePicker]="picker">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <ngx-mat-datetime-picker #picker [showSpinners]="true" [stepHour]="1" [stepMinute]="1">
+            </ngx-mat-datetime-picker>
+        </mat-form-field>-->
+
+        <div class="row">
+            <div class="col-md-10">
+                <mat-form-field appearance="outline" fxFlex="40" [style.width.%]="100">
+                    <mat-label>Задание</mat-label>
+                    <textarea matInput formControlName="task" class="form-control" cdkTextareaAutosize
+                        #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="3" cdkAutosizeMaxRows="8"></textarea>
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-10">
+                <mat-form-field appearance="outline" fxFlex="40" [style.width.%]="100">
+                    <mat-label>Дополнительно</mat-label>
+                    <textarea matInput formControlName="description" class="form-control" cdkTextareaAutosize
+                        #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="3" cdkAutosizeMaxRows="8"></textarea>
+                </mat-form-field>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-4">
+                <mat-form-field appearance="outline">
+                    <mat-label>Стоимость</mat-label>
+                    <input matInput type="number" class="form-control" formControlName="price" [value]="course.price"
+                        title="price">
+                </mat-form-field>
+            </div>
+            <div class="col-md-4 offset-2">
+                <mat-form-field appearance="outline">
+                    <mat-label>Продолжительность занятия</mat-label>
+                    <input matInput type="number" class="form-control" formControlName="lessonDuration"
+                        [value]="course.lessonDuration" title="lessonDuration">
+                </mat-form-field>
+            </div>
+        </div>
+
+
+
+
+        <div class="input-group mb-4">
+            <div class="input-group-append">
+                <button mat-raised-button type="button" matTooltip="Добавить" [disabled]="createLesson.invalid"
+                    (click)="create()" [matTooltipPosition]="'above'" class="btn btn-success btn-link btn-just-icon">
+                    <i class="material-icons">add</i>
+                </button>
+            </div>
+        </div>
+    </form>
+</div>

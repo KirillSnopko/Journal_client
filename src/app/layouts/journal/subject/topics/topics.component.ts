@@ -80,7 +80,7 @@ export class TopicsComponent implements OnInit {
       this.topics.unshift({
         id: 0,
         title: '',
-        description: '',
+        description: "<пусто>",
       });
       this.topicSelected = this.topics[0];
     } else {

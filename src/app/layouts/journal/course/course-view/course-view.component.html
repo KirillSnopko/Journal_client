@@ -11,7 +11,7 @@
             <mat-tab>
 
                 <ng-template mat-tab-label>
-                    <mat-icon class="example-tab-icon">account_circle</mat-icon>
+                    <mat-icon class="example-tab-icon">badge</mat-icon>
                     Профиль
                 </ng-template>
 
@@ -113,8 +113,10 @@
             <mat-tab>
                 <ng-template mat-tab-label>
                     <mat-icon class="example-tab-icon">query_stats</mat-icon>
+                    Статистика
                 </ng-template>
-                <!--   <div class="row">
+                <div class="row">
+                    <!--Количество занятий-->
                     <div class="col-lg-3 col-md-6 col-sm-6">
                         <div class="card card-stats">
                             <div class="card-header card-header-success card-header-icon">
@@ -122,13 +124,27 @@
                                     <i class="material-icons">task_alt</i>
                                 </div>
                                 <p class="card-category">Проведенные занятия</p>
-                                <h3 class="card-title">{{profile.countLesson}}</h3>
+                                <h3 class="card-title">{{lessons.length}}</h3>
                             </div>
                             <div class="card-footer">
                             </div>
                         </div>
                     </div>
-
+                    <!--Успеваемость-->
+                    <div class="col-lg-3 col-md-6 col-sm-6">
+                        <div class="card card-stats">
+                            <div class="card-header card-header-info card-header-icon">
+                                <div class="card-icon">
+                                    <i class="material-icons">thumb_up</i>
+                                </div>
+                                <p class="card-category">Успеваемость</p>
+                                <h3 class="card-title">??????</h3>
+                            </div>
+                            <div class="card-footer">
+                            </div>
+                        </div>
+                    </div>
+                    <!--Неоплаченные занятия-->
                     <div class="col-lg-3 col-md-6 col-sm-6">
                         <div class="card card-stats">
                             <div class="card-header card-header-danger card-header-icon">
@@ -136,82 +152,121 @@
                                     <i class="material-icons">paid</i>
                                 </div>
                                 <p class="card-category">Неоплаченные занятия</p>
-                                <h3 class="card-title">{{profile.countUnpaid}}</h3>
+                                <h3 class="card-title">??????</h3>
                             </div>
                             <div class="card-footer">
                             </div>
                         </div>
                     </div>
-                </div>-->
+
+                </div>
+                <div class="row">
+                    <!--График успехов в домашней работе-->
+                    <div class="col-md-4">
+                        <div class="card card-chart">
+                            <div class="card-header card-header-success">
+                                <div class="ct-chart" id="dailySalesChart"></div>
+                            </div>
+                            <div class="card-body">
+                                <h4 class="card-title">Домашная работа</h4>
+                                <p class="card-category">
+                                    <span class="text-success"><i class="fa fa-long-arrow-up"></i> 55% </span> increase
+                                    in today sales.
+                                </p>
+                            </div>
+                            <div class="card-footer">
+                                <div class="stats">
+                                    <i class="material-icons">access_time</i> updated 4 minutes ago
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--График оценки активности на занятии-->
+                    <div class="col-md-4">
+                        <div class="card card-chart">
+                            <div class="card-header card-header-info">
+                                <div class="ct-chart" id="websiteViewsChart"></div>
+                            </div>
+                            <div class="card-body">
+                                <h4 class="card-title">Занятия</h4>
+                                <p class="card-category">Last Campaign Performance</p>
+                            </div>
+                            <div class="card-footer">
+                                <div class="stats">
+                                    <i class="material-icons">access_time</i> campaign sent 2 days ago
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
             </mat-tab>
 
             <mat-tab>
                 <ng-template mat-tab-label>
-                    <mat-icon class="example-tab-icon">collections_bookmark</mat-icon>
-                    <!--   <div [matBadge]="course.lessons.length" matBadgeOverlap="false" class="demo-section">Занятия</div> -->
+                    <mat-icon class="example-tab-icon">headset_mic</mat-icon>
+                    <div [matBadge]="lessons.length" matBadgeOverlap="false" class="demo-section">Занятия</div>
                 </ng-template>
 
-                <!--       <div class="row">
+                <div class="row">
                     <div class="col-lg-6">
                         <div class="card">
                             <div class="card-header card-header-tabs card-header-info">
-                                <h4 class="card-title">Курсы</h4>
+                                <h4 class="card-title">Занятия</h4>
                                 <p class="card-category">
-                                    {{profile.courses.length}} ед
+                                    {{lessons.length}} ед
                                 </p>
                             </div>
                             <div class="card-body">
-
                                 <table class="table">
                                     <thead>
                                         <tr>
                                             <th scope="col">#</th>
-                                            <th scope="col">Название</th>
+                                            <th scope="col">Дата</th>
+                                            <th scope="col">Темы</th>
                                             <th>
                                                 <button mat-raised-button type="button" matTooltip="Добавить"
                                                     [matTooltipPosition]="'above'"
-                                                    class="btn btn-success btn-link btn-just-icon"
-                                                    (click)="openDialog()">
+                                                    class="btn btn-success btn-link btn-just-icon" (click)="addDialog()">
                                                     <i class="material-icons">library_add</i>
                                                 </button>
                                             </th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        
-                <div *ngIf="profile.courses.length==0">
-                    <span class="badge badge-warning">Список курсов пока пуст!</span>
+                                        <!--List is empty-->
+                                        <div *ngIf="lessons.length==0">
+                                            <span class="badge badge-warning">Список занятий пока пуст!</span>
+                                        </div>
+
+                                        <ng-container *ngFor="let lesson of lessons; let i = index">
+                                            <!--List of lessons-->
+                                            <tr>
+                                                <td>{{ i }}</td>
+                                                <td>{{ lesson.date }}</td>
+                                                <td>{{ lesson.topics }}</td>
+                                                <td>
+                                                    <button mat-mini-fab extended type="button" matTooltip="Профиль"
+                                                        [matTooltipPosition]="'above'"
+                                                        [routerLink]="['/lessons/profile/', lesson.id]"
+                                                        class="btn btn-info btn-link btn-just-icon">
+                                                        <i class="material-icons">manage_accounts</i>
+                                                    </button>
+                                                    <button mat-raised-button type="button" matTooltip="Удалить"
+                                                        [matTooltipPosition]="'above'"
+                                                        class="btn btn-danger btn-link btn-just-icon"
+                                                        (click)="deleteDialog(lesson)">
+                                                        <i class="material-icons">delete</i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        </ng-container>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-
-                <ng-container *ngFor="let course of profile.courses; let i = index">
-                    <tr>
-                        <td>{{ i }}</td>
-                        <td>{{ course.title }}</td>
-                        <td>
-                            <button *ngIf="course.existUnpaid" mat-mini-fab extended matTooltip="Неоплаченные занятия"
-                                [matTooltipPosition]="'above'" class="btn btn-danger btn-just-icon">
-                                <i class="material-icons">paid</i>
-                            </button>
-                            <button mat-mini-fab extended type="button" matTooltip="Перейти к курсу"
-                                [matTooltipPosition]="'above'" [routerLink]="['/courses/details/', course.id]"
-                                class="btn btn-info btn-link btn-just-icon">
-                                <i class="material-icons">settings</i>
-                            </button>
-
-                            <button mat-raised-button type="button" matTooltip="Удалить" [matTooltipPosition]="'above'"
-                                class="btn btn-danger btn-link btn-just-icon" (click)="deleteDialog(course)">
-                                <i class="material-icons">delete</i>
-                            </button>
-                        </td>
-                    </tr>
-                </ng-container>
-                </tbody>
-                </table>
-    </div>
-</div>
-</div>
-</div>-->
 
             </mat-tab>
 

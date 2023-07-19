@@ -12,6 +12,9 @@ import 'moment/locale/ru';
 import { MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core'
 import { DatePipe } from '@angular/common';
+import { Lesson } from 'src/app/models/lesson/lesson';
+import { DeleteDialogComponent } from 'src/app/layouts/common/delete-dialog/delete-dialog.component';
+import { LessonCreateDialogComponent } from '../../lesson/lesson-create-dialog/lesson-create-dialog.component';
 
 //формат даты, локаль
 export const MY_FORMATS = {
@@ -44,6 +47,7 @@ export class CourseViewComponent implements OnInit {
 
   id: any;
   course: Course = {} as Course;
+  lessons: Lesson[] = [];
   upForm = this.fb.group({
     type: [this.course.type, [Validators.required]],
     price: [0],
@@ -71,7 +75,7 @@ export class CourseViewComponent implements OnInit {
     this.provider.setUrl(ApiRoutes.course.toString())
       .get(this.id).subscribe((data: any) => {
         this.course = data.body as Course;
-
+        this.lessons = data.body.lessons as Lesson[];
       },
         (error: any) => {
           if (error) {
@@ -85,14 +89,10 @@ export class CourseViewComponent implements OnInit {
   }
 
   update() {
-
     var dto: CourseUpdate = new CourseUpdate();
     dto.type = this.upForm.value.type!;
-
     dto.dateOfStart = new DatePipe('en-US').transform(this.course.dateOfStart, 'YYYY-MM-dd');
     dto.dateOfFinish = new DatePipe('en-US').transform(this.course.dateOfFinish, 'YYYY-MM-dd');
-
-
     dto.price = this.upForm.value.price!;
     dto.lessonDuration = this.upForm.value.lessonDuration!;
     dto.description = this.upForm.value.description!;
@@ -112,5 +112,19 @@ export class CourseViewComponent implements OnInit {
         async error => {
           this.toastr.error(error.error.message);
         });
+  }
+
+  addDialog() {
+    const dialogRef = this.dialog.open(LessonCreateDialogComponent, { data: { id: this.course.id }, });
+    dialogRef.afterClosed().subscribe(result => {
+      this.getCourse();
+    });
+  }
+
+  deleteDialog(lesson:Lesson) {
+    const dialogRef = this.dialog.open(DeleteDialogComponent, { data: { id: lesson.id, name: "занятие", route: ApiRoutes.lesson.toString() } });
+    dialogRef.afterClosed().subscribe(result => {
+      this.getCourse();
+    });
   }
 }

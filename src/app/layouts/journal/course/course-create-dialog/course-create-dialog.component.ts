@@ -13,6 +13,7 @@ import { ToastrService } from 'ngx-toastr';
 import { ApiRoutes } from 'src/app/http/api-routes';
 import { HttpProviderService } from 'src/app/http/provider/http-provider.service';
 import { CourseCreate } from 'src/app/models/course/course-create';
+import { ModelAdd } from 'src/app/models/common/model-add';
 
 @Component({
   selector: 'app-course-create-dialog',
@@ -43,7 +44,7 @@ export class CourseCreateDialogComponent {
     private fb: FormBuilder,
     private route: ActivatedRoute,
     public dialogRef: MatDialogRef<CourseCreateDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: DialogDataCourse,
+    @Inject(MAT_DIALOG_DATA) public data: ModelAdd,
     private toastr: ToastrService,
   ) { }
 
@@ -115,6 +116,4 @@ export class CourseCreateDialogComponent {
   }
 }
 
-export interface DialogDataCourse {
-  id: number;
-}
+

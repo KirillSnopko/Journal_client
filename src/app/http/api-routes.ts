@@ -7,5 +7,6 @@ export enum ApiRoutes {
 
     student="Student/",
     profile="StudentProfile/",
-    course="Course/"
+    course="Course/",
+    lesson="Lesson/"
 }
