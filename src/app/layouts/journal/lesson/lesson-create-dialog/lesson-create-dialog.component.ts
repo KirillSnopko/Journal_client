@@ -84,10 +84,9 @@ export class LessonCreateDialogComponent implements OnInit {
   }
 
   create(form: any) {
-    if (form.invalid) {
-      console.log('check');
-    }
+   
     var dto: LessonCreate = {} as LessonCreate;
+    dto.courseId = this.data.id;
     dto.description = this.createLesson.value.description!;
     dto.task = this.createLesson.value.task!;
     dto.price = this.createLesson.value.price!;
