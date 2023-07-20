@@ -115,7 +115,7 @@ export class CourseViewComponent implements OnInit {
   }
 
   addDialog() {
-    const dialogRef = this.dialog.open(LessonCreateDialogComponent, { height: '80%', width: '40%', data: { id: this.course.id }, });
+    const dialogRef = this.dialog.open(LessonCreateDialogComponent, { height: '650px', width: '600px', data: { id: this.course.id }, });
     dialogRef.afterClosed().subscribe(result => {
       this.getCourse();
     });
@@ -126,5 +126,13 @@ export class CourseViewComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       this.getCourse();
     });
+  }
+
+  unpaidCount() {
+    return this.lessons.filter(less => less.isPaid && less.isCompleted).length;
+  }
+
+  completedCount() {
+    return this.lessons.filter(less => less.isCompleted).length;
   }
 }

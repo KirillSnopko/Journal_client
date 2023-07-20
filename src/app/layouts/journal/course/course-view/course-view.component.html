@@ -116,7 +116,7 @@
                     Статистика
                 </ng-template>
                 <div class="row">
-                    <!--Количество занятий-->
+                    <!--Количество проведенных занятий-->
                     <div class="col-lg-3 col-md-6 col-sm-6">
                         <div class="card card-stats">
                             <div class="card-header card-header-success card-header-icon">
@@ -124,9 +124,29 @@
                                     <i class="material-icons">task_alt</i>
                                 </div>
                                 <p class="card-category">Проведенные занятия</p>
-                                <h3 class="card-title">{{lessons.length}}</h3>
+                                <h3 class="card-title">{{completedCount()}}/{{lessons.length}}</h3>
                             </div>
                             <div class="card-footer">
+                                <div class="stats">
+                                    <i class="material-icons">help_center</i> проведенные/все
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--Оплаченные занятия-->
+                    <div class="col-lg-3 col-md-6 col-sm-6">
+                        <div class="card card-stats">
+                            <div class="card-header card-header-danger card-header-icon">
+                                <div class="card-icon">
+                                    <i class="material-icons">paid</i>
+                                </div>
+                                <p class="card-category">Оплаченные занятия</p>
+                                <h3 class="card-title">{{unpaidCount()}}/{{completedCount()}}</h3>
+                            </div>
+                            <div class="card-footer">
+                                <div class="stats">
+                                    <i class="material-icons">help_center</i> оплаченные/проведенные
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -144,21 +164,6 @@
                             </div>
                         </div>
                     </div>
-                    <!--Неоплаченные занятия-->
-                    <div class="col-lg-3 col-md-6 col-sm-6">
-                        <div class="card card-stats">
-                            <div class="card-header card-header-danger card-header-icon">
-                                <div class="card-icon">
-                                    <i class="material-icons">paid</i>
-                                </div>
-                                <p class="card-category">Неоплаченные занятия</p>
-                                <h3 class="card-title">??????</h3>
-                            </div>
-                            <div class="card-footer">
-                            </div>
-                        </div>
-                    </div>
-
                 </div>
                 <div class="row">
                     <!--График успехов в домашней работе-->
@@ -227,7 +232,8 @@
                                             <th>
                                                 <button mat-raised-button type="button" matTooltip="Добавить"
                                                     [matTooltipPosition]="'above'"
-                                                    class="btn btn-success btn-link btn-just-icon" (click)="addDialog()">
+                                                    class="btn btn-success btn-link btn-just-icon"
+                                                    (click)="addDialog()">
                                                     <i class="material-icons">library_add</i>
                                                 </button>
                                             </th>
@@ -243,11 +249,15 @@
                                             <!--List of lessons-->
                                             <tr>
                                                 <td>{{ i }}</td>
-                                                <td>{{ lesson.date }}</td>
-                                                <td>{{ lesson.topics }}</td>
+                                                <td>{{ lesson.date | date:'MM.dd.yyyy в hh:mm' }}</td>
                                                 <td>
-                                                    <button mat-mini-fab extended type="button" matTooltip="Профиль"
-                                                        [matTooltipPosition]="'above'"
+                                                    <ng-container *ngFor="let topic of lesson.topics;">
+                                                        <span class="badge badge-primary">{{topic.title}}</span>
+                                                    </ng-container>
+                                                </td>
+                                                <td>
+                                                    <button mat-mini-fab extended type="button"
+                                                        matTooltip="Профиль занятия" [matTooltipPosition]="'above'"
                                                         [routerLink]="['/lessons/profile/', lesson.id]"
                                                         class="btn btn-info btn-link btn-just-icon">
                                                         <i class="material-icons">manage_accounts</i>
