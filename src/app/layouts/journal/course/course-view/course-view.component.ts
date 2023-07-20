@@ -57,7 +57,8 @@ export class CourseViewComponent implements OnInit {
   });
   formats: string[] = ["Online", "Offline"];
 
-  constructor(private route: ActivatedRoute,
+  constructor(
+    private route: ActivatedRoute,
     private provider: HttpProviderService,
     private toastr: ToastrService,
     private fb: FormBuilder,
