@@ -1,1 +1,88 @@
-<p>lesson-view works!</p>
+<div class="main-content">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header card-header-info">
+                    <h4 class="card-title">
+                        Занятие, {{lesson.date | date:'MM.dd.yyyy в hh:mm'}}
+                    </h4>
+                </div>
+                <div class="card-body">
+
+                    <form [formGroup]="updateLesson" name="form" class="ng-pristine ng-touched">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <mat-form-field ppearance="outline">
+                                    <mat-label>Дата</mat-label>
+                                    <input matInput [matDatepicker]="picker1" name="date" formControlName="date">
+                                    <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
+                                    <mat-datepicker #picker1></mat-datepicker>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-md-4 offset-2">
+                                <mat-form-field>
+                                    <mat-label>Время</mat-label>
+                                    <input matInput type="time" formControlName="time" name="time" class="form-control">
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Стоимость</mat-label>
+                                    <input matInput type="number" class="form-control" formControlName="price"
+                                        [value]="lesson.price" title="price">
+                                </mat-form-field>
+                            </div>
+                            <div class="col-md-4 offset-2">
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Продолжительность занятия</mat-label>
+                                    <input matInput type="number" class="form-control" formControlName="lessonDuration"
+                                        [value]="lesson.lessonDuration" title="lessonDuration">
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-8">
+                                <mat-form-field>
+                                    <mat-label>Темы</mat-label>
+                                    <mat-select matInput formControlName="topicList" name="topicList" multiple>
+                                        <mat-option *ngFor="let topic of topics" [value]="topic">
+                                            {{topic.title}}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-10">
+                                <mat-form-field appearance="outline" fxFlex="40" [style.width.%]="100">
+                                    <mat-label>Задание</mat-label>
+                                    <textarea matInput formControlName="task" class="form-control" cdkTextareaAutosize
+                                        #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="3"
+                                        cdkAutosizeMaxRows="8"></textarea>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-10">
+                                <mat-form-field appearance="outline" fxFlex="40" [style.width.%]="100">
+                                    <mat-label>Дополнительно</mat-label>
+                                    <textarea matInput formControlName="description" class="form-control"
+                                        cdkTextareaAutosize #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="3"
+                                        cdkAutosizeMaxRows="8"></textarea>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                    </form>
+                    <button mat-fab extended type="button" [disabled]="updateLesson.invalid" (click)="update()"
+                        class="btn btn-success">
+                        Обновить
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
