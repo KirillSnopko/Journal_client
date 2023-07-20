@@ -13,22 +13,27 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatIconModule } from '@angular/material/icon';
 import { MatBadgeModule } from '@angular/material/badge';
-import {MatDatepickerModule} from '@angular/material/datepicker';
-import {MatNativeDateModule} from '@angular/material/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 import { LessonCreateDialogComponent } from './lesson-create-dialog/lesson-create-dialog.component';
+import { LessonListComponent } from './lesson-list/lesson-list.component';
+import { LessonViewComponent } from './lesson-view/lesson-view.component';
 
-export const CourseLayoutRoutes: Routes = [
-  /*{ path: 'courses', component: CourseListComponent },
-  { path: 'courses/details/:courseid', component: CourseViewComponent },*/
+export const LessonLayoutRoutes: Routes = [
+  { path: 'lessons', component: LessonListComponent },
+  { path: 'lessons/details/:lessonid', component: LessonViewComponent },
 ];
 
 @NgModule({
   declarations: [
-    
+
+
+    LessonListComponent,
+    LessonViewComponent
   ],
   imports: [
     CommonModule,
-    RouterModule.forChild(CourseLayoutRoutes),
+    RouterModule.forChild(LessonLayoutRoutes),
     MatDialogModule,
     MatButtonModule,
     MatStepperModule,
@@ -43,7 +48,7 @@ export const CourseLayoutRoutes: Routes = [
     MatInputModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    
+
     LessonCreateDialogComponent
   ]
 })
