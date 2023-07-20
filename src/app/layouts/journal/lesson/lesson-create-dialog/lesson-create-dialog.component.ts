@@ -6,7 +6,6 @@ import { MatSelectModule } from '@angular/material/select';
 import { FormBuilder, Validators } from '@angular/forms';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatInputModule } from '@angular/material/input';
@@ -58,20 +57,11 @@ export const MY_FORMATS = {
 export class LessonCreateDialogComponent implements OnInit {
   course: Course = {} as Course;
   topics: Topic[] = [];
-  createLesson = this.fb.group({
-    topicList: [[], Validators.required],
-    task: [""],
-    description: [""],
-    date: [Validators.required],
-    time: ["17:00", Validators.required],
-    price: [0],
-    lessonDuration: [0],
-  });
+  createLesson: any;
 
   constructor(public dialog: MatDialog,
     private provider: HttpProviderService,
     private fb: FormBuilder,
-    private route: ActivatedRoute,
     public dialogRef: MatDialogRef<LessonCreateDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: ModelAdd,
     private toastr: ToastrService,
@@ -81,10 +71,20 @@ export class LessonCreateDialogComponent implements OnInit {
   ngOnInit(): void {
     this.getCourse();
     this._adapter.setLocale("ru");
+   
+    this.createLesson = this.fb.group({
+      topicList: [[], Validators.required],
+      task: [""],
+      description: [""],
+      date: [Validators.required],
+      time: ["17:00", Validators.required],
+      price: [this.course.price],
+      lessonDuration: [this.course.lessonDuration],
+    });
   }
 
   create(form: any) {
-   
+
     var dto: LessonCreate = {} as LessonCreate;
     dto.courseId = this.data.id;
     dto.description = this.createLesson.value.description!;
@@ -101,21 +101,21 @@ export class LessonCreateDialogComponent implements OnInit {
     console.log(dto);
     console.log(form.controls['topicList'].value);
 
- 
-   
-       this.provider.setUrl(ApiRoutes.lesson.toString())
-         .add(dto)
-         .subscribe(async data => {
-           if (data.status == 201) {
-             this.toastr.success("Добавлено!");
-             setTimeout(() => {
-               this.close();
-             }, 500);
-           }
-         },
-           async error => {
-             this.toastr.error(error.error.errors.toString());
-           });
+    /*
+    
+        this.provider.setUrl(ApiRoutes.lesson.toString())
+          .add(dto)
+          .subscribe(async data => {
+            if (data.status == 201) {
+              this.toastr.success("Добавлено!");
+              setTimeout(() => {
+                this.close();
+              }, 500);
+            }
+          },
+            async error => {
+              this.toastr.error(error.error.errors.toString());
+            });*/
   }
 
   close() {
