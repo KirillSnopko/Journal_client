@@ -148,9 +148,10 @@ export class LessonCreateDialogComponent implements OnInit {
     dto.price = this.createLesson.value.price!;
     dto.lessonDuration = this.createLesson.value.lessonDuration!;
     dto.topics = this.createLesson.value.topicList!;
-    var timeAndDate = moment(this.createLesson.value.date!).add(moment.duration(this.createLesson.value.time!)).toString();
-    dto.date = new DatePipe('en-US').transform(timeAndDate, 'YYYY-MM-ddThh:mm:ss');
-    console.log("Новое занятие: " + dto);
+
+    let time = moment(this.createLesson.value.time!, "HH:mm");
+    let date = moment(this.createLesson.value.date!, "YYYY-MM-dd").set({ hour: time.get('hour'), minute: time.get('minute'), second: 0 }).toString();
+    dto.date = new DatePipe('en-US').transform(date, 'YYYY-MM-ddTHH:mm:ss');
     return dto;
   }
 }
