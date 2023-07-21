@@ -4,6 +4,7 @@ import { ApiRoutes } from 'src/app/http/api-routes';
 import { HttpProviderService } from 'src/app/http/provider/http-provider.service';
 import { DeleteDialogComponent } from 'src/app/layouts/common/delete-dialog/delete-dialog.component';
 import { Course } from 'src/app/models/course/course';
+import '@angular/common/locales/global/ru';
 
 @Component({
   selector: 'app-course-list',

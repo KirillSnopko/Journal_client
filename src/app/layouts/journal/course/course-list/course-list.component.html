@@ -35,8 +35,8 @@
                                         <td>{{ course.title }}</td>
                                         <td>{{ course.studentName }}</td>
                                         <td><span class="badge badge-primary">{{ course.type}}</span></td>
-                                        <td>{{ course.dateOfStart | date:'MM.dd.yyyy'}}</td>
-                                        <td>{{ course.dateOfFinish | date:'MM.dd.yyyy' }}</td>
+                                        <td>{{ course.dateOfStart | date:'dd MMMM yyyy':'':'ru'}}</td>
+                                        <td>{{ course.dateOfFinish | date:'dd MMMM yyyy':'':'ru' }}</td>
                                         <td>
                                             <button mat-mini-fab extended type="button" matTooltip="Студент"
                                                 [matTooltipPosition]="'above'"
