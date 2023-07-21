@@ -3,11 +3,11 @@ export interface LessonUpdate {
     topics: Topic[];
     task: string;
     description: string;
-    date: Date;
+    date: any;
 
     isPaid: boolean;
     price: number;
-    dateOfPayment: Date;
+    dateOfPayment: any;
     lessonDuration: number;
 
     isPrepared: boolean;
