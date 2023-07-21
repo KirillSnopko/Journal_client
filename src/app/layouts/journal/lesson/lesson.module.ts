@@ -18,6 +18,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { LessonCreateDialogComponent } from './lesson-create-dialog/lesson-create-dialog.component';
 import { LessonListComponent } from './lesson-list/lesson-list.component';
 import { LessonViewComponent } from './lesson-view/lesson-view.component';
+import {MatCheckboxModule} from '@angular/material/checkbox';
 
 export const LessonLayoutRoutes: Routes = [
   { path: 'lessons', component: LessonListComponent },
@@ -48,6 +49,7 @@ export const LessonLayoutRoutes: Routes = [
     MatInputModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    MatCheckboxModule,
 
     LessonCreateDialogComponent
   ]
