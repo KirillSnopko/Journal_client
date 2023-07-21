@@ -57,7 +57,15 @@ export const MY_FORMATS = {
 export class LessonCreateDialogComponent implements OnInit {
   course: Course = {} as Course;
   topics: Topic[] = [];
-  createLesson: any;
+  createLesson = this.fb.group({
+    topicList: [[], Validators.required],
+    task: [""],
+    description: [""],
+    date: [new Date(), Validators.required],
+    time: ["17:00", Validators.required],
+    price: 0,
+    lessonDuration: 0,
+  });
 
   constructor(public dialog: MatDialog,
     private provider: HttpProviderService,
@@ -71,51 +79,23 @@ export class LessonCreateDialogComponent implements OnInit {
   ngOnInit(): void {
     this.getCourse();
     this._adapter.setLocale("ru");
-   
-    this.createLesson = this.fb.group({
-      topicList: [[], Validators.required],
-      task: [""],
-      description: [""],
-      date: [Validators.required],
-      time: ["17:00", Validators.required],
-      price: [this.course.price],
-      lessonDuration: [this.course.lessonDuration],
-    });
   }
 
-  create(form: any) {
-
-    var dto: LessonCreate = {} as LessonCreate;
-    dto.courseId = this.data.id;
-    dto.description = this.createLesson.value.description!;
-    dto.task = this.createLesson.value.task!;
-    dto.price = this.createLesson.value.price!;
-    dto.lessonDuration = this.createLesson.value.lessonDuration!;
-    dto.topics = this.createLesson.value.topicList!;
-
-    var timeAndDate = moment(this.createLesson.value.date!).add(moment.duration(this.createLesson.value.time!)).toString();
-    dto.date = new DatePipe('en-US').transform(timeAndDate, 'YYYY-MM-ddThh:mm:ss');
-
-
-
-    console.log(dto);
-    console.log(form.controls['topicList'].value);
-
-    /*
-    
-        this.provider.setUrl(ApiRoutes.lesson.toString())
-          .add(dto)
-          .subscribe(async data => {
-            if (data.status == 201) {
-              this.toastr.success("Добавлено!");
-              setTimeout(() => {
-                this.close();
-              }, 500);
-            }
-          },
-            async error => {
-              this.toastr.error(error.error.errors.toString());
-            });*/
+  create() {
+    var dto: LessonCreate = this.getDateFromForm();
+    this.provider.setUrl(ApiRoutes.lesson.toString()).add(dto)
+      .subscribe(async data => {
+        if (data.status == 201) {
+          this.toastr.success("Добавлено!");
+          setTimeout(() => {
+            this.close();
+          }, 500);
+        }
+      },
+        error => {
+          console.log(error);
+          this.toastr.error(error);
+        });
   }
 
   close() {
@@ -123,19 +103,18 @@ export class LessonCreateDialogComponent implements OnInit {
     this.dialogRef.close();
   }
 
-  getCourse() {
-    this.provider.setUrl(ApiRoutes.course.toString())
-      .get(this.data.id).subscribe((data: any) => {
+  private getCourse() {
+    this.provider.setUrl(ApiRoutes.course.toString()).get(this.data.id)
+      .subscribe((data: any) => {
         this.course = data.body as Course;
         this.getTopics(data.body.gradeLevel.id);
+        this.setDataToForm();
       },
         (error: any) => {
-          if (error) {
-            if (error.status == 404) {
-              if (error.error && error.error.message) {
-                this.course = {} as Course;
-              }
-            }
+          if (error.status == 404) {
+            this.course = {} as Course;
+            console.log(error);
+            this.toastr.error(error);
           }
         });
   }
@@ -154,6 +133,25 @@ export class LessonCreateDialogComponent implements OnInit {
             }
           }
         });
+  }
+
+  private setDataToForm() {
+    this.createLesson.controls.price.setValue(this.course.price);
+    this.createLesson.controls.lessonDuration.setValue(this.course.lessonDuration);
+  }
+
+  private getDateFromForm() {
+    var dto: LessonCreate = {} as LessonCreate;
+    dto.courseId = this.data.id;
+    dto.description = this.createLesson.value.description!;
+    dto.task = this.createLesson.value.task!;
+    dto.price = this.createLesson.value.price!;
+    dto.lessonDuration = this.createLesson.value.lessonDuration!;
+    dto.topics = this.createLesson.value.topicList!;
+    var timeAndDate = moment(this.createLesson.value.date!).add(moment.duration(this.createLesson.value.time!)).toString();
+    dto.date = new DatePipe('en-US').transform(timeAndDate, 'YYYY-MM-ddThh:mm:ss');
+    console.log("Новое занятие: " + dto);
+    return dto;
   }
 }
 
