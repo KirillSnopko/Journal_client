@@ -153,13 +153,12 @@ export class LessonViewComponent implements OnInit {
     dto.description = this.updateLesson.value.description!;
 
     console.log(this.updateLesson.value.time!);
-    console.log(moment(this.updateLesson.value.date!, "dd-MM-yyyy"));
+    console.log(this.updateLesson.value.date!);
+    console.log(moment(this.updateLesson.value.date!,"dd.MM.YYYY").toString());
 
     let time = moment(this.updateLesson.value.time!, "HH:mm");
-    let date = moment(this.updateLesson.value.date!, "dd-MM-yyyy").set({ hour: time.get('hour'), minute: time.get('minute'), second: 0 }).format('YYYY-MM-ddTHH:mm:ss');
+    let date = moment(this.updateLesson.value.date!).set({ hour: time.get('hour'), minute: time.get('minute'), second: 0 }).toString();
 
-    console.log(time.get('hour'));
-    console.log(time.get('minute'));
 
     console.log("time: " + time + " --date: " + date);
     dto.date = new DatePipe('en-US').transform(date, 'YYYY-MM-ddTHH:mm:ss');
