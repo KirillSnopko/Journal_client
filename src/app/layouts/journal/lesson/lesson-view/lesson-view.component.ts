@@ -101,7 +101,7 @@ export class LessonViewComponent implements OnInit {
         }
       },
         async error => {
-          this.toastr.error(error.error.message);
+          this.toastr.error(error.message);
         });
   }
 
@@ -109,6 +109,12 @@ export class LessonViewComponent implements OnInit {
     this.provider.setUrl(ApiRoutes.lesson.toString() + this.lesson.id + ApiRoutes.topics.toString())
       .getList().subscribe((data: any) => {
         this.topics = data.body;
+        //общий список тем из сохраненных ранее и текущих тем в программе (могут быть изменены)
+        this.lesson.topics.forEach((i) => {
+          if (this.topics.find(x => x.id == i.id) != null) {
+            this.topics.push(i);
+          }
+        });
       },
         (error: any) => {
           if (error) {
@@ -148,19 +154,27 @@ export class LessonViewComponent implements OnInit {
   private getDateFromForm() {
     var dto: LessonUpdate = {} as LessonUpdate;
 
-    dto.topics = this.updateLesson.value.topicList!.map((i) => { return this.topics.find(x => x.id == i) as Topic });
+    var newTopics = this.updateLesson.value.topicList!;
+    // dto.topics = this.updateLesson.value.topicList!.map((i) => { return this.topics.find(x => x.id == i) as Topic });
+
+    dto.topics = newTopics.map((i) => {
+      var temp = this.lesson.topics.find(x => x.id == i);
+      if (temp != null) {
+        return temp as Topic;
+      }
+      else {
+        return this.topics.find(x => x.id == i) as Topic
+      }
+    });
+
+
     dto.task = this.updateLesson.value.task!;
     dto.description = this.updateLesson.value.description!;
-
-    console.log(this.updateLesson.value.time!);
-    console.log(this.updateLesson.value.date!);
-    console.log(moment(this.updateLesson.value.date!,"dd.MM.YYYY").toString());
 
     let time = moment(this.updateLesson.value.time!, "HH:mm");
     let date = moment(this.updateLesson.value.date!).set({ hour: time.get('hour'), minute: time.get('minute'), second: 0 }).toString();
 
 
-    console.log("time: " + time + " --date: " + date);
     dto.date = new DatePipe('en-US').transform(date, 'YYYY-MM-ddTHH:mm:ss');
 
     dto.isPaid = this.updateLesson.value.isPaid!;
