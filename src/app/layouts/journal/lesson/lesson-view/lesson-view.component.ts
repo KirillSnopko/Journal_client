@@ -111,7 +111,7 @@ export class LessonViewComponent implements OnInit {
         this.topics = data.body;
         //общий список тем из сохраненных ранее и текущих тем в программе (могут быть изменены)
         this.lesson.topics.forEach((i) => {
-          if (this.topics.find(x => x.id == i.id) != null) {
+          if (this.topics.find(x => x.title === i.title) == null) {
             this.topics.push(i);
           }
         });
@@ -156,7 +156,7 @@ export class LessonViewComponent implements OnInit {
 
     var newTopics = this.updateLesson.value.topicList!;
     // dto.topics = this.updateLesson.value.topicList!.map((i) => { return this.topics.find(x => x.id == i) as Topic });
-
+    dto.courseId = this.lesson.courseId;
     dto.topics = newTopics.map((i) => {
       var temp = this.lesson.topics.find(x => x.id == i);
       if (temp != null) {

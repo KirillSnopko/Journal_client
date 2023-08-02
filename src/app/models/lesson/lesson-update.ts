@@ -1,5 +1,6 @@
 import { Topic } from "../topic/topic";
 export interface LessonUpdate {
+    courseId: any;
     topics: Topic[];
     task: string;
     description: string;

@@ -14,8 +14,7 @@ export const ROUTES: RouteInfo[] = [
   { path: '/subjects', title: 'Предметы', icon: 'local_library', class: '' },
   { path: '/courses', title: 'Курсы', icon: 'library_books', class: '' },
   { path: '/lessons', title: 'Занятия', icon: 'bubble_chart', class: '' },
-  { path: '/group_lessons', title: 'Групповые занятия', icon: 'location_on', class: '' },
-  { path: '/upgrade', title: 'Upgrade to PRO', icon: 'unarchive', class: 'active-pro' },
+  { path: '/logs', title: 'Логи', icon: 'unarchive', class: 'active-pro' },
 ];
 
 @Component({
