@@ -1,0 +1,55 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-10">
+                <div class="card">
+                    <div class="card-header card-header-tabs card-header-info">
+                        <h4 class="card-title">Логи</h4>
+                        <p class="card-category">
+                            {{logs.length}} ед
+                        </p>
+                    </div>
+                    <div class="card-body">
+
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Дата</th>
+                                    <th scope="col">Сервис</th>
+                                    <th scope="col">Сообщение</th>
+                                    <th scope="col">Исключение</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!--List is empty-->
+                                <div *ngIf="logs.length==0">
+                                    <span class="badge badge-warning">Список логов пуст!</span>
+                                </div>
+
+                                <ng-container *ngFor="let log of logs; let i = index">
+                                    <!--List of gradelevel-->
+                                    <tr>
+                                        <td>{{ i }}</td>
+                                        <td>{{ log.dateTime | date:'dd.MM.yyyy в HH:mm' }}</td>
+                                        <td>{{ log.service }}</td>
+                                        <td>{{ log.message }}</td>
+                                        <td>{{ log.exception }}</td>
+                                        <td>
+                                            <button mat-raised-button type="button" matTooltip="Удалить"
+                                                [matTooltipPosition]="'above'"
+                                                class="btn btn-danger btn-link btn-just-icon"
+                                                (click)="deleteDialog(log)">
+                                                <i class="material-icons">delete</i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </ng-container>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
