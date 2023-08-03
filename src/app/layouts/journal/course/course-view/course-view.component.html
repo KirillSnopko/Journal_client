@@ -1,0 +1,285 @@
+<div class="main-content">
+    <button mat-raised-button type="button" routerLink="/courses/" class="btn btn-default back">
+        <i class='fas fa-arrow-circle-left'></i>
+        К списку курсов
+    </button>
+    <div class="container-fluid">
+
+
+        <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start">
+
+            <mat-tab>
+
+                <ng-template mat-tab-label>
+                    <mat-icon class="example-tab-icon">badge</mat-icon>
+                    Профиль
+                </ng-template>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header card-header-info">
+                                <h4 class="card-title">
+                                    {{course.title|titlecase}}, {{course.studentName}}
+                                </h4>
+                            </div>
+                            <div class="card-body">
+                                <form [formGroup]="upForm" (ngSubmit)="update()">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <mat-form-field>
+                                                <mat-label>Формат занятия</mat-label>
+                                                <mat-select matInput formControlName="type" name="type"
+                                                    [(value)]="course.type">
+                                                    <mat-option *ngFor="let format of formats" [value]="format">
+                                                        {{format}}
+                                                    </mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <mat-form-field>
+                                                <mat-label>C</mat-label>
+                                                <input matInput [matDatepicker]="picker1" name="dateOfStart"
+                                                    [(ngModel)]="course.dateOfStart"
+                                                    [ngModelOptions]="{standalone: true}">
+                                                <mat-datepicker-toggle matIconSuffix
+                                                    [for]="picker1"></mat-datepicker-toggle>
+                                                <mat-datepicker #picker1></mat-datepicker>
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <mat-form-field>
+                                                <mat-label>По</mat-label>
+                                                <input matInput [matDatepicker]="picker2"
+                                                    [(ngModel)]="course.dateOfFinish"
+                                                    [ngModelOptions]="{standalone: true}" name="dateOfFinish">
+                                                <mat-datepicker-toggle matIconSuffix
+                                                    [for]="picker2"></mat-datepicker-toggle>
+                                                <mat-datepicker #picker2></mat-datepicker>
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-10">
+                                            <mat-form-field appearance="outline" fxFlex="40" [style.width.%]="100">
+                                                <mat-label>Дополнительно</mat-label>
+                                                <textarea matInput [value]="course.description" title="description"
+                                                    formControlName="description" class="form-control"
+                                                    cdkTextareaAutosize #autosize="cdkTextareaAutosize"
+                                                    cdkAutosizeMinRows="4" cdkAutosizeMaxRows="8"></textarea>
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <mat-form-field appearance="outline">
+                                                <mat-label>Стоимость</mat-label>
+                                                <input matInput type="number" class="form-control"
+                                                    formControlName="price" [value]="course.price" title="price">
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-md-4 offset-2">
+                                            <mat-form-field appearance="outline">
+                                                <mat-label>Продолжительность занятия</mat-label>
+                                                <input matInput type="number" class="form-control"
+                                                    formControlName="lessonDuration" [value]="course.lessonDuration"
+                                                    title="lessonDuration">
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+
+                                    <button mat-raised-button type="submit" [disabled]="upForm.invalid"
+                                        class="btn btn-success pull-right">Обновить
+                                    </button>
+
+                                    <div class="clearfix">
+                                        <span class="badge badge-pill badge-warning">
+                                            При длительном простое страницы после нажатия "Обновить" поля
+                                            обнуляются.
+                                        </span>
+                                    </div>
+                                </form>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </mat-tab>
+
+            <mat-tab>
+                <ng-template mat-tab-label>
+                    <mat-icon class="example-tab-icon">query_stats</mat-icon>
+                    Статистика
+                </ng-template>
+                <div class="row">
+                    <!--Количество проведенных занятий-->
+                    <div class="col-lg-3 col-md-6 col-sm-6">
+                        <div class="card card-stats">
+                            <div class="card-header card-header-success card-header-icon">
+                                <div class="card-icon">
+                                    <i class="material-icons">task_alt</i>
+                                </div>
+                                <p class="card-category">Проведенные занятия</p>
+                                <h3 class="card-title">{{completedCount()}}/{{lessons.length}}</h3>
+                            </div>
+                            <div class="card-footer">
+                                <div class="stats">
+                                    <i class="material-icons">help_center</i> проведенные/все
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--Оплаченные занятия-->
+                    <div class="col-lg-3 col-md-6 col-sm-6">
+                        <div class="card card-stats">
+                            <div class="card-header card-header-danger card-header-icon">
+                                <div class="card-icon">
+                                    <i class="material-icons">paid</i>
+                                </div>
+                                <p class="card-category">Оплаченные занятия</p>
+                                <h3 class="card-title">{{unpaidCount()}}/{{completedCount()}}</h3>
+                            </div>
+                            <div class="card-footer">
+                                <div class="stats">
+                                    <i class="material-icons">help_center</i> оплаченные/проведенные
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--Успеваемость-->
+                    <div class="col-lg-3 col-md-6 col-sm-6">
+                        <div class="card card-stats">
+                            <div class="card-header card-header-info card-header-icon">
+                                <div class="card-icon">
+                                    <i class="material-icons">thumb_up</i>
+                                </div>
+                                <p class="card-category">Успеваемость</p>
+                                <h3 class="card-title">??????</h3>
+                            </div>
+                            <div class="card-footer">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <!--График успехов в домашней работе-->
+                    <div class="col-md-4">
+                        <div class="card card-chart">
+                            <div class="card-header card-header-success">
+                                <div class="ct-chart" id="dailySalesChart"></div>
+                            </div>
+                            <div class="card-body">
+                                <h4 class="card-title">Домашная работа</h4>
+                                <p class="card-category">
+                                    <span class="text-success"><i class="fa fa-long-arrow-up"></i> 55% </span> increase
+                                    in today sales.
+                                </p>
+                            </div>
+                            <div class="card-footer">
+                                <div class="stats">
+                                    <i class="material-icons">access_time</i> updated 4 minutes ago
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--График оценки активности на занятии-->
+                    <div class="col-md-4">
+                        <div class="card card-chart">
+                            <div class="card-header card-header-info">
+                                <div class="ct-chart" id="websiteViewsChart"></div>
+                            </div>
+                            <div class="card-body">
+                                <h4 class="card-title">Занятия</h4>
+                                <p class="card-category">Last Campaign Performance</p>
+                            </div>
+                            <div class="card-footer">
+                                <div class="stats">
+                                    <i class="material-icons">access_time</i> campaign sent 2 days ago
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </mat-tab>
+
+            <mat-tab>
+                <ng-template mat-tab-label>
+                    <mat-icon class="example-tab-icon">headset_mic</mat-icon>
+                    <div [matBadge]="lessons.length" matBadgeOverlap="false" class="demo-section">Занятия</div>
+                </ng-template>
+
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="card">
+                            <div class="card-header card-header-tabs card-header-info">
+                                <h4 class="card-title">Занятия</h4>
+                                <p class="card-category">
+                                    {{lessons.length}} ед
+                                </p>
+                            </div>
+                            <div class="card-body">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">#</th>
+                                            <th scope="col">Дата</th>
+                                            <th scope="col">Темы</th>
+                                            <th>
+                                                <button mat-raised-button type="button" matTooltip="Добавить"
+                                                    [matTooltipPosition]="'above'"
+                                                    class="btn btn-success btn-link btn-just-icon"
+                                                    (click)="addDialog()">
+                                                    <i class="material-icons">library_add</i>
+                                                </button>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <!--List is empty-->
+                                        <div *ngIf="lessons.length==0">
+                                            <span class="badge badge-warning">Список занятий пока пуст!</span>
+                                        </div>
+
+                                        <ng-container *ngFor="let lesson of lessons; let i = index">
+                                            <!--List of lessons-->
+                                            <tr>
+                                                <td>{{ i }}</td>
+                                                <td>{{ lesson.date | date:'MM.dd.yyyy в HH:mm' }}</td>
+                                                <td>
+                                                    <ng-container *ngFor="let topic of lesson.topics;">
+                                                        <span class="badge badge-primary">{{topic.title}}</span>
+                                                    </ng-container>
+                                                </td>
+                                                <td>
+                                                    <button mat-mini-fab extended type="button"
+                                                        matTooltip="Профиль занятия" [matTooltipPosition]="'above'"
+                                                        [routerLink]="['/lessons/details/', lesson.id]"
+                                                        class="btn btn-info btn-link btn-just-icon">
+                                                        <i class="material-icons">manage_accounts</i>
+                                                    </button>
+                                                    <button mat-raised-button type="button" matTooltip="Удалить"
+                                                        [matTooltipPosition]="'above'"
+                                                        class="btn btn-danger btn-link btn-just-icon"
+                                                        (click)="deleteDialog(lesson)">
+                                                        <i class="material-icons">delete</i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        </ng-container>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </mat-tab>
+
+        </mat-tab-group>
+    </div>
+</div>

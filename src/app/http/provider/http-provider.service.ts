@@ -22,6 +22,10 @@ export class HttpProviderService {
     return this.journalApi.get(this.sub_url + id);
   }
 
+  public getData(): Observable<any> {
+    return this.journalApi.get(this.sub_url);
+  }
+
   public delete(id: number): Observable<any> {
     return this.journalApi.delete(this.sub_url + id);
   }

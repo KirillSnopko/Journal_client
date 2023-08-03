@@ -2,7 +2,7 @@
     <div class="container-fluid">
         <button mat-raised-button type="button" routerLink="/subjects/" class="btn btn-default back">
             <i class='fas fa-arrow-circle-left'></i>
-            Назад
+            К списку предметов
         </button>
         <div class="row">
             <div class="col-lg-6">
@@ -19,7 +19,6 @@
                                 <thead>
                                     <tr>
                                         <th scope="col">#</th>
-                                        <th scope="col">Уровень</th>
                                         <th scope="col">Описание</th>
                                         <th scope="col">Темы</th>
                                         <th>
@@ -39,9 +38,8 @@
 
                                     <ng-container *ngFor="let grade of gradeList; let i = index">
                                         <!--List of gradelevel-->
-                                        <tr *ngIf="gradeSelected != grade" (click)="selectGrade(grade)">
+                                        <tr *ngIf="gradeSelected != grade">
                                             <td>{{ i }}</td>
-                                            <td>{{ grade.level }}</td>
                                             <td>{{ grade.description }}</td>
                                             <td>
                                                 <button mat-mini-fab extended type="button" matTooltip="Темы"
@@ -52,23 +50,24 @@
                                                 </button>
                                             </td>
                                             <td>
+                                                <button mat-raised-button type="button" matTooltip="Редактировать"
+                                                    [matTooltipPosition]="'above'"
+                                                    class="btn btn-warning btn-link btn-just-icon"
+                                                    (click)="selectGrade(grade)">
+                                                    <i class="material-icons">edit</i>
+                                                </button>
                                                 <button mat-raised-button type="button" matTooltip="Удалить"
                                                     [matTooltipPosition]="'above'"
                                                     class="btn btn-danger btn-link btn-just-icon"
-                                                    (click)="deleteGrade(grade.id)">
+                                                    (click)="deleteDialog(grade)">
                                                     <i class="material-icons">delete</i>
                                                 </button>
                                             </td>
                                         </tr>
 
 
-                                        <tr *ngIf="gradeSelected == grade" class="table-primary">
+                                        <tr *ngIf="gradeSelected == grade" class="table-warning">
                                             <td>{{ grade.id }}</td>
-
-                                            <td>
-                                                <input type="number" class="form-control" formControlName="level"
-                                                    [value]="grade.level" title="level" />
-                                            </td>
 
                                             <td>
                                                 <input type="text" class="form-control" formControlName="description"
@@ -77,15 +76,15 @@
                                             <td>
 
                                                 <button mat-raised-button type="submit" matTooltip="Применить"
-                                                    [disabled]="formGrade.controls['level'].invalid||formGrade.controls['description'].invalid"
+                                                    [disabled]="formGrade.controls['description'].invalid"
                                                     [matTooltipPosition]="'above'"
                                                     class="btn btn-success btn-link  btn-just-icon">
 
                                                     <i class="material-icons"
-                                                        *ngIf="formGrade.controls['level'].valid&&formGrade.controls['description'].valid">verified</i>
+                                                        *ngIf="formGrade.controls['description'].valid">verified</i>
 
                                                     <i class="material-icons"
-                                                        *ngIf="formGrade.controls['level'].invalid||formGrade.controls['description'].invalid">done</i>
+                                                        *ngIf="formGrade.controls['description'].invalid">done</i>
                                                 </button>
 
                                                 <button mat-raised-button type="button" matTooltip="Отмена"
@@ -96,9 +95,6 @@
                                                 </button>
                                             </td>
 
-                                            <div *ngIf="formGrade.controls['level'].invalid ">
-                                                <span class="badge badge-danger">Не указан уровень</span>
-                                            </div>
                                             <div
                                                 *ngIf="formGrade.controls['description'].invalid && formGrade.controls['description'].touched">
                                                 <span class="badge badge-danger">Добавьте описание</span>
@@ -114,11 +110,5 @@
                 </div>
             </div>
         </div>
-
-        <ul class="list-group">
-            <li class="list-group-item">удаление - snackbar/dialog </li>
-            <li class="list-group-item"> отмена - snackbar/dialog</li>
-        </ul>
-
     </div>
 </div>

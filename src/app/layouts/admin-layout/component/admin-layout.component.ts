@@ -21,7 +21,7 @@ export class AdminLayoutComponent implements OnInit {
     const isWindows = navigator.platform.indexOf('Win') > -1 ? true : false;
 
     if (isWindows && !document.getElementsByTagName('body')[0].classList.contains('sidebar-mini')) {
-      // if we are on windows OS we activate the perfectScrollbar function
+    
 
       document.getElementsByTagName('body')[0].classList.add('perfect-scrollbar-on');
     } else {
@@ -46,7 +46,7 @@ export class AdminLayoutComponent implements OnInit {
           window.scrollTo(0, 0);
       }
     });
-    this._router = this.router.events.pipe(filter(event => event instanceof NavigationEnd)).subscribe((/*event: NavigationEnd*/) => {
+    this._router = this.router.events.pipe(filter(event => event instanceof NavigationEnd)).subscribe(() => {
       elemMainPanel.scrollTop = 0;
       elemSidebar.scrollTop = 0;
     });
@@ -69,7 +69,7 @@ export class AdminLayoutComponent implements OnInit {
     }
 
     $('.fixed-plugin a').click(function (event) {
-      // Alex if we click on switch, stop propagation of the event, so the dropdown will not be hide, otherwise we set the  section active
+     
       if ($(this).hasClass('switch-trigger')) {
         if (event.stopPropagation) {
           event.stopPropagation();
@@ -156,4 +156,5 @@ export class AdminLayoutComponent implements OnInit {
     }
     return bool;
   }
+  
 }

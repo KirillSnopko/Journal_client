@@ -1,0 +1,224 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start">
+            <!--Неподготовленные занятия-->
+            <mat-tab>
+                <ng-template mat-tab-label>
+                    <mat-icon class="example-tab-icon">edit_note</mat-icon>
+                    <div [matBadge]="unPrepared().length" matBadgeOverlap="false" class="demo-section">Подготовить</div>
+                </ng-template>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="card">
+                            <div class="card-header card-header-tabs card-header-primary">
+                                <h4 class="card-title">Занятия, которые еще не подготовлены (материалы, задания)</h4>
+                            </div>
+                            <div class="card-body">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">#</th>
+                                            <th scope="col">Дата</th>
+                                            <th scope="col">Темы</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <!--List is empty-->
+                                        <div *ngIf="unPrepared().length==0">
+                                            <span class="badge badge-success">Все подготовлено</span>
+                                        </div>
+
+                                        <ng-container *ngFor="let lesson of unPrepared(); let i = index">
+                                            <!--List of lessons-->
+                                            <tr>
+                                                <td>{{ i }}</td>
+                                                <td>{{ lesson.date | date:'dd.MM.yyyy в HH:mm' }}</td>
+                                                <td>
+                                                    <ng-container *ngFor="let topic of lesson.topics;">
+                                                        <span class="badge badge-primary">{{topic.title}}</span>
+                                                    </ng-container>
+                                                </td>
+                                                <td>
+                                                    <button mat-mini-fab extended type="button"
+                                                        matTooltip="Профиль занятия" [matTooltipPosition]="'above'"
+                                                        [routerLink]="['/lessons/details/', lesson.id]"
+                                                        class="btn btn-info btn-link btn-just-icon">
+                                                        <i class="material-icons">settings</i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        </ng-container>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </mat-tab>
+            <!--Задание не выдано-->
+            <mat-tab>
+                <ng-template mat-tab-label>
+                    <mat-icon class="example-tab-icon">task</mat-icon>
+                    <div [matBadge]="unTaskGiven().length" matBadgeOverlap="false" class="demo-section">Выдать задание
+                    </div>
+                </ng-template>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="card">
+                            <div class="card-header card-header-tabs card-header-primary">
+                                <h4 class="card-title">Занятия, к которым еще не выданы задания</h4>
+                            </div>
+                            <div class="card-body">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">#</th>
+                                            <th scope="col">Дата</th>
+                                            <th scope="col">Темы</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <!--List is empty-->
+                                        <div *ngIf="unTaskGiven().length==0">
+                                            <span class="badge badge-success">Задания выданы</span>
+                                        </div>
+
+                                        <ng-container *ngFor="let lesson of unTaskGiven(); let i = index">
+                                            <!--List of lessons-->
+                                            <tr>
+                                                <td>{{ i }}</td>
+                                                <td>{{ lesson.date | date:'dd.MM.yyyy в HH:mm' }}</td>
+                                                <td>
+                                                    <ng-container *ngFor="let topic of lesson.topics;">
+                                                        <span class="badge badge-primary">{{topic.title}}</span>
+                                                    </ng-container>
+                                                </td>
+                                                <td>
+                                                    <button mat-mini-fab extended type="button"
+                                                        matTooltip="Профиль занятия" [matTooltipPosition]="'above'"
+                                                        [routerLink]="['/lessons/details/', lesson.id]"
+                                                        class="btn btn-info btn-link btn-just-icon">
+                                                        <i class="material-icons">settings</i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        </ng-container>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </mat-tab>
+            <!--Ждут оценки-->
+            <mat-tab>
+                <ng-template mat-tab-label>
+                    <mat-icon class="example-tab-icon">grade</mat-icon>
+                    <div [matBadge]="noGrade().length" matBadgeOverlap="false" class="demo-section">Оценить</div>
+                </ng-template>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="card">
+                            <div class="card-header card-header-tabs card-header-primary">
+                                <h4 class="card-title">Занятия, по которым не оцены активность на занитии и домашняя
+                                    работа</h4>
+                            </div>
+                            <div class="card-body">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">#</th>
+                                            <th scope="col">Дата</th>
+                                            <th scope="col">Темы</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <!--List is empty-->
+                                        <div *ngIf="noGrade().length==0">
+                                            <span class="badge badge-success">Все оценено</span>
+                                        </div>
+
+                                        <ng-container *ngFor="let lesson of noGrade(); let i = index">
+                                            <!--List of lessons-->
+                                            <tr>
+                                                <td>{{ i }}</td>
+                                                <td>{{ lesson.date | date:'dd.MM.yyyy в HH:mm' }}</td>
+                                                <td>
+                                                    <ng-container *ngFor="let topic of lesson.topics;">
+                                                        <span class="badge badge-primary">{{topic.title}}</span>
+                                                    </ng-container>
+                                                </td>
+                                                <td>
+                                                    <button mat-mini-fab extended type="button"
+                                                        matTooltip="Профиль занятия" [matTooltipPosition]="'above'"
+                                                        [routerLink]="['/lessons/details/', lesson.id]"
+                                                        class="btn btn-info btn-link btn-just-icon">
+                                                        <i class="material-icons">settings</i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        </ng-container>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </mat-tab>
+            <!--Ждут оплаты-->
+            <mat-tab>
+                <ng-template mat-tab-label>
+                    <mat-icon class="example-tab-icon">paid</mat-icon>
+                    <div [matBadge]="unPaid().length" matBadgeOverlap="false" class="demo-section">Оплатить</div>
+                </ng-template>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="card">
+                            <div class="card-header card-header-tabs card-header-primary">
+                                <h4 class="card-title">Занятия, ожидающие оплату</h4>
+                            </div>
+                            <div class="card-body">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">#</th>
+                                            <th scope="col">Дата</th>
+                                            <th scope="col">Темы</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <!--List is empty-->
+                                        <div *ngIf="unPaid().length==0">
+                                            <span class="badge badge-success">Все оплачено</span>
+                                        </div>
+
+                                        <ng-container *ngFor="let lesson of unPaid(); let i = index">
+                                            <!--List of lessons-->
+                                            <tr>
+                                                <td>{{ i }}</td>
+                                                <td>{{ lesson.date | date:'dd.MM.yyyy в HH:mm' }}</td>
+                                                <td>
+                                                    <ng-container *ngFor="let topic of lesson.topics;">
+                                                        <span class="badge badge-primary">{{topic.title}}</span>
+                                                    </ng-container>
+                                                </td>
+                                                <td>
+                                                    <button mat-mini-fab extended type="button"
+                                                        matTooltip="Профиль занятия" [matTooltipPosition]="'above'"
+                                                        [routerLink]="['/lessons/details/', lesson.id]"
+                                                        class="btn btn-info btn-link btn-just-icon">
+                                                        <i class="material-icons">settings</i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        </ng-container>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </mat-tab>
+        </mat-tab-group>
+    </div>
+</div>

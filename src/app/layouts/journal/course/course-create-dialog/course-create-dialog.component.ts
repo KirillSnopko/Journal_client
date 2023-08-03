@@ -7,12 +7,12 @@ import { MatSelectModule } from '@angular/material/select';
 import { FormBuilder, Validators } from '@angular/forms';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 
 import { ApiRoutes } from 'src/app/http/api-routes';
 import { HttpProviderService } from 'src/app/http/provider/http-provider.service';
 import { CourseCreate } from 'src/app/models/course/course-create';
+import { ModelAdd } from 'src/app/models/common/model-add';
 
 @Component({
   selector: 'app-course-create-dialog',
@@ -41,9 +41,8 @@ export class CourseCreateDialogComponent {
   constructor(public dialog: MatDialog,
     private provider: HttpProviderService,
     private fb: FormBuilder,
-    private route: ActivatedRoute,
     public dialogRef: MatDialogRef<CourseCreateDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: DialogDataCourse,
+    @Inject(MAT_DIALOG_DATA) public data: ModelAdd,
     private toastr: ToastrService,
   ) { }
 
@@ -115,6 +114,4 @@ export class CourseCreateDialogComponent {
   }
 }
 
-export interface DialogDataCourse {
-  id: number;
-}
+

@@ -1,0 +1,120 @@
+<div class="main-content">
+    <div class="row">
+        <div class="col-lg-10">
+            <div class="card">
+                <div class="card-header card-header-info">
+                    <h4 class="card-title">
+                        Занятие, {{lesson.date | date:'dd MMMM yyyy в HH:mm':"":"ru"}}
+                    </h4>
+                </div>
+                <div class="card-body">
+
+                    <form [formGroup]="updateLesson" name="form" class="ng-pristine ng-touched">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Дата</mat-label>
+                                    <input matInput [matDatepicker]="picker1" name="date" formControlName="date">
+                                    <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
+                                    <mat-datepicker #picker1></mat-datepicker>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-md-3">
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Время</mat-label>
+                                    <input matInput type="time" formControlName="time" name="time" class="form-control">
+                                </mat-form-field>
+                            </div>
+                            <div class="col-md-2">
+                                <p><mat-checkbox formControlName="isPrepared">Подготовлено</mat-checkbox></p>
+                            </div>
+                            <div class="col-md-2">
+                                <p><mat-checkbox formControlName="isCompleted">Проведено</mat-checkbox></p>
+                                <p><mat-checkbox formControlName="isCanceled">Отменено</mat-checkbox></p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Стоимость</mat-label>
+                                    <input matInput type="number" class="form-control" formControlName="price"
+                                        title="price">
+                                </mat-form-field>
+                            </div>
+                            <div class="col-md-3">
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Продолжительность занятия</mat-label>
+                                    <input matInput type="number" class="form-control" formControlName="lessonDuration"
+                                        title="lessonDuration">
+                                </mat-form-field>
+                            </div>
+                            <div class="col-md-2">
+                                <p><mat-checkbox formControlName="isPaid">Оплачено</mat-checkbox></p>
+                            </div>
+                            <div class="col-md-3">
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Дата оплаты</mat-label>
+                                    <input matInput [matDatepicker]="picker2" name="dateOfPayment" formControlName="dateOfPayment">
+                                    <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
+                                    <mat-datepicker #picker2></mat-datepicker>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-8">
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Темы</mat-label>
+                                    <mat-select matInput formControlName="topicList" name="topicList" multiple>
+                                        <mat-option *ngFor="let topic of topics" [value]="topic.id">
+                                            {{topic.title}}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <mat-form-field appearance="outline" fxFlex="40" [style.width.%]="100">
+                                    <mat-label>Задание</mat-label>
+                                    <textarea matInput formControlName="task" class="form-control" cdkTextareaAutosize
+                                        #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="5"
+                                        cdkAutosizeMaxRows="8"></textarea>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-md-2">
+                                <p><mat-checkbox formControlName="isTaskGiven">Задание выдано</mat-checkbox></p>
+                            </div>
+                            <div class="col-md-2">
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Оценка домашней работы</mat-label>
+                                    <input matInput type="number" class="form-control" formControlName="gradeHome">
+                                </mat-form-field>
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Оценка активности на занятии</mat-label>
+                                    <input matInput type="number" class="form-control" formControlName="gradeLesson">
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-10">
+                                <mat-form-field appearance="outline" fxFlex="40" [style.width.%]="100">
+                                    <mat-label>Дополнительно</mat-label>
+                                    <textarea matInput formControlName="description" class="form-control"
+                                        cdkTextareaAutosize #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="4"
+                                        cdkAutosizeMaxRows="8"></textarea>
+                                </mat-form-field>
+                            </div>
+                        </div>
+
+                    </form>
+                    <button mat-fab extended type="button" [disabled]="updateLesson.invalid" (click)="update()"
+                        class="btn btn-success">
+                        Обновить
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

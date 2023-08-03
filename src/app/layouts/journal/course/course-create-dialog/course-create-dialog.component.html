@@ -46,7 +46,7 @@
                     <mat-label>Address</mat-label>
                     <mat-select matInput formControlName="gradelevel" name="gradelevel">
                         <mat-option *ngFor="let gv of gradelevels" [value]="gv.id">
-                            {{gv.level + "класс," + gv.description}}
+                            {{gv.description}}
                         </mat-option>
                     </mat-select>
                 </mat-form-field>

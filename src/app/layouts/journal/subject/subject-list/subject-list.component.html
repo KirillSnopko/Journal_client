@@ -1,33 +1,10 @@
 <div class="main-content">
     <div class="container-fluid">
+        <button mat-fab matTooltip="Добавить" color="basic" aria-label="Example fab with a heart icon"
+            (click)="createDialog()">
+            <mat-icon>create_new_folder</mat-icon>
+        </button>
         <div class="row">
-
-            <div class="col-lg-3 col-md-6 col-sm-6">
-                <div class="card card-stats">
-                    <div class="card-header card-header-success card-header-icon">
-                        <div class="card-icon">
-                            <i class="material-icons">create_new_folder</i>
-                        </div>
-                        <p class="card-category">Добавить предмет</p>
-                    </div>
-                    <div class="card-footer">
-                        <form #add="ngForm" class="ng-pristine ng-untouched ng-valid form-inline" novalidate="">
-
-                            <div class="input-group mb-4">
-                                <input type="text" class="form-control" id="Name" required maxlength="255"
-                                    placeholder="Название" [(ngModel)]="subjectAdd.Name" name="Name" #Name="ngModel">
-                                <div class="input-group-append">
-                                    <button mat-raised-button type="button" matTooltip="Добавить"
-                                        [disabled]="Name.invalid" (click)="AddSubject(add)"
-                                        [matTooltipPosition]="'above'" class="btn btn-success btn-link btn-just-icon">
-                                        <i class="material-icons">add</i>
-                                    </button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
 
 
             <div class="col-lg-3 col-md-6 col-sm-6" *ngFor="let subject of subjects">
@@ -47,13 +24,12 @@
                                 <i class="material-icons">visibility</i>
                             </button>
                             <button mat-raised-button type="button" matTooltip="Переименовать"
-                                [routerLink]="['/subjects/edit/', subject.id]" [matTooltipPosition]="'above'"
+                                (click)="updateDialog(subject)" [matTooltipPosition]="'above'"
                                 class="btn btn-warning btn-link btn-just-icon">
                                 <i class="material-icons">edit</i>
                             </button>
-                            <button mat-raised-button type="button" matTooltip="Удалить"
-                                (click)="deleteSubjectConfirmation(subject)" [matTooltipPosition]="'above'"
-                                class="btn btn-danger btn-link btn-just-icon">
+                            <button mat-raised-button type="button" matTooltip="Удалить" (click)="deleteDialog(subject)"
+                                [matTooltipPosition]="'above'" class="btn btn-danger btn-link btn-just-icon">
                                 <i class="material-icons">delete</i>
                             </button>
                         </div>
@@ -61,16 +37,5 @@
                 </div>
             </div>
         </div>
-
-        <ul class="list-group">
-            <li class="list-group-item">
-                <span class="badge badge-pill badge-warning">удаление - snackbar/dialog</span>
-            </li>
-            <li class="list-group-item">
-                <span class="badge badge-pill badge-warning">добавление - dialog component</span>
-            </li>
-        </ul>
-
-
     </div>
 </div>
