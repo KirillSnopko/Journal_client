@@ -4,9 +4,9 @@
             <!--проведенные занятия-->
             <div class="col-lg-3 col-md-6 col-sm-6">
                 <div class="card card-stats">
-                    <div class="card-header card-header-warning card-header-icon">
+                    <div class="card-header card-header-success card-header-icon">
                         <div class="card-icon">
-                            <i class="material-icons">content_copy</i>
+                            <i class="material-icons">check_circle</i>
                         </div>
                         <p class="card-category">Проведенные занятия</p>
                         <h3 class="card-title">{{lessonsStat.completedCount}}/{{lessonsStat.totalCount}}
@@ -14,6 +14,9 @@
                         </h3>
                     </div>
                     <div class="card-footer">
+                        <div class="stats">
+                            <i class="material-icons">help</i> Проведенные/все
+                        </div>
                     </div>
                 </div>
             </div>
@@ -22,7 +25,7 @@
                 <div class="card card-stats">
                     <div class="card-header card-header-success card-header-icon">
                         <div class="card-icon">
-                            <i class="material-icons">store</i>
+                            <i class="material-icons">receipt_long</i>
                         </div>
                         <p class="card-category">Оплаченные занятия</p>
                         <h3 class="card-title">{{lessonsStat.paidCount}}/{{lessonsStat.completedCount}}
@@ -30,15 +33,18 @@
                         </h3>
                     </div>
                     <div class="card-footer">
+                        <div class="stats">
+                            <i class="material-icons">help</i> Оплаченные/проведенные
+                        </div>
                     </div>
                 </div>
             </div>
             <!--Заработано-->
             <div class="col-lg-3 col-md-6 col-sm-6">
                 <div class="card card-stats">
-                    <div class="card-header card-header-danger card-header-icon">
+                    <div class="card-header card-header-primary card-header-icon">
                         <div class="card-icon">
-                            <i class="material-icons">info_outline</i>
+                            <i class="material-icons">payments</i>
                         </div>
                         <p class="card-category">Заработано</p>
                         <h3 class="card-title">{{lessonsStat.totalMoney}}
@@ -46,6 +52,9 @@
                         </h3>
                     </div>
                     <div class="card-footer">
+                        <div class="stats">
+                            <i class="material-icons">help</i> Из списка оплаченных занятий
+                        </div>
                     </div>
                 </div>
             </div>
@@ -54,7 +63,7 @@
                 <div class="card card-stats">
                     <div class="card-header card-header-info card-header-icon">
                         <div class="card-icon">
-                            <i class="fa fa-twitter"></i>
+                            <i class="material-icons">groups</i>
                         </div>
                         <p class="card-category">Ученики</p>
                         <h3 class="card-title">{{studentCount}}
@@ -62,58 +71,50 @@
                         </h3>
                     </div>
                     <div class="card-footer">
+                        <div class="stats">
+                            <i class="material-icons">help</i> Из списка студентов
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
         <div class="row">
+            <!--График кол-ва занятий-->
             <div class="col-md-4">
                 <div class="card card-chart">
                     <div class="card-header card-header-success">
-                        <div class="ct-chart" id="dailySalesChart"></div>
+                        <div class="ct-chart" id="lessonsMonthlyStat"></div>
                     </div>
                     <div class="card-body">
-                        <h4 class="card-title">Daily Sales</h4>
+                        <h4 class="card-title">Занятия</h4>
                         <p class="card-category">
-                            <span class="text-success"><i class="fa fa-long-arrow-up"></i> 55% </span> increase in today
-                            sales.
+                            <i class="material-icons">help</i> Количество проведенных занятий
                         </p>
                     </div>
                     <div class="card-footer">
                         <div class="stats">
-                            <i class="material-icons">access_time</i> updated 4 minutes ago
+                            <i class="material-icons">access_time</i> Последнее {{lessonsMonthlyStat.lastCompleted |
+                            date:'dd.MM.yyyy в HH:mm'}}
                         </div>
                     </div>
                 </div>
             </div>
+            <!--График дохода по месяцам-->
             <div class="col-md-4">
                 <div class="card card-chart">
-                    <div class="card-header card-header-warning">
+                    <div class="card-header card-header-primary">
                         <div class="ct-chart" id="websiteViewsChart"></div>
                     </div>
                     <div class="card-body">
-                        <h4 class="card-title">Email Subscriptions</h4>
-                        <p class="card-category">Last Campaign Performance</p>
+                        <h4 class="card-title">Доход</h4>
+                        <p class="card-category">
+                            <i class="material-icons">help</i> Оплаченные занятия
+                        </p>
                     </div>
                     <div class="card-footer">
                         <div class="stats">
-                            <i class="material-icons">access_time</i> campaign sent 2 days ago
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card card-chart">
-                    <div class="card-header card-header-danger">
-                        <div class="ct-chart" id="completedTasksChart"></div>
-                    </div>
-                    <div class="card-body">
-                        <h4 class="card-title">Completed Tasks</h4>
-                        <p class="card-category">Last Campaign Performance</p>
-                    </div>
-                    <div class="card-footer">
-                        <div class="stats">
-                            <i class="material-icons">access_time</i> campaign sent 2 days ago
+                            <i class="material-icons">access_time</i> Последнее {{lessonsMonthlyStat.lastPaid|
+                            date:'dd.MM.yyyy в HH:mm'}}
                         </div>
                     </div>
                 </div>

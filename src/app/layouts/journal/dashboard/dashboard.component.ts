@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import * as Chartist from 'chartist';
+import * as moment from 'moment';
 import { ApiRoutes } from 'src/app/http/api-routes';
 
 import { HttpProviderService } from 'src/app/http/provider/http-provider.service';
+import { LessonMonthlyStat } from 'src/app/models/lesson/lesson-monthly-stat';
 import { LessonStat } from 'src/app/models/lesson/lesson-stat';
 
 @Component({
@@ -13,6 +15,7 @@ import { LessonStat } from 'src/app/models/lesson/lesson-stat';
 export class DashboardComponent implements OnInit {
   studentCount: number = 0;
   lessonsStat: LessonStat = {} as LessonStat;
+  lessonsMonthlyStat: LessonMonthlyStat = {} as LessonMonthlyStat;
 
   constructor(private provider: HttpProviderService) { }
 
@@ -77,84 +80,7 @@ export class DashboardComponent implements OnInit {
   ngOnInit() {
     this.getStudentCount();
     this.getLessonsStat();
-
-    const dataDailySalesChart: any = {
-      labels: ['M', 'T', 'W', 'T', 'F', 'S', 'S'],
-      series: [
-        [12, 17, 7, 17, 23, 18, 38]
-      ]
-    };
-
-    const optionsDailySalesChart: any = {
-      lineSmooth: Chartist.Interpolation.cardinal({
-        tension: 0
-      }),
-      low: 0,
-      high: 50, // creative tim: we recommend you to set the high sa the biggest value + something for a better look
-      chartPadding: { top: 0, right: 0, bottom: 0, left: 0 },
-    }
-
-    var dailySalesChart = new Chartist.LineChart('#dailySalesChart', dataDailySalesChart, optionsDailySalesChart);
-
-    this.startAnimationForLineChart(dailySalesChart);
-
-
-    /* ----------==========     Completed Tasks Chart initialization    ==========---------- */
-
-    const dataCompletedTasksChart: any = {
-      labels: ['12p', '3p', '6p', '9p', '12p', '3a', '6a', '9a'],
-      series: [
-        [230, 750, 450, 300, 280, 240, 200, 190]
-      ]
-    };
-
-    const optionsCompletedTasksChart: any = {
-      lineSmooth: Chartist.Interpolation.cardinal({
-        tension: 0
-      }),
-      low: 0,
-      high: 1000, // creative tim: we recommend you to set the high sa the biggest value + something for a better look
-      chartPadding: { top: 0, right: 0, bottom: 0, left: 0 }
-    }
-
-    var completedTasksChart = new Chartist.LineChart('#completedTasksChart', dataCompletedTasksChart, optionsCompletedTasksChart);
-
-    // start animation for the Completed Tasks Chart - Line Chart
-    this.startAnimationForLineChart(completedTasksChart);
-
-
-
-    /* ----------==========     Emails Subscription Chart initialization    ==========---------- */
-
-    var datawebsiteViewsChart = {
-      labels: ['J', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D'],
-      series: [
-        [542, 443, 320, 780, 553, 453, 326, 434, 568, 610, 756, 895]
-
-      ]
-    };
-    var optionswebsiteViewsChart = {
-      axisX: {
-        showGrid: false
-      },
-      low: 0,
-      high: 1000,
-      chartPadding: { top: 0, right: 5, bottom: 0, left: 0 }
-    };
-    var responsiveOptions: any[] = [
-      ['screen and (max-width: 640px)', {
-        seriesBarDistance: 5,
-        axisX: {
-          labelInterpolationFnc: function (value: any) {
-            return value[0];
-          }
-        }
-      }]
-    ];
-    var websiteViewsChart = new Chartist.BarChart('#websiteViewsChart', datawebsiteViewsChart, optionswebsiteViewsChart, responsiveOptions);
-
-    //start animation for the Emails Subscription Chart
-    this.startAnimationForBarChart(websiteViewsChart);
+    this.getLessonsMonthlyStat();
   }
 
   getLessonsStat() {
@@ -179,15 +105,69 @@ export class DashboardComponent implements OnInit {
         });
   }
 
-  getDataForLessonsChart() {
-
+  getLessonsMonthlyStat() {
+    this.provider.setUrl(ApiRoutes.lesson.toString() + ApiRoutes.monthlyStat.toString())
+      .getData().subscribe((data: any) => {
+        this.lessonsMonthlyStat = data.body;
+        this.generateLessonMonthlyStatCount();
+        this.generateLessonMonthlyStatMoney();
+      },
+        (error: any) => {
+          if (error) {
+          }
+        });
   }
 
-  getDataForIncomeChart() {
+  generateLessonMonthlyStatCount() {
+    const lessonsMonthlyStat: any = {
+      labels: this.lessonsMonthlyStat.stat.map(i => moment(i.date).format("MM.yy")),
+      series: [
+        this.lessonsMonthlyStat.stat.map(i => i.totalCount),
+      ]
+    };
 
+    const optionsLessonsMonthlyStat: any = {
+      lineSmooth: Chartist.Interpolation.cardinal({
+        tension: 0
+      }),
+      low: 0,
+      high: 50,
+      chartPadding: { top: 0, right: 0, bottom: 0, left: 0 },
+    }
+
+    var lessonsMonthlyStatChart = new Chartist.LineChart('#lessonsMonthlyStat', lessonsMonthlyStat, optionsLessonsMonthlyStat);
+
+    this.startAnimationForLineChart(lessonsMonthlyStatChart);
   }
 
-  getDataForProgressChart() {
+  generateLessonMonthlyStatMoney() {
+    var datawebsiteViewsChart = {
+      labels: this.lessonsMonthlyStat.stat.map(i => moment(i.date).format("MM.yy")),
+      series: [
+        this.lessonsMonthlyStat.stat.map(i => i.totalMoney),
+      ]
+    };
+    var optionswebsiteViewsChart = {
+      axisX: {
+        showGrid: false
+      },
+      low: 0,
+      high: 1000,
+      chartPadding: { top: 0, right: 5, bottom: 0, left: 0 }
+    };
+    var responsiveOptions: any[] = [
+      ['screen and (max-width: 640px)', {
+        seriesBarDistance: 5,
+        axisX: {
+          labelInterpolationFnc: function (value: any) {
+            return value[0];
+          }
+        }
+      }]
+    ];
+    var websiteViewsChart = new Chartist.BarChart('#websiteViewsChart', datawebsiteViewsChart, optionswebsiteViewsChart, responsiveOptions);
 
+    //start animation for the Emails Subscription Chart
+    this.startAnimationForBarChart(websiteViewsChart);
   }
 }

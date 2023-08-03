@@ -6,6 +6,7 @@ export enum ApiRoutes {
     topics="/topics",
     count="count",
     stat="stat",
+    monthlyStat ="monthlyStat",
 
     student="Student/",
     profile="StudentProfile/",
