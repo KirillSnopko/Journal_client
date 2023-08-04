@@ -2,6 +2,7 @@ import { Topic } from "../topic/topic";
 
 export interface Lesson {
     id: number;
+    studentName: any;
     courseId: number;
     topics: Topic[];
     task: string;

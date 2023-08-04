@@ -35,19 +35,13 @@ export class LessonListComponent implements OnInit {
         });
   }
 
-  unPrepared() {
-    return this.lessons.filter(less => !less.isPrepared);
+  unClosed() {
+    return this.lessons
+      .filter(less => !less.isPrepared || !less.isTaskGiven || (less.gradeHome == 0 || less.gradeLesson == 0) || !less.isPaid);
   }
 
-  unTaskGiven() {
-    return this.lessons.filter(less => !less.isTaskGiven);
-  }
-
-  noGrade() {
-    return this.lessons.filter(less => less.gradeHome==0||less.gradeLesson==0);
-  }
-
-  unPaid() {
-    return this.lessons.filter(less => !less.isPaid);
+  closed() {
+    return this.lessons
+      .filter(less => less.isPrepared && less.isTaskGiven && less.gradeHome != 0 && less.gradeLesson != 0 && less.isPaid);
   }
 }

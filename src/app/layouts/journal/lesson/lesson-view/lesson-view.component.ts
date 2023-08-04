@@ -14,13 +14,10 @@ import 'moment/locale/ru';
 import { MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core'
 import { DatePipe } from '@angular/common';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatNativeDateModule } from '@angular/material/core';
 import * as moment from 'moment';
 
 import { ApiRoutes } from 'src/app/http/api-routes';
 import { HttpProviderService } from 'src/app/http/provider/http-provider.service';
-import { Course } from 'src/app/models/course/course';
 import { Topic } from 'src/app/models/topic/topic';
 import { Lesson } from 'src/app/models/lesson/lesson';
 import { LessonUpdate } from 'src/app/models/lesson/lesson-update';
@@ -111,8 +108,13 @@ export class LessonViewComponent implements OnInit {
         this.topics = data.body;
         //общий список тем из сохраненных ранее и текущих тем в программе (могут быть изменены)
         this.lesson.topics.forEach((i) => {
-          if (this.topics.find(x => x.title === i.title) == null) {
+          var top = this.topics.find(x => x.title === i.title);
+          if (top != null) {
+            this.selectedTopics.push(top.id);
+          }
+          else {
             this.topics.push(i);
+            this.selectedTopics.push(i.id);
           }
         });
       },

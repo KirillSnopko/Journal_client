@@ -1,4 +1,4 @@
-import { Component, OnInit, DoCheck } from '@angular/core';
+import { Component, OnInit, DoCheck, AfterContentInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
@@ -9,6 +9,7 @@ import { ApiRoutes } from 'src/app/http/api-routes';
 import { CourseUpdate } from 'src/app/models/course/course-update';
 import * as moment from 'moment';
 import 'moment/locale/ru';
+import * as Chartist from 'chartist';
 import { MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core'
 import { DatePipe } from '@angular/common';
@@ -43,11 +44,12 @@ export const MY_FORMATS = {
   ],
 })
 
-export class CourseViewComponent implements OnInit {
-
+export class CourseViewComponent implements OnInit, AfterContentInit {
   id: any;
   course: Course = {} as Course;
   lessons: Lesson[] = [];
+  homeGrade: Lesson[] = [];
+  lessonGrade: Lesson[] = [];
   upForm = this.fb.group({
     type: [this.course.type, [Validators.required]],
     price: [0],
@@ -70,13 +72,57 @@ export class CourseViewComponent implements OnInit {
     this.id = this.route.snapshot.params['courseid'];
     this.getCourse();
     this._adapter.setLocale("ru");
+    //this.generateCourseStatHome();
   }
+
+  ngAfterContentInit():void{
+    this.generateCourseStatHome();
+  }
+
+  startAnimationForLineChart(chart: any) {
+    let seq: any, delays: any, durations: any;
+    seq = 0;
+    delays = 80;
+    durations = 500;
+
+    chart.on('draw', function (data: any) {
+      if (data.type === 'line' || data.type === 'area') {
+        data.element.animate({
+          d: {
+            begin: 600,
+            dur: 700,
+            from: data.path.clone().scale(1, 0).translate(0, data.chartRect.height()).stringify(),
+            to: data.path.clone().stringify(),
+            easing: Chartist.Svg.Easing.easeOutQuint
+          }
+        });
+      } else if (data.type === 'point') {
+        seq++;
+        data.element.animate({
+          opacity: {
+            begin: seq * delays,
+            dur: durations,
+            from: 0,
+            to: 1,
+            easing: 'ease'
+          }
+        });
+      }
+    });
+
+    seq = 0;
+  };
+
 
   getCourse() {
     this.provider.setUrl(ApiRoutes.course.toString())
       .get(this.id).subscribe((data: any) => {
         this.course = data.body as Course;
         this.lessons = data.body.lessons as Lesson[];
+        this.homeGrade = this.lessons.filter(i => i.gradeHome > 0);
+        this.lessonGrade = this.lessons.filter(i => i.gradeLesson > 0);
+       // this.generateCourseStatHome();
+        //  this.generateCourseStatLesson();
       },
         (error: any) => {
           if (error) {
@@ -135,5 +181,69 @@ export class CourseViewComponent implements OnInit {
 
   completedCount() {
     return this.lessons.filter(less => less.isCompleted).length;
+  }
+
+  totalGrade() {
+    const sumHome = this.homeGrade.reduce((sum, item) => {
+      return sum + item.gradeHome;
+    }, 0) / this.homeGrade.length;
+
+    const sumLesson = this.lessonGrade.reduce((sum, item) => {
+      return sum + item.gradeLesson;
+    }, 0) / this.lessonGrade.length;
+
+    return (sumHome + sumLesson) / 2;
+  }
+
+  generateCourseStatHome() {
+    /* const homeStat: any = {
+       labels: this.homeGrade.map(i => moment(i.date).format("MM.yy")),
+       series: [
+         this.homeGrade.map(i => i.gradeHome),
+       ]
+     };*/
+
+    const homeStat: any = {
+      labels: ["10.2023", "11.2023"],
+      series: [
+        [6, 7.5]
+      ]
+    };
+
+
+    const optionsHomeStat: any = {
+      lineSmooth: Chartist.Interpolation.cardinal({
+        tension: 0
+      }),
+      low: 0,
+      high: 50,
+      chartPadding: { top: 0, right: 0, bottom: 0, left: 0 },
+    }
+
+    var homeStatChart = new Chartist.LineChart('#homeGradeStat', homeStat, optionsHomeStat);
+
+    this.startAnimationForLineChart(homeStatChart);
+  }
+
+  generateCourseStatLesson() {
+    const lessonsStat: any = {
+      labels: this.lessonGrade.map(i => moment(i.date).format("MM.yy")),
+      series: [
+        this.lessonGrade.map(i => i.gradeLesson),
+      ]
+    };
+
+    const optionsLessonsStat: any = {
+      lineSmooth: Chartist.Interpolation.cardinal({
+        tension: 0
+      }),
+      low: 0,
+      high: 50,
+      chartPadding: { top: 0, right: 0, bottom: 0, left: 0 },
+    }
+
+    var lessonStatChart = new Chartist.LineChart('#courseLessonStat', lessonsStat, optionsLessonsStat);
+
+    this.startAnimationForLineChart(lessonStatChart);
   }
 }
